@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Campus App</string>
+    <string name="search">Suchen</string>
+    <string name="lecturerImg">Dozentenbild</string>
+    <string name="mail">Email</string>
+    <string name="phone">Telefon</string>
+    <string name="office">Büro</string>
+    <string name="homepage">Homepage</string>
+</resources>
