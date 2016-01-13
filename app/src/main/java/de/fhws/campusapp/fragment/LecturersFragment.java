@@ -61,7 +61,7 @@ public class LecturersFragment extends Fragment implements
         recyclerView.setItemAnimator( new DefaultItemAnimator() );
         LecturerNetwork network = new LecturerNetwork();
         showProgressBar( true );
-        network.fetchAllLectuerers( 20, 0, new LecturerNetwork.FetchAllLecturersListener() {
+        network.fetchAllLecturers( 20, 0, new LecturerNetwork.FetchAllLecturersListener() {
             @Override
             public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
                 showProgressBar( false );

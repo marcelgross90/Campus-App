@@ -19,7 +19,7 @@ public class LecturerNetwork extends BaseNetwork {
         super( "http://193.175.31.146:8080/fiwincoming/api" );
     }
 
-    public void fetchAllLectuerers( int size, int offest, final FetchAllLecturersListener listener) {
+    public void fetchAllLecturers( int size, int offest, final FetchAllLecturersListener listener ) {
         String url = host + "/lecturers?size=" + size + "&offset=" + offest;
         requestAsync(
                 new Request(

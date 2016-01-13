@@ -114,7 +114,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
 
     private void loadData(int startIndex, int size) {
         LecturerNetwork network = new LecturerNetwork();
-        network.fetchAllLectuerers( size, startIndex, new LecturerNetwork.FetchAllLecturersListener() {
+        network.fetchAllLecturers( size, startIndex, new LecturerNetwork.FetchAllLecturersListener() {
             @Override
             public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
                 android.util.Log.wtf( "mgr", newLecturers.size() + "" );
