@@ -20,20 +20,18 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     private RecyclerView.Adapter modulesAdapter;
     private RecyclerView.LayoutManager modulesLayoutMgr;
     private String level;
-    private String program;
 
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
         level = args.getString(Module.Level.class.getCanonicalName());
-        program = args.getString(Module.Program.class.getCanonicalName());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
-        modulesAdapter = new ModuleListAdapter(getContext(),this, level, program);
+        modulesAdapter = new ModuleListAdapter(getContext(),this, level);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
         modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
