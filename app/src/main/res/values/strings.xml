@@ -12,11 +12,15 @@
     <string name="card_caption_lecturer">Dozenten</string>
     <string name="card_caption_study">Studiengang</string>
     <string name="card_caption_year">Semester</string>
-    <string name="card_caption_type">Art der Veranstaltung</string>
+    <string name="card_caption_lecture_type">Art der Veranstaltung</string>
     <string name="card_caption_content">INHALT</string>
     <string name="card_caption_effort">AUFWAND</string>
     <string name="card_caption_credits">ECTS</string>
     <string name="card_caption_hours_per_week">Semesterwochenstunden</string>
     <string name="card_caption_distribution">Verhältnis Vorlesung / Eigenstudium</string>
+    <string name="card_caption_exam">PRÜFUNG</string>
+    <string name="card_caption_module_id">Modulnummer</string>
+    <string name="card_caption_exam_type">Art der Prüfung</string>
+    <string name="card_caption_literature">Literaturempfehlung</string>
 
 </resources>

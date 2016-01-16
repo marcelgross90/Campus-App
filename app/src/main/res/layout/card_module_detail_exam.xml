@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/card_caption_effort"
+        android:text="@string/card_caption_exam"
         android:id="@+id/tvCardHeader"
         android:textSize="16sp"
         android:layout_gravity="right"
@@ -40,7 +40,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentCredits"
+        android:id="@+id/contentModuleID"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp">
@@ -48,15 +48,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_credits"
-            android:id="@+id/tvCreditsCaption"
+            android:text="@string/card_caption_module_id"
+            android:id="@+id/tvModuleIDCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvCreditsValue"
+            android:id="@+id/tvModuleIDValue"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -64,7 +64,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentHoursPerWeek"
+        android:id="@+id/contentExamType"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp">
@@ -72,53 +72,41 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_hours_per_week"
-            android:id="@+id/tvHoursPerWeekCaption"
+            android:text="@string/card_caption_exam_type"
+            android:id="@+id/tvExamTypeCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvHoursPerWeekValue"
+            android:id="@+id/tvExamTypeValue"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/card_caption_distribution"
-        android:id="@+id/tvDistributionCaption"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentDistribution"
+        android:id="@+id/contentLiterature"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp">
 
-        <View
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="@android:color/holo_green_light"
-        android:id="@+id/distributionLecture"
-            android:layout_weight="1"
-            android:layout_marginRight="2dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/card_caption_literature"
+            android:id="@+id/tvLiteratureCaption"
+            android:layout_weight="1" />
 
-        <View
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="@android:color/holo_red_light"
-        android:id="@+id/distributionSelf"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp" />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/tvLiteratureValue"
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>
