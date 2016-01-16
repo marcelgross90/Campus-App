@@ -15,6 +15,8 @@ import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleDetailFragment extends Fragment
 {
+    // TODO: Add landscape mode
+
     // components
     private RecyclerView recyclerView;
 

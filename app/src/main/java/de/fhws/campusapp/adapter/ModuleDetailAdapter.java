@@ -71,7 +71,7 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
             ModuleDetailViewHolderEffort viewHolder = (ModuleDetailViewHolderEffort) holder;
             viewHolder.displayCredits( String.valueOf( module.getEcts() ) );
             viewHolder.displayHoursPerWeek( String.valueOf( module.getHoursLectures() ) );
-            // TODO: Handle distribution
+            viewHolder.displayDistribution( module.getHoursLectures(), module.getHoursSelfStudy() );
         }
         else if( position == 3 )
         {

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginTop="8dp"
     card_view:cardElevation="4dp"
     card_view:cardCornerRadius="2dp" >
 
@@ -96,7 +96,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:id="@+id/contentDistribution"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -105,19 +105,16 @@
 
         <View
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="match_parent"
         android:background="@android:color/holo_green_light"
-        android:id="@+id/distributionLecture"
-            android:layout_weight="90"
-            android:layout_marginRight="2dp" />
+        android:id="@+id/distributionLecture" />
 
         <View
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="match_parent"
         android:background="@android:color/holo_red_light"
         android:id="@+id/distributionSelf"
-            android:layout_weight="10"
-            android:layout_marginLeft="2dp" />
+        android:layout_marginLeft="2dp" />
 
     </LinearLayout>
 
