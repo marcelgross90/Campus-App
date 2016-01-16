@@ -43,6 +43,10 @@
     <string name="card_caption_email">Email</string>
     <string name="card_caption_phone">Telefon</string>
     <string name="card_caption_website">Website</string>
+    <string name="noGPSHeadline">GPS deaktiviert!</string>
+    <string name="noGPS">Möchten Sie GPS jetzt aktivieren?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 
 
 </resources>

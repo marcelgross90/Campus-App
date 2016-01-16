@@ -41,6 +41,8 @@ public class MapFragment extends SupportMapFragment {
                     LatLng latlng = new LatLng( MainActivity.location.getLatitude(), MainActivity.location.getLongitude() );
                     googleMap.moveCamera( CameraUpdateFactory.newLatLng( latlng ) );
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,(float) 14.6));
+                } else {
+                    MainActivity.startDialogFragment( getFragmentManager(), new GpsSettingsDialog() );
                 }
 
             }
