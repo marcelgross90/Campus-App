@@ -77,7 +77,7 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
     @Override
     public int getItemCount()
     {
-        return 4;
+        return 4;   // TODO: think about
     }
 
     @Override
