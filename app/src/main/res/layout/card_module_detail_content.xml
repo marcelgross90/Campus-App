@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/card_caption_general"
+        android:text="@string/card_caption_content"
         android:id="@+id/tvCardHeader"
         android:textSize="16sp"
         android:layout_gravity="right"
@@ -40,7 +40,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentLecturers"
+        android:id="@+id/contentLectureType"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp">
@@ -48,66 +48,36 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_lecturer"
-            android:id="@+id/tvLecturersCaption"
+            android:text="@string/card_caption_lecture_type"
+            android:id="@+id/tvLectureTypeCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvLecturersValue"
+            android:id="@+id/tvLectureTypeValue"
             android:layout_weight="1" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentStudy"
+        android:text="New Text"
+        android:id="@+id/tvDescription"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_caption_study"
-            android:id="@+id/tvStudyCaption"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvStudyValue"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentYear"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:text="New Text"
+        android:id="@+id/tvGoals"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_caption_year"
-            android:id="@+id/tvYearCaption"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvYearValue"
-            android:layout_weight="1" />
-    </LinearLayout>
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp" />
 
 </LinearLayout>
 

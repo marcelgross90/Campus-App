@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/card_caption_general"
+        android:text="@string/card_caption_exam"
         android:id="@+id/tvCardHeader"
         android:textSize="16sp"
         android:layout_gravity="right"
@@ -40,7 +40,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentLecturers"
+        android:id="@+id/contentModuleID"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp">
@@ -48,15 +48,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_lecturer"
-            android:id="@+id/tvLecturersCaption"
+            android:text="@string/card_caption_module_id"
+            android:id="@+id/tvModuleIDCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvLecturersValue"
+            android:id="@+id/tvModuleIDValue"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -64,7 +64,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentStudy"
+        android:id="@+id/contentExamType"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp">
@@ -72,15 +72,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_study"
-            android:id="@+id/tvStudyCaption"
+            android:text="@string/card_caption_exam_type"
+            android:id="@+id/tvExamTypeCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvStudyValue"
+            android:id="@+id/tvExamTypeValue"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -88,7 +88,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentYear"
+        android:id="@+id/contentLiterature"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
@@ -97,15 +97,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_year"
-            android:id="@+id/tvYearCaption"
+            android:text="@string/card_caption_literature"
+            android:id="@+id/tvLiteratureCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvYearValue"
+            android:id="@+id/tvLiteratureValue"
             android:layout_weight="1" />
     </LinearLayout>
 
