@@ -32,5 +32,7 @@
     <string name="win">Wirtschaftsinformatik</string>
     <string name="ec">E-Commerce</string>
     <string name="filter">Filter</string>
+    <string name="title_activity_lecturer_detail">LecturerDetailActivity</string>
+    <string name="lecturer_picture">lecturer_picture</string>
 
 </resources>
