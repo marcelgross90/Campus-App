@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import de.fhws.campusapp.R;
 
@@ -16,9 +17,9 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
 
         if ( viewType == 0 )
         {
-            int layout = 0;// e.g. R.layout.lecturer_detail_card_function;
+            int layout = R.layout.card_module_detail_general;
             View v = LayoutInflater.from( parent.getContext() ).inflate( layout, parent, false );
-            result = null; // e.g. new ViewHolderFunction( v );
+            result = new ModuleDetailViewHolderGeneral( v );
         }
         else if ( viewType == 1 )
         {
@@ -50,6 +51,24 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
             // e.g. ViewHolderFunction holderFunction = (ViewHolderFunction) holder;
             // e.g. holderFunction.tvFunction.setText( lecturer.getSubject() );
         }
+        else if( position == 1 )
+        {
+            // TODO
+            // e.g. ViewHolderFunction holderFunction = (ViewHolderFunction) holder;
+            // e.g. holderFunction.tvFunction.setText( lecturer.getSubject() );
+        }
+        else if( position == 2 )
+        {
+            // TODO
+            // e.g. ViewHolderFunction holderFunction = (ViewHolderFunction) holder;
+            // e.g. holderFunction.tvFunction.setText( lecturer.getSubject() );
+        }
+        else if( position == 3 )
+        {
+            // TODO
+            // e.g. ViewHolderFunction holderFunction = (ViewHolderFunction) holder;
+            // e.g. holderFunction.tvFunction.setText( lecturer.getSubject() );
+        }
     }
 
     @Override
@@ -63,6 +82,4 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
     {
         return position;
     }
-
-    // TODO: implement 4 ViewHolders
 }
