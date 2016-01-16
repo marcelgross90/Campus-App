@@ -39,7 +39,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.level = level;
         this.context = context;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String program = sharedPreferences.getString( "mychoice", Module.Program.BEC );
+        String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
         downloadData( program, level );
         registerPrefChangeListener();
     }
@@ -107,20 +107,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private void registerPrefChangeListener() {
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                android.util.Log.wtf( "mgr", "was here" );
-                String program = prefs.getString( "mychoice", Module.Program.BEC );
-                android.util.Log.wtf( "mgr", program );
-                moduleRestService.fetchFilteredModules( program, null,
-                        level, 0, 0,
-                        new ModuleNetwork.FetchFilteredModules() {
-                            @Override
-                            public void fetchFilteredModules( List<Module> modules ) {
-                                android.util.Log.wtf( "mgr", "was here " + modules.size()  );
-                                moduleDataset = modules;
-                                notifyDataSetChanged();
-                            }
-                        } );
-
+                String program = prefs.getString( "mychoice", Module.Program.BIN );
+                downloadData( program, level );
             }
         });
     }
