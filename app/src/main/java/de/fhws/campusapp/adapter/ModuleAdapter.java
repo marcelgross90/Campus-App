@@ -1,6 +1,8 @@
 package de.fhws.campusapp.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +15,24 @@ import java.util.List;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
+import de.fhws.campusapp.fragment.ModuleDetailFragment;
 import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder> {
 
     private List<Module> moduleDataset;
     private ModuleNetwork moduleRestService;
+    private OnCardClickListener listener;
 
-    public ModuleAdapter(Context context, String level, String program) {
+
+    public interface OnCardClickListener{
+        public void onCardClick(Module module);
+    }
+
+    public ModuleAdapter(OnCardClickListener listener, String level, String program) {
         moduleRestService = new ModuleNetwork();
         moduleDataset = new LinkedList<>();
+        this.listener = listener;
 
         moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
@@ -52,6 +62,12 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
         public void asignData(final Module module){
             this.module = module;
             moduleTitle.setText(module.getLvnameGerman());
+            moduleCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   listener.onCardClick(module);
+                }
+            });
         }
     }
 

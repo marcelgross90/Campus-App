@@ -11,7 +11,7 @@ import de.fhws.campusapp.entity.Module;
 
 public class ModuleNetwork extends BaseNetwork {
 
-    private HashMap<String, Module> moduleMap;
+    private static HashMap<String, Module> moduleMap;
 
     public interface FetchAllModulesListener {
         void fetchAllModules(List<Module> allModules);
