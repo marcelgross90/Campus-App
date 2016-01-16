@@ -27,7 +27,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private OnCardClickListener listener;
     private Resources res;
     private String level;
-    private Context context;
 
     public interface OnCardClickListener {
         public void onCardClick( Module module );
@@ -40,14 +39,12 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.listener = listener;
         res = context.getResources();
         this.level = level;
-        this.context = context;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
-        downloadData( program, level );
-        registerPrefChangeListener();
+        downloadData(program);
     }
 
-    private void downloadData(String program, String level) {
+    private void downloadData(String program) {
         moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
@@ -137,13 +134,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         }
     }
 
-    private void registerPrefChangeListener() {
-        PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                String program = prefs.getString( "mychoice", Module.Program.BIN );
-                downloadData( program, level );
-            }
-        });
+    public void programChanged(String program){
+        downloadData(program);
     }
-
 }
