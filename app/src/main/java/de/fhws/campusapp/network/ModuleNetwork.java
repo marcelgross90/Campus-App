@@ -22,7 +22,7 @@ public class ModuleNetwork extends BaseNetwork {
     }
 
     public ModuleNetwork() {
-        super("http://193.175.31.146:8080/fiwincoming/api");
+        super("http://193.175.31.146:8080/fiwincoming/api");    // TODO: Refactor this
     }
 
     public void fetchAllModules(int size, int offset, final FetchAllModulesListener listener) {

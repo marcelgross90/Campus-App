@@ -1,14 +1,15 @@
 package de.fhws.campusapp.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.ModuleAdapter;
 import de.fhws.campusapp.entity.Module;
@@ -44,7 +45,11 @@ public class ModuleListFragment extends Fragment implements ModuleAdapter.OnCard
 
     @Override
     public void onCardClick(Module module) {
+        Bundle args = new Bundle();
+        args.putString("lvId", module.getLvid());
         ModuleDetailFragment detailFragment = new ModuleDetailFragment();
-
+        detailFragment.setArguments(args);
+        Fragment frag = getParentFragment();
+        MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
     }
 }

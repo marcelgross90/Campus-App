@@ -249,15 +249,15 @@ public class Module {
 
         if ( bin )
         {
-            result = result + "Informatik ";
+            result = result + Globals.BIN_TEXT_GER + " ";
         }
         if ( bwi )
         {
-            result = result + "Wirtschaftsinformatik ";
+            result = result + Globals.BWI_TEXT_GER + " ";
         }
         if ( bec )
         {
-            result = result + "E-Commerce";
+            result = result + Globals.BEC_TEXT_GER + " ";
         }
         result = result.trim();
         return result.replace( " ", ", " );
