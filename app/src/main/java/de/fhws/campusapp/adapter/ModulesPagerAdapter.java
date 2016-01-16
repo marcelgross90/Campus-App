@@ -21,6 +21,7 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
     public ModulesPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         res = context.getResources();
+        initiatePagerAttr(Module.Program.BIN);
     }
 
     private void initiatePagerAttr(String program) {
@@ -39,6 +40,7 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
             Bundle bundle = new Bundle();
             bundle.putString(Module.Program.class.getCanonicalName(), program);
             bundle.putString(Module.Level.class.getCanonicalName(), levels[i]);
+            fragments[i].setArguments(bundle);
         }
 
 
@@ -46,12 +48,12 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        return fragments[position];
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return fragments.length;
     }
 
     @Override
