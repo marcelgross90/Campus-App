@@ -32,8 +32,6 @@
     <string name="bin">Informatik</string>
     <string name="win">Wirtschaftsinformatik</string>
     <string name="ec">E-Commerce</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="filter">Filter</string>
 
 </resources>
