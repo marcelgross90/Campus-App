@@ -20,10 +20,12 @@ import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
 
-    private List<Module> moduleDataset;
+    private List<Module> filteredModulesDataset;
+    private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
     private Resources res;
+    private String searchTerm;
     private String level;
     private Context context;
 
@@ -33,13 +35,14 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     public ModuleListAdapter( Context context, OnCardClickListener listener, String level ) {
         moduleRestService = new ModuleNetwork();
-        moduleDataset = new LinkedList<>();
+        filteredModulesDataset = new LinkedList<>();
+        allModulesDataset = new LinkedList<>();
         this.listener = listener;
         res = context.getResources();
         this.level = level;
         this.context = context;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String program = sharedPreferences.getString( "mychoice", Module.Program.BEC );
+        String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
         downloadData( program, level );
         registerPrefChangeListener();
     }
@@ -48,13 +51,14 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         moduleRestService.fetchFilteredModules( program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
-                    @Override
-                    public void fetchFilteredModules( List<Module> modules ) {
-                        moduleDataset = modules;
-                        notifyDataSetChanged();
-                    }
-                } );
 
+            @Override
+            public void fetchFilteredModules(List<Module> modules) {
+                filteredModulesDataset = modules;
+                notifyDataSetChanged();
+                allModulesDataset.addAll(modules);
+            }
+        });
     }
 
 
@@ -95,32 +99,45 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder( ModuleListAdapter.ViewHolder holder, int position ) {
-        holder.assignData( moduleDataset.get( position ) );
+    public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
+        holder.asignData(filteredModulesDataset.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return moduleDataset.size();
+        return filteredModulesDataset.size();
+    }
+
+    public void filter(String searchTerm){
+        if (!searchTerm.isEmpty()) {
+
+            for (Module currrentModule : allModulesDataset) {
+                String lecturerName = currrentModule.getLvnameGerman().toLowerCase();
+                int index = filteredModulesDataset.indexOf(currrentModule);
+                if (!lecturerName.startsWith(searchTerm.toLowerCase())) {
+                    if (index != -1) {
+                        filteredModulesDataset.remove(index);
+                        notifyItemRemoved(index);
+                    }
+                } else {
+                    if (index == -1) {
+                        filteredModulesDataset.add(currrentModule);
+                        notifyItemInserted(filteredModulesDataset.size());
+
+                    }
+                }
+            }
+        } else {
+            filteredModulesDataset = (List<Module>)((LinkedList<Module>) allModulesDataset).clone();
+            notifyDataSetChanged();
+        }
     }
 
     private void registerPrefChangeListener() {
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                android.util.Log.wtf( "mgr", "was here" );
-                String program = prefs.getString( "mychoice", Module.Program.BEC );
-                android.util.Log.wtf( "mgr", program );
-                moduleRestService.fetchFilteredModules( program, null,
-                        level, 0, 0,
-                        new ModuleNetwork.FetchFilteredModules() {
-                            @Override
-                            public void fetchFilteredModules( List<Module> modules ) {
-                                android.util.Log.wtf( "mgr", "was here " + modules.size()  );
-                                moduleDataset = modules;
-                                notifyDataSetChanged();
-                            }
-                        } );
-
+                String program = prefs.getString( "mychoice", Module.Program.BIN );
+                downloadData( program, level );
             }
         });
     }

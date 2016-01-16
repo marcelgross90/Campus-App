@@ -46,6 +46,12 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
     }
 
+    public void filter(String searchTerm){
+        for(Fragment currentFragment: fragments){
+            ((ModuleListFragment)currentFragment).filter(searchTerm);
+        }
+    }
+
     @Override
     public Fragment getItem(int position) {
         return fragments[position];

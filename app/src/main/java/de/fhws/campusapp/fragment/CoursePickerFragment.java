@@ -77,7 +77,7 @@ public class CoursePickerFragment extends DialogFragment {
 
     private void loadSavedPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        myChoice = sharedPreferences.getString( "mychoice", Module.Program.BEC );
+        myChoice = sharedPreferences.getString( "mychoice", Module.Program.BIN );
 
     }
 
