@@ -28,27 +28,22 @@ public class Module {
     private String typeOfClass;
     private String typeOfExam;
 
-    public enum Program {
-        bec,
-        bin,
-        bwi
+    public interface Program {
+        String BEC = "bec";
+        String BIN = "bin";
+        String BWI = "bwi";
     }
 
-    public enum Language {
-        ger,
-        eng
+    public interface Language {
+        String GER = "ger";
+        String EN = "en";
     }
 
-    public enum Level {
-        ONE,
-        TWO,
-        THREE,
-        FOUR
-    }
-
-    public enum Semester {
-        summer,
-        winter
+    public interface Level {
+        String ONE = "1";
+        String TWO = "2";
+        String THREE = "3";
+        String FOUR = "4";
     }
 
     public int getId() {

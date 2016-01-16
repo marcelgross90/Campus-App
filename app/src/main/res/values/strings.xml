@@ -10,4 +10,6 @@
     <string name="modules">Module</string>
     <string name="drawer_open">Öffnen</string>
     <string name="drawer_close">Schließen</string>
+    <string name="overview">Übersicht</string>
+    <string name="level">%s. Semester</string>
 </resources>

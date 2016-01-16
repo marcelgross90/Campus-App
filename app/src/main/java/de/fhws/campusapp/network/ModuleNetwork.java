@@ -11,18 +11,18 @@ import de.fhws.campusapp.entity.Module;
 public class ModuleNetwork extends BaseNetwork {
 
     public interface FetchAllModulesListener {
-        void fetchAllModules( List<Module> allModules );
+        void fetchAllModules(List<Module> allModules);
     }
 
     public interface FetchFilteredModules {
-        void fetchFilteredModules( List<Module> modules );
+        void fetchFilteredModules(List<Module> modules);
     }
 
     public ModuleNetwork() {
-        super( "http://193.175.31.146:8080/fiwincoming/api" );
+        super("http://193.175.31.146:8080/fiwincoming/api");
     }
 
-    public void fetchAllModules( int size, int offset, final FetchAllModulesListener listener ) {
+    public void fetchAllModules(int size, int offset, final FetchAllModulesListener listener) {
         String url = host + "/modules?size=" + size + "&offset=" + offset;
         requestAsync(
                 new Request(
@@ -33,23 +33,22 @@ public class ModuleNetwork extends BaseNetwork {
                 ),
                 new OnResultListener() {
                     @Override
-                    public void onResultListener( Response response ) {
+                    public void onResultListener(Response response) {
 
-                        listener.fetchAllModules( extractModulesFromResponse( response ) );
+                        listener.fetchAllModules(extractModulesFromResponse(response));
                     }
-                } );
+                });
     }
 
     public void fetchFilteredModules(
-            Module.Program program,
-            Module.Language language,
-            Module.Level level,
-            Module.Semester semester,
+            String program,
+            String language,
+            String level,
             int size,
             int offset,
-            final FetchFilteredModules listener ) {
+            final FetchFilteredModules listener) {
 
-        String url = createFilterUrl( program, language, level, semester, size, offset );
+        String url = createFilterUrl(program, language, level, size, offset);
         requestAsync(
                 new Request(
                         url,
@@ -59,50 +58,38 @@ public class ModuleNetwork extends BaseNetwork {
                 ),
                 new OnResultListener() {
                     @Override
-                    public void onResultListener( Response response ) {
+                    public void onResultListener(Response response) {
 
-                        listener.fetchFilteredModules( extractModulesFromResponse( response ) );
+                        listener.fetchFilteredModules(extractModulesFromResponse(response));
                     }
-                } );
+                });
 
     }
 
-    private List<Module> extractModulesFromResponse( Response response ) {
+    private List<Module> extractModulesFromResponse(Response response) {
         List<Module> modules = new ArrayList<>();
-        if( successfulRequest( response.getCode() ) ) {
+        if (successfulRequest(response.getCode())) {
             Type listType = new TypeToken<List<Module>>() {
             }.getType();
-            modules = gson.fromJson( response.getString(), listType );
+            modules = gson.fromJson(response.getString(), listType);
         }
         return modules;
     }
 
-    private String createFilterUrl( Module.Program program,
-                                    Module.Language language,
-                                    Module.Level level,
-                                    Module.Semester semester,
-                                    int size,
-                                    int offset ) {
+    private String createFilterUrl(String program,
+                                   String language,
+                                   String level,
+                                   int size,
+                                   int offset) {
 
         String url = host + "/modules?size=" + size + "&offset=" + offset;
 
-        if( program != null )
-            url += "&program=" + program.name();
-        if( language != null )
-            url += "&lang=" + language.name();
-        if( semester != null )
-            url += "&semester=" + semester.name();
-        if( level != null ) {
-            String currentLvl;
-            if( level == Module.Level.ONE )
-                currentLvl = "1";
-            else if( level == Module.Level.TWO )
-                currentLvl = "2";
-            else if( level == Module.Level.THREE )
-                currentLvl = "3";
-            else
-                currentLvl = "4";
-            url += "&level=" + currentLvl;
+        if (program != null)
+            url += "&program=" + program;
+        if (language != null)
+            url += "&lang=" + language;
+        if (level != null) {
+            url += "&level=" + level;
         }
         return url;
     }

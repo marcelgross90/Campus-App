@@ -21,12 +21,14 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
     private Context context;
     private ModuleNetwork moduleRestService;
 
-    public ModuleAdapter(Context context, Module.Semester semester, Module.Program program) {
+    public ModuleAdapter(Context context, String level, String program) {
         this.context = context;
         moduleRestService = new ModuleNetwork();
         moduleDataset = new LinkedList<>();
 
-        moduleRestService.fetchFilteredModules(program, null, null, semester, 0, 0, new ModuleNetwork.FetchFilteredModules() {
+        moduleRestService.fetchFilteredModules(program, null,
+                level, 0, 0,
+                new ModuleNetwork.FetchFilteredModules() {
             @Override
             public void fetchFilteredModules(List<Module> modules) {
                 moduleDataset = modules;
