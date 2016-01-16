@@ -72,8 +72,6 @@ public class LecturersFragment extends Fragment implements
                             LecturersFragment.this );
                     recyclerView.setAdapter( adapter );
                     adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText( getActivity(), "fehler", Toast.LENGTH_LONG ).show();
                 }
             }
         } );

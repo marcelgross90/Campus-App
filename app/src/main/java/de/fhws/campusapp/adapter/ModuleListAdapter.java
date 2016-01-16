@@ -18,10 +18,13 @@ import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
 
-    private List<Module> moduleDataset;
+    private List<Module> filteredModulesDataset;
+    private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
     private Resources res;
+    private String searchTerm;
+
 
 
     public interface OnCardClickListener{
@@ -30,7 +33,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     public ModuleListAdapter(Context context, OnCardClickListener listener, String level, String program) {
         moduleRestService = new ModuleNetwork();
-        moduleDataset = new LinkedList<>();
+        filteredModulesDataset = new LinkedList<>();
+        allModulesDataset = new LinkedList<>();
         this.listener = listener;
         res = context.getResources();
 
@@ -39,8 +43,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
                 new ModuleNetwork.FetchFilteredModules() {
             @Override
             public void fetchFilteredModules(List<Module> modules) {
-                moduleDataset = modules;
+                filteredModulesDataset = modules;
                 notifyDataSetChanged();
+                allModulesDataset.addAll(modules);
             }
         });
     }
@@ -84,11 +89,36 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
-        holder.asignData(moduleDataset.get(position));
+        holder.asignData(filteredModulesDataset.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return moduleDataset.size();
+        return filteredModulesDataset.size();
+    }
+
+    public void filter(String searchTerm){
+        if (!searchTerm.isEmpty()) {
+
+            for (Module currrentModule : allModulesDataset) {
+                String lecturerName = currrentModule.getLvnameGerman().toLowerCase();
+                int index = filteredModulesDataset.indexOf(currrentModule);
+                if (!lecturerName.startsWith(searchTerm.toLowerCase())) {
+                    if (index != -1) {
+                        filteredModulesDataset.remove(index);
+                        notifyItemRemoved(index);
+                    }
+                } else {
+                    if (index == -1) {
+                        filteredModulesDataset.add(currrentModule);
+                        notifyItemInserted(filteredModulesDataset.size());
+
+                    }
+                }
+            }
+        } else {
+            filteredModulesDataset = (List<Module>)((LinkedList<Module>) allModulesDataset).clone();
+            notifyDataSetChanged();
+        }
     }
 }

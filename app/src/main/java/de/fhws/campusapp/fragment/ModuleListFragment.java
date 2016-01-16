@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.ModuleListAdapter;
+import de.fhws.campusapp.adapter.ModulesPagerAdapter;
 import de.fhws.campusapp.entity.Module;
 
 
@@ -50,5 +51,9 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         detailFragment.setArguments(args);
         Fragment frag = getParentFragment();
         MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
+    }
+
+    public void filter(String searchString){
+        ((ModuleListAdapter)modulesRecyclerView.getAdapter()).filter(searchString);
     }
 }
