@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import de.fhws.campusapp.fragment.LecturersFragment;
+import de.fhws.campusapp.fragment.ModuleViewPagerFragment;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_modules:
                         android.util.Log.wtf( "mgr", "modules" );
+                        replaceFragment(fm, new ModuleViewPagerFragment());
                         break;
                 }
                 return false;
