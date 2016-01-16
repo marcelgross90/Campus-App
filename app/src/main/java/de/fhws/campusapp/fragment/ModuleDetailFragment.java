@@ -41,10 +41,10 @@ public class ModuleDetailFragment extends Fragment
     @Override
     public void setArguments( Bundle args )
     {
-        super.setArguments(args);
+        super.setArguments( args );
 
         String moduleID = args.getString( "lvId" );
-
+        module = ModuleNetwork.getByLvId( moduleID );
     }
 
     private Module getFakeModule()
@@ -65,7 +65,7 @@ public class ModuleDetailFragment extends Fragment
         fakeModule.setHoursSelfStudy(30);
         fakeModule.setLvid("MT100389");
         fakeModule.setTypeOfExam("Mutprobe");
-        fakeModule.setLiterature( "The Holy Bible" );
+        fakeModule.setLiterature("The Holy Bible");
 
         return fakeModule;
     }

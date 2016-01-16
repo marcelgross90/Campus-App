@@ -11,7 +11,7 @@ import de.fhws.campusapp.entity.Module;
 
 public class ModuleNetwork extends BaseNetwork {
 
-    private static HashMap<String, Module> moduleMap;
+    private static HashMap<String, Module> moduleMap = new HashMap<String, Module>();
 
     public interface FetchAllModulesListener {
         void fetchAllModules(List<Module> allModules);
@@ -100,7 +100,7 @@ public class ModuleNetwork extends BaseNetwork {
         return url;
     }
 
-    public Module getByLvId(String lvId){
+    public static Module getByLvId(String lvId){
         return moduleMap.get(lvId);
     }
 }
