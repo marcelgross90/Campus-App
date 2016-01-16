@@ -48,6 +48,7 @@ public class ModuleListFragment extends Fragment implements ModuleAdapter.OnCard
         Bundle args = new Bundle();
         args.putString("lvId", module.getLvid());
         ModuleDetailFragment detailFragment = new ModuleDetailFragment();
+        detailFragment.setArguments(args);
         Fragment frag = getParentFragment();
         MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
     }
