@@ -32,6 +32,7 @@
     <string name="win">Wirtschaftsinformatik</string>
     <string name="ec">E-Commerce</string>
     <string name="filter">Filter</string>
+    <string name="map">Karte</string>
     <string name="title_activity_lecturer_detail">LecturerDetailActivity</string>
     <string name="lecturer_picture">lecturer_picture</string>
     <string name="card_caption_subject">AUFGABEN</string>
@@ -42,5 +43,10 @@
     <string name="card_caption_email">Email</string>
     <string name="card_caption_phone">Telefon</string>
     <string name="card_caption_website">Website</string>
+    <string name="noGPSHeadline">GPS deaktiviert!</string>
+    <string name="noGPS">Möchten Sie GPS jetzt aktivieren?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
 
 </resources>

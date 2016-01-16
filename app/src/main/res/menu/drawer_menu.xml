@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/navigation_lecturers" android:title="@string/lecturer" />
-    <item android:id="@+id/navigation_modules" android:title="@string/modules" />
+    <item android:id="@+id/navigation_lecturers" android:title="@string/lecturer" android:icon="@drawable/ic_lecturers" />
+    <item android:id="@+id/navigation_modules" android:title="@string/modules" android:icon="@drawable/ic_modules" />
+    <item android:id="@+id/navigation_map" android:title="@string/map" android:icon="@drawable/ic_map" />
 </menu>
