@@ -1,6 +1,9 @@
 package de.fhws.campusapp;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     public static void replaceFragmentPopBackStack( FragmentManager fm, Fragment fragment ) {
         fm.popBackStack();
         replaceFragment( fm, fragment );
+    }
+
+    public static void startDialogFragment(FragmentManager fragmentManager, DialogFragment fragment) {
+        fragment.show( fragmentManager, "" );
     }
 
     @Override

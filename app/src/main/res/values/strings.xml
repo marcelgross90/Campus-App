@@ -19,7 +19,7 @@
     <string name="card_caption_content">INHALT</string>
     <string name="card_caption_effort">AUFWAND</string>
     <string name="card_caption_credits">ECTS</string>
-    <string name="card_caption_hours_per_week">Semesterwochenstunden</string>
+    <string name="card_caption_hours_per_week">SWS</string>
     <string name="card_caption_distribution">Verhältnis Vorlesung / Eigenstudium</string>
     <string name="card_caption_exam">PRÜFUNG</string>
     <string name="card_caption_module_id">Modulnummer</string>
@@ -31,5 +31,8 @@
     <string name="bin">Informatik</string>
     <string name="win">Wirtschaftsinformatik</string>
     <string name="ec">E-Commerce</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
