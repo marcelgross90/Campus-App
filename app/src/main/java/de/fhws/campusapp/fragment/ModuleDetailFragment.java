@@ -33,6 +33,13 @@ public class ModuleDetailFragment extends Fragment
         View view = inflater.inflate( R.layout.fragment_module_detail, container, false );
 
         loadComponents( view );
+
+        if ( savedInstanceState != null )
+        {
+            String lvId = savedInstanceState.getString( "lvId" );
+            module = ModuleNetwork.getByLvId( lvId );
+        }
+
         recyclerView.setLayoutManager( new LinearLayoutManager( getContext() ) );
         recyclerView.setHasFixedSize( true );
         recyclerView.setAdapter( new ModuleDetailAdapter( module ) );
@@ -40,17 +47,25 @@ public class ModuleDetailFragment extends Fragment
         return view;
     }
 
-    private void loadComponents( View container )
-    {
-        recyclerView = (RecyclerView) container.findViewById( R.id.rvModuleDetails );
-    }
-
     @Override
     public void setArguments( Bundle args )
     {
         super.setArguments( args );
 
-        String moduleID = args.getString( "lvId" );
-        module = ModuleNetwork.getByLvId( moduleID );
+        String lvId = args.getString( "lvId" );
+        module = ModuleNetwork.getByLvId( lvId );
     }
+
+    @Override
+    public void onSaveInstanceState( Bundle outState )
+    {
+        super.onSaveInstanceState( outState );
+        outState.putString( "lvId", module.getLvid() );
+    }
+
+    private void loadComponents( View container )
+    {
+        recyclerView = (RecyclerView) container.findViewById( R.id.rvModuleDetails );
+    }
+
 }
