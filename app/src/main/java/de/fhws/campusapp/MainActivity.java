@@ -21,11 +21,15 @@ public class MainActivity extends AppCompatActivity {
     public static ActionBarDrawerToggle drawerToggle;
 
     public static void replaceFragment( FragmentManager fm, Fragment fragment ) {
-        fm.beginTransaction()
-                .replace( R.id.content_container,
-                        fragment,
-                        fragment.getClass().getName() )
-                .addToBackStack( null )
+        fm.beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+                R.anim.slide_out_right,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+        )
+                .replace(
+                        R.id.content_container,
+                        fragment, fragment.getClass().getName())
+                .addToBackStack(null)
                 .commit();
     }
 

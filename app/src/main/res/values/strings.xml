@@ -29,5 +29,8 @@
     <string name="drawer_open">Öffnen</string>
     <string name="drawer_close">Schließen</string>
 
+    <string name="bin">Informatik</string>
+    <string name="win">Wirtschaftsinformatik</string>
+    <string name="ec">E-Commerce</string>
 
 </resources>
