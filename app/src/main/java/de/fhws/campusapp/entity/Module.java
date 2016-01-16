@@ -262,4 +262,9 @@ public class Module {
         result = result.trim();
         return result.replace( " ", ", " );
     }
+
+    public String getLectureType()
+    {
+        return typeOfClass.replace( "#", "\n" );
+    }
 }

@@ -8,7 +8,6 @@ import de.fhws.campusapp.R;
 
 public class ModuleDetailViewHolderContent extends RecyclerView.ViewHolder
 {
-    private TextView lectureType;
     private TextView description;
     private TextView goals;
 
@@ -16,14 +15,8 @@ public class ModuleDetailViewHolderContent extends RecyclerView.ViewHolder
     {
         super( itemView );
 
-        this.lectureType = (TextView) itemView.findViewById( R.id.tvLectureTypeValue );
         this.description = (TextView) itemView.findViewById( R.id.tvDescription      );
         this.goals       = (TextView) itemView.findViewById( R.id.tvGoals            );
-    }
-
-    public void displayLectureType( String lectureType )
-    {
-        this.lectureType.setText( lectureType );
     }
 
     public void displayDescription( String description )

@@ -15,12 +15,6 @@ import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleDetailFragment extends Fragment
 {
-    // TODO: Add landscape mode
-
-    // components
-    private RecyclerView recyclerView;
-
-    // content
     private Module module;
 
     public ModuleDetailFragment()
@@ -32,16 +26,15 @@ public class ModuleDetailFragment extends Fragment
     {
         View view = inflater.inflate( R.layout.fragment_module_detail, container, false );
 
-        loadComponents( view );
-
         if ( savedInstanceState != null )
         {
             String lvId = savedInstanceState.getString( "lvId" );
             module = ModuleNetwork.getByLvId( lvId );
         }
-
+        getActivity().setTitle( module.getLvnameGerman() );
+        RecyclerView recyclerView = (RecyclerView) view.findViewById( R.id.rvModuleDetails );
         recyclerView.setLayoutManager( new LinearLayoutManager( getContext() ) );
-        recyclerView.setHasFixedSize( true );
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter( new ModuleDetailAdapter( module ) );
 
         return view;
@@ -50,7 +43,7 @@ public class ModuleDetailFragment extends Fragment
     @Override
     public void setArguments( Bundle args )
     {
-        super.setArguments( args );
+        super.setArguments(args);
 
         String lvId = args.getString( "lvId" );
         module = ModuleNetwork.getByLvId( lvId );
@@ -62,10 +55,4 @@ public class ModuleDetailFragment extends Fragment
         super.onSaveInstanceState( outState );
         outState.putString( "lvId", module.getLvid() );
     }
-
-    private void loadComponents( View container )
-    {
-        recyclerView = (RecyclerView) container.findViewById( R.id.rvModuleDetails );
-    }
-
 }
