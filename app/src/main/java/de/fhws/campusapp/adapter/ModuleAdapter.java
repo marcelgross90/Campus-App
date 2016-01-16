@@ -18,11 +18,9 @@ import de.fhws.campusapp.network.ModuleNetwork;
 public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder> {
 
     private List<Module> moduleDataset;
-    private Context context;
     private ModuleNetwork moduleRestService;
 
     public ModuleAdapter(Context context, String level, String program) {
-        this.context = context;
         moduleRestService = new ModuleNetwork();
         moduleDataset = new LinkedList<>();
 
@@ -32,6 +30,7 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
             @Override
             public void fetchFilteredModules(List<Module> modules) {
                 moduleDataset = modules;
+                notifyDataSetChanged();
             }
         });
     }
