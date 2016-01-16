@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single"
+        >
+        <item android:id="@+id/action_bin"
+              android:title="@string/bin"
+            />
+
+        <item android:id="@+id/action_win"
+              android:title="@string/win"
+            />
+
+        <item android:id="@+id/action_ec"
+              android:title="@string/ec"
+            />
+    </group>
+</menu>
