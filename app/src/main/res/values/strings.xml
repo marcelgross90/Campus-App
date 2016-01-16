@@ -6,8 +6,12 @@
     <string name="phone">Telefon</string>
     <string name="office">Büro</string>
     <string name="homepage">Homepage</string>
+    <string name="overview">Übersicht</string>
+    <string name="level">%s. Semester</string>
+    <string name="lecturer">Dozenten</string>
+    <string name="modules">Module</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="card_caption_general">ALLGEMEIN</string>
     <string name="card_caption_lecturer">Dozenten</string>
     <string name="card_caption_study">Studiengang</string>
@@ -22,5 +26,8 @@
     <string name="card_caption_module_id">Modulnummer</string>
     <string name="card_caption_exam_type">Art der Prüfung</string>
     <string name="card_caption_literature">Literaturempfehlung</string>
+    <string name="drawer_open">Öffnen</string>
+    <string name="drawer_close">Schließen</string>
+
 
 </resources>
