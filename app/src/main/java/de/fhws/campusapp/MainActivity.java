@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fm;
     private DrawerLayout drawerLayout;
+    public static ActionBarDrawerToggle drawerToggle;
 
     public static void replaceFragment( FragmentManager fm, Fragment fragment ) {
         fm.beginTransaction()
@@ -42,10 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if( fm.getBackStackEntryCount() > 1 )
-            super.onBackPressed();
-        else
-            finish();
+        if( drawerLayout.isDrawerOpen( GravityCompat.START ) ) {
+            drawerLayout.closeDrawer( GravityCompat.START );
+        } else {
+            if( fm.getBackStackEntryCount() > 1 )
+                super.onBackPressed();
+            else
+                finish();
+        }
     }
 
     @Override
@@ -66,14 +71,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar( toolbar );
 
         drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+        drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close );
         drawerLayout.setDrawerListener( drawerToggle );
         drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById( R.id.navigation_view );
         navigationView.setNavigationItemSelectedListener( new MyDrawerClickListener() );
+
     }
+
 
     private class MyDrawerClickListener implements NavigationView.OnNavigationItemSelectedListener {
         @Override
