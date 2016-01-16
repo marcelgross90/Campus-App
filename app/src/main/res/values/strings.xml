@@ -6,4 +6,8 @@
     <string name="phone">Telefon</string>
     <string name="office">Büro</string>
     <string name="homepage">Homepage</string>
+    <string name="lecturer">Dozenten</string>
+    <string name="modules">Module</string>
+    <string name="drawer_open">Öffnen</string>
+    <string name="drawer_close">Schließen</string>
 </resources>
