@@ -48,8 +48,6 @@ public class LecturersFragment extends Fragment implements
 
         getActivity().setTitle( getString( R.string.app_name ) );
 
-        //  LecturerData lecturerDataInstance = LecturerData.getInstance( getActivity() );
-
         final RecyclerView recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
         progressBar = (ProgressBar) view.findViewById( R.id.progressBar );
 
@@ -81,6 +79,12 @@ public class LecturersFragment extends Fragment implements
         } );
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        MainActivity.drawerToggle.setDrawerIndicatorEnabled( true );
+        super.onStart();
     }
 
     @Override

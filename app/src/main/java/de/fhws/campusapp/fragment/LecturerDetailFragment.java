@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 
+import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.LecturerData;
 import de.fhws.campusapp.entity.Lecturer;
@@ -24,6 +25,12 @@ import de.fhws.campusapp.entity.Lecturer;
 public class LecturerDetailFragment extends Fragment implements View.OnClickListener  {
 
     private Lecturer lecturer;
+
+    @Override
+    public void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        MainActivity.drawerToggle.setDrawerIndicatorEnabled( false );
+    }
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
@@ -52,40 +59,6 @@ public class LecturerDetailFragment extends Fragment implements View.OnClickList
         final Uri uri = Uri.parse( lecturer.getPictureUrl() );
         Picasso.with( getActivity() ).load(uri).into( profilePic );
 
-/*        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Bitmap bitmap = Picasso.with(getActivity()).load(uri).get();
-                    Palette.Builder builder = new Palette.Builder(bitmap);
-                    Palette palette = builder.generate();
-                    int bgColor = palette.getVibrantColor( Color.BLACK);
-                    int bgColorDark = palette.getDarkVibrantColor(Color.BLACK);
-
-                    ActionBar bar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-                    if( bar != null )
-                    bar.setBackgroundDrawable(new ColorDrawable(bgColor));
-
-                    if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getActivity().getWindow();
-                        window.setStatusBarColor(bgColorDark);
-                    }
-
-                    relativeLayout.setBackgroundColor(bgColor);
-                    linearLayout.setBackgroundColor(bgColor);
-
-                    if (bgColor == -16777216) {
-                        email.setImageResource(R.mipmap.ic_mail_white);
-                        website.setImageResource(R.mipmap.ic_launch_white);
-                        phone.setImageResource(R.mipmap.ic_call_white);
-                        home.setImageResource(R.mipmap.ic_home_white);
-                    }
-
-                } catch (IOException ex) {
-                    Log.e("Picasso", ex.getMessage());
-                }
-            }
-        }.start();*/
 
         email.setOnClickListener(this);
         website.setOnClickListener(this);
