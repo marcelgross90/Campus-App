@@ -17,10 +17,11 @@ public class ModuleViewPagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View pagerView = inflater.inflate(R.layout.fragment_module_view_pager, container, false);
         viewPager = (ViewPager) pagerView.findViewById(R.id.module_view_pager);
 
-        viewPager.setAdapter(new ModulesPagerAdapter(getFragmentManager(), getContext()));
+        viewPager.setAdapter(new ModulesPagerAdapter(getChildFragmentManager(), getActivity()));
 
         return pagerView;
     }
