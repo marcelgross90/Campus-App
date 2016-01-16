@@ -237,4 +237,29 @@ public class Module {
     public void setTypeOfExam( String typeOfExam ) {
         this.typeOfExam = typeOfExam;
     }
+
+    public String getLecturers()
+    {
+        return dozenten.replace( "#", "\n" );
+    }
+
+    public String getStudy()
+    {
+        String result = "";
+
+        if ( bin )
+        {
+            result = result + "Informatik ";
+        }
+        if ( bwi )
+        {
+            result = result + "Wirtschaftsinformatik ";
+        }
+        if ( bec )
+        {
+            result = result + "E-Commerce";
+        }
+        result = result.trim();
+        return result.replace( " ", ", " );
+    }
 }

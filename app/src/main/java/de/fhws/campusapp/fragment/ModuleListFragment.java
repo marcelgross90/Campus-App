@@ -14,7 +14,7 @@ import de.fhws.campusapp.adapter.ModuleAdapter;
 import de.fhws.campusapp.entity.Module;
 
 
-public class ModuleListFragment extends Fragment {
+public class ModuleListFragment extends Fragment implements ModuleAdapter.OnCardClickListener {
 
     private RecyclerView modulesRecyclerView;
     private RecyclerView.Adapter modulesAdapter;
@@ -33,12 +33,18 @@ public class ModuleListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
-        modulesAdapter = new ModuleAdapter(getContext(), level, program);
+        modulesAdapter = new ModuleAdapter(this, level, program);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
         modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
         modulesRecyclerView.setAdapter(modulesAdapter);
 
         return moduleView;
+    }
+
+    @Override
+    public void onCardClick(Module module) {
+        ModuleDetailFragment detailFragment = new ModuleDetailFragment();
+
     }
 }
