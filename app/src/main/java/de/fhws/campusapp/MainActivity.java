@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static void replaceFragmentPopBackStack( FragmentManager fm, Fragment fragment ) {
         fm.popBackStack();
-        replaceFragment( fm, fragment );
+        replaceFragment(fm, fragment);
     }
 
     public static void startDialogFragment(FragmentManager fragmentManager, DialogFragment fragment) {
-        fragment.show( fragmentManager, "" );
+        fragment.show(fragmentManager, "");
     }
 
     @Override

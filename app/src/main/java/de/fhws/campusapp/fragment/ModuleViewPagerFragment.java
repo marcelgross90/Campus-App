@@ -34,7 +34,6 @@ public class ModuleViewPagerFragment extends Fragment {
         return pagerView;
     }
 
-
     @Override
     public void onCreateOptionsMenu( Menu menu, MenuInflater inflater ) {
         inflater.inflate( R.menu.module_menu, menu );
@@ -46,7 +45,6 @@ public class ModuleViewPagerFragment extends Fragment {
             case R.id.action_filter:
                 MainActivity.startDialogFragment( getFragmentManager(), new CoursePickerFragment() );
                 break;
-
         }
 
         return super.onOptionsItemSelected( item );
