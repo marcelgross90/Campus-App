@@ -4,11 +4,14 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhws.campusapp.entity.Module;
 
 public class ModuleNetwork extends BaseNetwork {
+
+    private HashMap<String, Module> moduleMap;
 
     public interface FetchAllModulesListener {
         void fetchAllModules(List<Module> allModules);
@@ -72,6 +75,9 @@ public class ModuleNetwork extends BaseNetwork {
             Type listType = new TypeToken<List<Module>>() {
             }.getType();
             modules = gson.fromJson(response.getString(), listType);
+            for(Module currentModule: modules){
+                moduleMap.put(currentModule.getLvid(), currentModule);
+            }
         }
         return modules;
     }
@@ -92,5 +98,9 @@ public class ModuleNetwork extends BaseNetwork {
             url += "&level=" + level;
         }
         return url;
+    }
+
+    public Module getByLvId(String lvId){
+        return moduleMap.get(lvId);
     }
 }
