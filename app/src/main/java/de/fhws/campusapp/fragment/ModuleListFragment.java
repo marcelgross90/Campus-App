@@ -6,9 +6,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
@@ -16,7 +21,8 @@ import de.fhws.campusapp.adapter.ModuleListAdapter;
 import de.fhws.campusapp.entity.Module;
 
 
-public class ModuleListFragment extends Fragment implements ModuleListAdapter.OnCardClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class ModuleListFragment extends Fragment implements ModuleListAdapter.OnCardClickListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView modulesRecyclerView;
     private RecyclerView.Adapter modulesAdapter;
@@ -47,13 +53,14 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
-        modulesAdapter = new ModuleListAdapter(getContext(),this, level);
+        modulesAdapter = new ModuleListAdapter(getContext(), this, level);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
         modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
         modulesRecyclerView.setAdapter(modulesAdapter);
 
         setTitle();
+
         return moduleView;
     }
 
@@ -67,16 +74,16 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
     }
 
-    public void filter(String searchString){
-        ((ModuleListAdapter)modulesRecyclerView.getAdapter()).filter(searchString);
+    public void filter(String searchString) {
+        ((ModuleListAdapter) modulesRecyclerView.getAdapter()).filter(searchString);
     }
 
-    private void setTitle(){
+    private void setTitle() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String program = sharedPreferences.getString("mychoice", Module.Program.BIN);
         String title = null;
 
-        switch(program){
+        switch (program) {
             case Module.Program.BIN:
                 title = getResources().getString(R.string.bin);
                 break;
@@ -95,6 +102,49 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         String program = sharedPreferences.getString("mychoice", Module.Program.BIN);
         setTitle();
-        ((ModuleListAdapter)modulesRecyclerView.getAdapter()).programChanged(program);
+        fadeOut(modulesRecyclerView);
+        ((ModuleListAdapter) modulesRecyclerView.getAdapter()).programChanged(program);
+        fadeIn(modulesRecyclerView);
+    }
+
+
+    private void fadeOut(final View v){
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(200);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            public void onAnimationEnd(Animation animation) {
+                v.setVisibility(View.GONE);
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationStart(Animation animation) {
+            }
+        });
+
+        v.startAnimation(fadeOut);
+    }
+
+    private void fadeIn(final View v){
+        final Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new AccelerateInterpolator());
+        fadeIn.setDuration(200);
+
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationStart(Animation animation) {
+                v.setVisibility(View.VISIBLE);
+            }
+        });
+        v.startAnimation(fadeIn);
     }
 }

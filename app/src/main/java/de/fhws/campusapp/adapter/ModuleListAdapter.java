@@ -21,6 +21,7 @@ import de.fhws.campusapp.network.ModuleNetwork;
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
 
     private static String oldSearchTerm;
+    private static String program;
     private List<Module> filteredModulesDataset;
     private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
@@ -40,11 +41,11 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         res = context.getResources();
         this.level = level;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
-        downloadData(program);
+        program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
+        downloadData();
     }
 
-    private void downloadData(String program) {
+    private void downloadData() {
         moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
@@ -135,6 +136,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public void programChanged(String program){
-        downloadData(program);
+        this.program = program;
+        downloadData();
     }
 }

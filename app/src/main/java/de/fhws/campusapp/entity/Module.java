@@ -267,4 +267,11 @@ public class Module {
     {
         return typeOfClass.replace( "#", "\n" );
     }
+
+    @Override
+    public boolean equals(Object o) {
+        Module thisModule = (Module)this;
+        Module otherModule = (Module)o;
+        return thisModule.getLvnameGerman().equals(otherModule.getLvnameGerman());
+    }
 }
