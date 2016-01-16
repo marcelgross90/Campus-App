@@ -27,11 +27,18 @@ public class ModuleDetailFragment extends Fragment
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
-        loadComponents( container );
-        module = getFakeModule();
+        View view = inflater.inflate( R.layout.fragment_module_detail, container, false );
+
+        loadComponents( view );
+        module = getFakeModule();   // TODO: Delete after testing
         recyclerView.setAdapter( new ModuleDetailAdapter( module ) );
 
-        return inflater.inflate( R.layout.fragment_module_detail, container, false );
+        return view;
+    }
+
+    private void loadComponents( View container )
+    {
+        recyclerView = (RecyclerView) container.findViewById( R.id.rvModuleDetails );
     }
 
     @Override
@@ -64,10 +71,5 @@ public class ModuleDetailFragment extends Fragment
         fakeModule.setLiterature("The Holy Bible");
 
         return fakeModule;
-    }
-
-    private void loadComponents( ViewGroup container )
-    {
-        recyclerView = (RecyclerView) container.findViewById( R.id.rvModuleDetails );
     }
 }

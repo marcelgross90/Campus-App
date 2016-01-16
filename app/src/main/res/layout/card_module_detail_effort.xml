@@ -108,7 +108,7 @@
         android:layout_height="24dp"
         android:background="@android:color/holo_green_light"
         android:id="@+id/distributionLecture"
-            android:layout_weight="1"
+            android:layout_weight="90"
             android:layout_marginRight="2dp" />
 
         <View
@@ -116,7 +116,7 @@
         android:layout_height="24dp"
         android:background="@android:color/holo_red_light"
         android:id="@+id/distributionSelf"
-            android:layout_weight="1"
+            android:layout_weight="10"
             android:layout_marginLeft="2dp" />
 
     </LinearLayout>
