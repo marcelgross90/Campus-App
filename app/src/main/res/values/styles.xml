@@ -12,7 +12,7 @@
         <item name="android:textColorPrimary">@color/colorAccent</item>
     </style>
 
-    <style name="CardView">
+    <style name="CardViewModule">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="cardCornerRadius">5dp</item>
