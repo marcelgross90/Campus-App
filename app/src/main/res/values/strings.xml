@@ -6,6 +6,8 @@
     <string name="phone">Telefon</string>
     <string name="office">Büro</string>
     <string name="homepage">Homepage</string>
+    <string name="overview">Übersicht</string>
+    <string name="level">%s. Semester</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="card_caption_general">ALLGEMEIN</string>

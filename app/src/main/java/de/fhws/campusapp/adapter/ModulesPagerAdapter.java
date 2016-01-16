@@ -16,12 +16,10 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
     private Fragment[] fragments;
     private String[] levels;
-    private Context context;
     private Resources res;
 
     public ModulesPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
-        this.context = context;
         res = context.getResources();
     }
 
@@ -62,7 +60,7 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
             return levels[0];
         }
         else{
-            return(String.format(res.getString(R.string.level, levels[position])));
+            return String.format(res.getString(R.string.level), levels[position]);
         }
     }
 }
