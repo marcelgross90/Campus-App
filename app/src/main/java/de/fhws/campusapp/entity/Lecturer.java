@@ -116,7 +116,7 @@ public class Lecturer {
 
     public String getFullName()
     {
-        String fullName = title + " " + firstName + " " + lastName;
+        String fullName = title + " " + name + " " + lastName;
 
         return fullName.trim();
     }
