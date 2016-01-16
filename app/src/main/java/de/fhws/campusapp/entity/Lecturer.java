@@ -113,4 +113,42 @@ public class Lecturer {
                 "\naddress: " + address +
                 "\nofficeNr: " + officeNumber;
     }
+
+    public String getFullName()
+    {
+        String fullName = title + " " + name + " " + lastName;
+
+        return fullName.trim();
+    }
+
+    public String getStreet()
+    {
+        String street = "";
+
+        String[] addressAsArray = address.split( " " );
+
+        if ( addressAsArray.length == 4 )
+        {
+            street = addressAsArray[0] + " " + addressAsArray[1];
+        }
+        return street;
+    }
+
+    public String getTown()
+    {
+        String town = "";
+
+        String[] addressAsArray = address.split( " " );
+
+        if ( addressAsArray.length == 4 )
+        {
+            town = addressAsArray[2] + " " + addressAsArray[3];
+        }
+        return town;
+    }
+
+    public String getSubject()
+    {
+        return Globals.INFORMATION_NOT_AVAILABLE_YET;
+    }
 }

@@ -33,5 +33,16 @@
     <string name="ec">E-Commerce</string>
     <string name="filter">Filter</string>
     <string name="map">Karte</string>
+    <string name="title_activity_lecturer_detail">LecturerDetailActivity</string>
+    <string name="lecturer_picture">lecturer_picture</string>
+    <string name="card_caption_subject">AUFGABEN</string>
+    <string name="card_caption_office">BÜRO</string>
+    <string name="card_caption_room">Raum</string>
+    <string name="card_caption_address">Anschrift</string>
+    <string name="card_caption_contact">KONTAKT</string>
+    <string name="card_caption_email">Email</string>
+    <string name="card_caption_phone">Telefon</string>
+    <string name="card_caption_website">Website</string>
+
 
 </resources>

@@ -20,12 +20,13 @@ import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
 
-    private List<Module> moduleDataset;
+    private static String oldSearchTerm;
+    private List<Module> filteredModulesDataset;
+    private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
     private Resources res;
     private String level;
-    private Context context;
 
     public interface OnCardClickListener {
         public void onCardClick( Module module );
@@ -33,30 +34,29 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     public ModuleListAdapter( Context context, OnCardClickListener listener, String level ) {
         moduleRestService = new ModuleNetwork();
-        moduleDataset = new LinkedList<>();
+        filteredModulesDataset = new LinkedList<>();
+        allModulesDataset = new LinkedList<>();
         this.listener = listener;
         res = context.getResources();
         this.level = level;
-        this.context = context;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
-        downloadData( program, level );
-        registerPrefChangeListener();
+        downloadData(program);
     }
 
-    private void downloadData(String program, String level) {
-        moduleRestService.fetchFilteredModules( program, null,
+    private void downloadData(String program) {
+        moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
+
                     @Override
-                    public void fetchFilteredModules( List<Module> modules ) {
-                        moduleDataset = modules;
-                        notifyDataSetChanged();
-                    }
-                } );
-
+                    public void fetchFilteredModules(List<Module> modules) {
+                        filteredModulesDataset = modules;
+                        allModulesDataset.addAll(modules);
+                        filter(oldSearchTerm);
+            }
+        });
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -95,22 +95,46 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder( ModuleListAdapter.ViewHolder holder, int position ) {
-        holder.assignData( moduleDataset.get( position ) );
+    public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
+        holder.assignData(filteredModulesDataset.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return moduleDataset.size();
+        return filteredModulesDataset.size();
     }
 
-    private void registerPrefChangeListener() {
-        PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                String program = prefs.getString( "mychoice", Module.Program.BIN );
-                downloadData( program, level );
+    public void filter(String searchTerm){
+        if(searchTerm == null){
+            notifyDataSetChanged();
+            return;
+        }
+        if (!searchTerm.isEmpty()) {
+            this.oldSearchTerm = searchTerm;
+            for (Module currrentModule : allModulesDataset) {
+                String lecturerName = currrentModule.getLvnameGerman().toLowerCase();
+                int index = filteredModulesDataset.indexOf(currrentModule);
+                if (!lecturerName.startsWith(searchTerm.toLowerCase())) {
+                    if (index != -1) {
+                        filteredModulesDataset.remove(index);
+                        notifyItemRemoved(index);
+                    }
+                } else {
+                    if (index == -1) {
+                        filteredModulesDataset.add(currrentModule);
+                        notifyItemInserted(filteredModulesDataset.size());
+
+                    }
+                }
             }
-        });
+        } else {
+            filteredModulesDataset = (List<Module>)((LinkedList<Module>) allModulesDataset).clone();
+            oldSearchTerm = null;
+            notifyDataSetChanged();
+        }
     }
 
+    public void programChanged(String program){
+        downloadData(program);
+    }
 }
