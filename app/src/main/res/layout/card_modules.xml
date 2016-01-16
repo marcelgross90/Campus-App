@@ -9,16 +9,31 @@
         android:id="@+id/module_card"
         style="@style/CardViewModule">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/module_title_tv"
-            android:text="TestText"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/module_ects_tv"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/module_title_tv"
+                android:layout_alignParentLeft="true"
+                android:text="TestText"
+                android:layout_toStartOf="@+id/module_ects_tv"
+                android:layout_toLeftOf="@+id/module_ects_tv"
+                android:ellipsize="middle"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/module_ects_tv"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="4dp"
+                android:text="5 Ects"/>
+        </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

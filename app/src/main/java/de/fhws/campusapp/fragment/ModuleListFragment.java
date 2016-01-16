@@ -7,15 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
-import de.fhws.campusapp.adapter.ModuleAdapter;
+import de.fhws.campusapp.adapter.ModuleListAdapter;
 import de.fhws.campusapp.entity.Module;
 
 
-public class ModuleListFragment extends Fragment implements ModuleAdapter.OnCardClickListener {
+public class ModuleListFragment extends Fragment implements ModuleListAdapter.OnCardClickListener {
 
     private RecyclerView modulesRecyclerView;
     private RecyclerView.Adapter modulesAdapter;
@@ -34,7 +33,7 @@ public class ModuleListFragment extends Fragment implements ModuleAdapter.OnCard
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
-        modulesAdapter = new ModuleAdapter(this, level, program);
+        modulesAdapter = new ModuleListAdapter(getContext(),this, level, program);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
         modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
