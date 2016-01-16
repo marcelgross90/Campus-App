@@ -1,24 +1,22 @@
 package de.fhws.campusapp;
 
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import de.fhws.campusapp.fragment.LecturersFragment;
+import de.fhws.campusapp.fragment.ModuleListFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private Toolbar toolbar;
+
     private FragmentManager fm;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
 
     public static void replaceFragment( FragmentManager fm, Fragment fragment ) {
         fm.beginTransaction()
@@ -34,101 +32,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        fm.popBackStack();
-
-        return false;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if( fm.getBackStackEntryCount() > 1 )
-            super.onBackPressed();
-        else
-            finish();
-    }
-
-    @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
-        NavigationView nv = (NavigationView) findViewById( R.id.navigation_view );
-        nv.setNavigationItemSelectedListener( new MyDrawerClickListener() );
-
         fm = getSupportFragmentManager();
 
-        initToolbar();
+        setUpActionBar();
 
         if( savedInstanceState == null ) {
             replaceFragment( fm, new LecturersFragment() );
         }
 
-        initOpenCloseEventHandling();
-
     }
 
-    private void initToolbar() {
-        toolbar = (Toolbar) findViewById( R.id.toolbar );
+    private void setUpActionBar() {
+        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        fm.addOnBackStackChangedListener(
-                new FragmentManager.OnBackStackChangedListener() {
-                    @Override
-                    public void onBackStackChanged() {
-                        canBack();
-                    }
-                }
-        );
-        canBack();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close );
+        drawer.setDrawerListener( toggle );
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById( R.id.nav_view );
+        navigationView.setNavigationItemSelectedListener( new MyDrawerClickListener() );
     }
 
-    private void canBack() {
-        ActionBar actionBar = getSupportActionBar();
-        if( actionBar != null ) {
-            actionBar.setDisplayHomeAsUpEnabled(
-                    fm.getBackStackEntryCount() > 1
-            );
-        }
-    }
-
-    private void initOpenCloseEventHandling() {
-        drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
-        drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close ) {
-            private ActionBar actionBar = getSupportActionBar();
-            public void onDrawerClosed( View view ) {
-                super.onDrawerClosed( view );
-
-                if( actionBar != null )
-                    actionBar.setTitle( "Campus App" );}
-
-            public void onDrawerOpened( View drawerView ) {
-                super.onDrawerOpened( drawerView );
-                if( actionBar != null )
-                    actionBar.setTitle( "" );
+    private class MyDrawerClickListener implements NavigationView.OnNavigationItemSelectedListener {
+        @Override
+        public boolean onNavigationItemSelected( MenuItem item ) {
+            switch ( item.getItemId() ) {
+                case R.id.navigation_lecturers:
+                    LecturersFragment fragment = new LecturersFragment();
+                    MainActivity.replaceFragmentPopBackStack( fm, fragment );
+                    break;
+                case R.id.navigation_modules:
+                    android.util.Log.wtf( "mgr", "modules" );
+                    ModuleListFragment moduleListFragment = new ModuleListFragment();
+                    MainActivity.replaceFragmentPopBackStack( fm, moduleListFragment );
+                    break;
             }
-        };
-
-        drawerLayout.setDrawerListener( drawerToggle );
-
+            DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
+            drawer.closeDrawer( GravityCompat.START );
+            return true;
         }
-        private class MyDrawerClickListener implements NavigationView.OnNavigationItemSelectedListener {
-            @Override
-            public boolean onNavigationItemSelected( MenuItem item ) {
-                switch ( item.getItemId() ) {
-                    case R.id.navigation_lecturers:
-                        android.util.Log.wtf( "mgr", "lectuerers" );
-                        break;
-                    case R.id.navigation_modules:
-                        android.util.Log.wtf( "mgr", "modules" );
-                        break;
-                }
-                return false;
-            }
-        }
-
     }
+
+}
