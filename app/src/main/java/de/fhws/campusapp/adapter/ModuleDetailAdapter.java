@@ -55,6 +55,7 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
         if( position == 0 )
         {
             ModuleDetailViewHolderGeneral viewHolder = (ModuleDetailViewHolderGeneral) holder;
+            viewHolder.displayLectureType( module.getLectureType() );
             viewHolder.displayLecturers( module.getLecturers() );
             viewHolder.displayStudy( module.getStudy() );
             viewHolder.displayYear( String.valueOf( module.getLevel() ) );
@@ -62,21 +63,20 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
         else if( position == 1 )
         {
             ModuleDetailViewHolderContent viewHolder = (ModuleDetailViewHolderContent) holder;
-            viewHolder.displayLectureType( module.getTypeOfClass() );
             viewHolder.displayDescription(module.getContents());
             viewHolder.displayGoals( module.getGoals() );
         }
         else if( position == 2 )
         {
             ModuleDetailViewHolderEffort viewHolder = (ModuleDetailViewHolderEffort) holder;
-            viewHolder.displayCredits( String.valueOf( module.getEcts() ) );
+            viewHolder.displayCredits( String.valueOf(module.getEcts()));
             viewHolder.displayHoursPerWeek( String.valueOf( module.getHoursLectures() ) );
             viewHolder.displayDistribution( module.getHoursLectures(), module.getHoursSelfStudy() );
         }
         else if( position == 3 )
         {
             ModuleDetailViewHolderExam viewHolder = (ModuleDetailViewHolderExam) holder;
-            viewHolder.displayModuleID( module.getLvid() );
+            viewHolder.displayModuleID(module.getLvid() );
             viewHolder.displayExamType( module.getTypeOfExam() );
             viewHolder.displayLiterature( module.getLiterature() );
         }

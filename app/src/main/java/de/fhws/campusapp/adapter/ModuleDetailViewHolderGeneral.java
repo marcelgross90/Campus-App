@@ -8,6 +8,7 @@ import de.fhws.campusapp.R;
 
 public class ModuleDetailViewHolderGeneral extends RecyclerView.ViewHolder
 {
+    private TextView lectureType;
     private TextView lecturers;
     private TextView study;
     private TextView year;
@@ -16,9 +17,15 @@ public class ModuleDetailViewHolderGeneral extends RecyclerView.ViewHolder
     {
         super( itemView );
 
+        this.lectureType = (TextView) itemView.findViewById( R.id.tvLectureTypeValue );
         this.lecturers = (TextView) itemView.findViewById( R.id.tvLecturersValue );
         this.study     = (TextView) itemView.findViewById( R.id.tvStudyValue     );
         this.year      = (TextView) itemView.findViewById( R.id.tvYearValue      );
+    }
+
+    public void displayLectureType( String lectureType )
+    {
+        this.lectureType.setText( lectureType );
     }
 
     public void displayLecturers( String lecturers )
