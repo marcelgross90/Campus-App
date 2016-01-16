@@ -8,31 +8,31 @@ import de.fhws.campusapp.R;
 
 public class ModuleDetailViewHolderExam extends RecyclerView.ViewHolder
 {
-    private TextView lectureType;
-    private TextView description;
-    private TextView goals;
+    private TextView moduleID;
+    private TextView examType;
+    private TextView literature;
 
     public ModuleDetailViewHolderExam( View itemView )
     {
         super( itemView );
 
-        this.lectureType = (TextView) itemView.findViewById( R.id.tvLectureTypeValue );
-        this.description = (TextView) itemView.findViewById( R.id.tvDescription      );
-        this.goals       = (TextView) itemView.findViewById( R.id.tvGoals            );
+        this.moduleID   = (TextView) itemView.findViewById( R.id.tvModuleIDValue    );
+        this.examType   = (TextView) itemView.findViewById( R.id.tvExamTypeValue   );
+        this.literature = (TextView) itemView.findViewById( R.id.tvLiteratureValue );
     }
 
-    public void displayLectureType( String lectureType )
+    public void displayModuleID( String moduleID )
     {
-        this.lectureType.setText( lectureType );
+        this.moduleID.setText( moduleID );
     }
 
-    public void displayDescription( String description )
+    public void displayExamType( String examType )
     {
-        this.description.setText( description );
+        this.examType.setText( examType );
     }
 
-    public void displayGoals( String goals )
+    public void displayLiterature( String literature )
     {
-        this.goals.setText( goals );
+        this.literature.setText( literature );
     }
 }

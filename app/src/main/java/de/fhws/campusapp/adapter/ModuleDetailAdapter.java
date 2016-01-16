@@ -55,29 +55,37 @@ public class ModuleDetailAdapter extends RecyclerView.Adapter
         if( position == 0 )
         {
             ModuleDetailViewHolderGeneral viewHolder = (ModuleDetailViewHolderGeneral) holder;
-            // TODO
+            viewHolder.displayLecturers( module.getLecturers() );
+            viewHolder.displayStudy( module.getStudy() );
+            viewHolder.displayYear( String.valueOf( module.getLevel() ) );
         }
         else if( position == 1 )
         {
             ModuleDetailViewHolderContent viewHolder = (ModuleDetailViewHolderContent) holder;
-            // TODO
+            viewHolder.displayLectureType( module.getTypeOfClass() );
+            viewHolder.displayDescription(module.getContents());
+            viewHolder.displayGoals( module.getGoals() );
         }
         else if( position == 2 )
         {
             ModuleDetailViewHolderEffort viewHolder = (ModuleDetailViewHolderEffort) holder;
-            // TODO
+            viewHolder.displayCredits( String.valueOf( module.getEcts() ) );
+            viewHolder.displayHoursPerWeek( String.valueOf( module.getHoursLectures() ) );
+            // TODO: Handle distribution
         }
         else if( position == 3 )
         {
             ModuleDetailViewHolderExam viewHolder = (ModuleDetailViewHolderExam) holder;
-            // TODO
+            viewHolder.displayModuleID( module.getLvid() );
+            viewHolder.displayExamType( module.getTypeOfExam() );
+            viewHolder.displayLiterature( module.getLiterature() );
         }
     }
 
     @Override
     public int getItemCount()
     {
-        return 4;   // TODO: think about
+        return 4;   // TODO: think about an array
     }
 
     @Override

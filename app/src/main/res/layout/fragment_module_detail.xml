@@ -6,7 +6,7 @@
     tools:context="de.fhws.campusapp.fragment.ModuleDetailFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvLecturerList"
+        android:id="@+id/rvModuleDetails"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
