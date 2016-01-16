@@ -12,5 +12,7 @@
     <string name="card_caption_lecturer">Dozenten</string>
     <string name="card_caption_study">Studiengang</string>
     <string name="card_caption_year">Semester</string>
+    <string name="card_caption_type">Art der Veranstaltung</string>
+    <string name="card_caption_content">INHALT</string>
 
 </resources>
