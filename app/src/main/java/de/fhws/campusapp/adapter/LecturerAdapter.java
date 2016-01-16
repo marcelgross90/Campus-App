@@ -31,7 +31,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     private Handler handler;
 
     public interface OnLecturerClickListener {
-        void onLecturerClick( int position );
+        void onLecturerClick( String fullName );
     }
 
     public interface ActivateProgressBar {
@@ -144,6 +144,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         public final TextView name;
         public final ImageView pic;
         public final CardView cardView;
+        public Lecturer lecturer;
         final View view;
 
         public ViewHolder( final View itemView ) {
@@ -155,17 +156,18 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         }
 
         public void assignData( Lecturer lecturer ) {
+            this.lecturer = lecturer;
             view.setOnClickListener( this );
             name.setText( String.format( "%s %s", lecturer.getName(), lecturer.getLastName() ) );
             final Uri uri = Uri.parse( lecturer.getPictureUrl() );
-            Picasso.with( context ).load( uri ).placeholder( R.mipmap.ic_launcher ).into( pic );
+            Picasso.with( context ).load( uri ).into( pic );
         }
 
         @Override
         public void onClick( View v ) {
             int pos = getAdapterPosition();
             if( listener != null ) {
-                listener.onLecturerClick( pos );
+                listener.onLecturerClick( lecturer.getFullName() );
             }
         }
     }

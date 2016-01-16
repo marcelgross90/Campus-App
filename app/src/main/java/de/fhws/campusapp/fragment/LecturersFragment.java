@@ -1,6 +1,7 @@
 package de.fhws.campusapp.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fhws.campusapp.LecturerDetailActivity;
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.LecturerAdapter;
@@ -95,12 +97,19 @@ public class LecturersFragment extends Fragment implements
     }
 
     @Override
-    public void onLecturerClick( int position ) {
+    public void onLecturerClick( String fullName )
+    {
+        Intent intent = new Intent( getActivity(), LecturerDetailActivity.class );
+        intent.putExtra( "fullName", fullName );
+        startActivity( intent );
+
+        /* Old Fragment call
         Bundle bundle = new Bundle();
         bundle.putInt( "position", position );
         LecturerDetailFragment fragment = new LecturerDetailFragment();
         fragment.setArguments( bundle );
         MainActivity.replaceFragment( getFragmentManager(), fragment );
+        */
     }
 
     @Override

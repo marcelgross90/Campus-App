@@ -100,7 +100,8 @@ public class ModuleNetwork extends BaseNetwork {
         return url;
     }
 
-    public static Module getByLvId(String lvId){
+    public static Module getByLvId(String lvId)
+    {
         return moduleMap.get(lvId);
     }
 }

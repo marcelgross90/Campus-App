@@ -36,6 +36,9 @@ public class LecturerDetailAdapter extends RecyclerView.Adapter
         }
         else if ( viewType == 2 )
         {
+            int layout = R.layout.card_lecturer_detail_contact;
+            View v = LayoutInflater.from( parent.getContext() ).inflate( layout, parent, false );
+            result = new LecturerDetailViewHolderContact( v );
         }
         return result;
     }
@@ -58,7 +61,7 @@ public class LecturerDetailAdapter extends RecyclerView.Adapter
         {
             LecturerDetailViewHolderContact viewHolder = (LecturerDetailViewHolderContact) holder;
             viewHolder.displayEmail( lecturer.getEmail() );
-            viewHolder.displayPhone( lecturer.getPhoneNumber() );
+            viewHolder.displayPhone(lecturer.getPhoneNumber());
             viewHolder.displayWebsite( lecturer.getWebsite() );
         }
     }
