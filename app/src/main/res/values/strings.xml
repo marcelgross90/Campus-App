@@ -10,8 +10,7 @@
     <string name="level">%s. Semester</string>
     <string name="lecturer">Dozenten</string>
     <string name="modules">Module</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ects">%s Ects</string>
     <string name="card_caption_general">ALLGEMEIN</string>
     <string name="card_caption_lecturer">Dozenten</string>
     <string name="card_caption_study">Studiengang</string>
