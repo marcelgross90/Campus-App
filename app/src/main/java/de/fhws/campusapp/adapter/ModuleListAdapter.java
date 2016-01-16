@@ -100,7 +100,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
-        holder.asignData(filteredModulesDataset.get(position));
+        holder.assignData(filteredModulesDataset.get(position));
     }
 
     @Override
