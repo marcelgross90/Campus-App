@@ -13,11 +13,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import de.fhws.campusapp.R;
+import de.fhws.campusapp.entity.Module;
 
 
 public class CoursePickerFragment extends DialogFragment {
 
-    private boolean[] choice = new boolean[3];
+    private String myChoice = "";
     private RadioButton bin;
     private RadioButton win;
     private RadioButton ec;
@@ -27,15 +28,24 @@ public class CoursePickerFragment extends DialogFragment {
                               Bundle savedInstanceState ) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate( R.layout.fragment_course_picker, container, false );
-        getDialog().setTitle(R.string.card_caption_study);
+        getDialog().setTitle( R.string.card_caption_study );
         loadSavedPreferences();
         bin = (RadioButton) view.findViewById( R.id.bin );
         win = (RadioButton) view.findViewById( R.id.win );
         ec = (RadioButton) view.findViewById( R.id.ec );
 
-        bin.setChecked( choice[0] );
-        win.setChecked( choice[1] );
-        ec.setChecked( choice[2] );
+
+        switch ( myChoice ) {
+            case Module.Program.BIN:
+                bin.setChecked( true );
+                break;
+            case Module.Program.BWI:
+                win.setChecked( true );
+                break;
+            case Module.Program.BEC:
+                ec.setChecked( true );
+                break;
+        }
 
         final RadioGroup choiceGroup = (RadioGroup) view.findViewById( R.id.radioButtons );
 
@@ -45,19 +55,13 @@ public class CoursePickerFragment extends DialogFragment {
 
                 switch ( checkedId ) {
                     case R.id.bin:
-                        choice[0] = true;
-                        choice[1] = false;
-                        choice[2] = false;
+                        myChoice = Module.Program.BIN;
                         break;
                     case R.id.win:
-                        choice[0] = false;
-                        choice[1] = true;
-                        choice[2] = false;
+                        myChoice = Module.Program.BWI;
                         break;
                     case R.id.ec:
-                        choice[0] = false;
-                        choice[1] = false;
-                        choice[2] = true;
+                        myChoice = Module.Program.BEC;
                         break;
                 }
 
@@ -73,19 +77,14 @@ public class CoursePickerFragment extends DialogFragment {
 
     private void loadSavedPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        myChoice = sharedPreferences.getString( "mychoice", Module.Program.BIN );
 
-        for (int i = 0; i < choice.length; i++){
-            choice[i] = sharedPreferences.getBoolean("choice" +i, true);
-        }
     }
 
     public void savePreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( getActivity() );
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        for (int i = 0; i <  choice.length; i++){
-            editor.putBoolean("choice" +i, choice[i]);
-        }
+        editor.putString( "mychoice", myChoice );
 
         editor.apply();
     }

@@ -1,7 +1,9 @@
 package de.fhws.campusapp.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,23 +26,32 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private OnCardClickListener listener;
     private Resources res;
     private String searchTerm;
+    private String level;
+    private Context context;
 
-
-
-    public interface OnCardClickListener{
-        public void onCardClick(Module module);
+    public interface OnCardClickListener {
+        public void onCardClick( Module module );
     }
 
-    public ModuleListAdapter(Context context, OnCardClickListener listener, String level, String program) {
+    public ModuleListAdapter( Context context, OnCardClickListener listener, String level ) {
         moduleRestService = new ModuleNetwork();
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
         this.listener = listener;
         res = context.getResources();
+        this.level = level;
+        this.context = context;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
+        downloadData( program, level );
+        registerPrefChangeListener();
+    }
 
-        moduleRestService.fetchFilteredModules(program, null,
+    private void downloadData(String program, String level) {
+        moduleRestService.fetchFilteredModules( program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
+
             @Override
             public void fetchFilteredModules(List<Module> modules) {
                 filteredModulesDataset = modules;
@@ -58,32 +69,32 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         public TextView moduleEcts;
         private Module module;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            moduleCard = (CardView) itemView.findViewById(R.id.module_card);
-            moduleTitle = (TextView) itemView.findViewById(R.id.module_title_tv);
-            moduleEcts =(TextView) itemView.findViewById(R.id.module_ects_tv);
+        public ViewHolder( View itemView ) {
+            super( itemView );
+            moduleCard = (CardView) itemView.findViewById( R.id.module_card );
+            moduleTitle = (TextView) itemView.findViewById( R.id.module_title_tv );
+            moduleEcts = (TextView) itemView.findViewById( R.id.module_ects_tv );
         }
 
-        public void asignData(final Module module){
+        public void assignData( final Module module ) {
             this.module = module;
-            moduleTitle.setText(module.getLvnameGerman());
-            moduleEcts.setText(String.format(res.getString(R.string.ects), module.getEcts()));
-            moduleCard.setOnClickListener(new View.OnClickListener() {
+            moduleTitle.setText( module.getLvnameGerman() );
+            moduleEcts.setText( String.format( res.getString( R.string.ects ), module.getEcts() ) );
+            moduleCard.setOnClickListener( new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                   listener.onCardClick(module);
+                public void onClick( View view ) {
+                    listener.onCardClick( module );
                 }
-            });
+            } );
         }
     }
 
     @Override
-    public ModuleListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ModuleListAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
         View moduleCard = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.card_modules, parent, false);
-        ViewHolder vh = new ViewHolder(moduleCard);
+                .from( parent.getContext() )
+                .inflate( R.layout.card_modules, parent, false );
+        ViewHolder vh = new ViewHolder( moduleCard );
         return vh;
     }
 
@@ -121,4 +132,14 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
             notifyDataSetChanged();
         }
     }
+
+    private void registerPrefChangeListener() {
+        PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                String program = prefs.getString( "mychoice", Module.Program.BIN );
+                downloadData( program, level );
+            }
+        });
+    }
+
 }
