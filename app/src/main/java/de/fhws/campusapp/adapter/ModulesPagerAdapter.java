@@ -46,9 +46,12 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
     }
 
-    public void filter(String searchTerm){
-        for(Fragment currentFragment: fragments){
-            ((ModuleListFragment)currentFragment).filter(searchTerm);
+    public void filter(String searchTerm) {
+        for (Fragment currentFragment : fragments) {
+            ModuleListFragment moduleFragment = ((ModuleListFragment) currentFragment);
+            if (moduleFragment.isVisible()) {
+                moduleFragment.filter(searchTerm);
+            }
         }
     }
 
@@ -64,10 +67,9 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(position == 0){
+        if (position == 0) {
             return levels[0];
-        }
-        else{
+        } else {
             return String.format(res.getString(R.string.level), levels[position]);
         }
     }

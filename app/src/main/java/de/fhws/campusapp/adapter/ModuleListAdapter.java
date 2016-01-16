@@ -20,14 +20,13 @@ import de.fhws.campusapp.network.ModuleNetwork;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
 
+    private static String oldSearchTerm;
     private List<Module> filteredModulesDataset;
     private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
     private Resources res;
-    private String searchTerm;
     private String level;
-    private Context context;
 
     public interface OnCardClickListener {
         public void onCardClick( Module module );
@@ -40,27 +39,24 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.listener = listener;
         res = context.getResources();
         this.level = level;
-        this.context = context;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
-        downloadData( program, level );
-        registerPrefChangeListener();
+        downloadData(program);
     }
 
-    private void downloadData(String program, String level) {
-        moduleRestService.fetchFilteredModules( program, null,
+    private void downloadData(String program) {
+        moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
 
-            @Override
-            public void fetchFilteredModules(List<Module> modules) {
-                filteredModulesDataset = modules;
-                notifyDataSetChanged();
-                allModulesDataset.addAll(modules);
+                    @Override
+                    public void fetchFilteredModules(List<Module> modules) {
+                        filteredModulesDataset = modules;
+                        allModulesDataset.addAll(modules);
+                        filter(oldSearchTerm);
             }
         });
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -109,8 +105,12 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public void filter(String searchTerm){
+        if(searchTerm == null){
+            notifyDataSetChanged();
+            return;
+        }
         if (!searchTerm.isEmpty()) {
-
+            this.oldSearchTerm = searchTerm;
             for (Module currrentModule : allModulesDataset) {
                 String lecturerName = currrentModule.getLvnameGerman().toLowerCase();
                 int index = filteredModulesDataset.indexOf(currrentModule);
@@ -129,17 +129,12 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
             }
         } else {
             filteredModulesDataset = (List<Module>)((LinkedList<Module>) allModulesDataset).clone();
+            oldSearchTerm = null;
             notifyDataSetChanged();
         }
     }
 
-    private void registerPrefChangeListener() {
-        PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                String program = prefs.getString( "mychoice", Module.Program.BIN );
-                downloadData( program, level );
-            }
-        });
+    public void programChanged(String program){
+        downloadData(program);
     }
-
 }
