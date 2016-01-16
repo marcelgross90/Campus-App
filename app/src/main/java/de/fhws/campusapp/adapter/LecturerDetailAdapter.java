@@ -24,17 +24,17 @@ public class LecturerDetailAdapter extends RecyclerView.Adapter
 
         if ( viewType == 0 )
         {
-            // int layout = R.layout.card_module_detail_general;
-            // View v = LayoutInflater.from(parent.getContext()).inflate( layout, parent, false );
-            // result = new ModuleDetailViewHolderGeneral( v );
+            int layout = R.layout.card_lecturer_detail_subject;
+            View v = LayoutInflater.from( parent.getContext() ).inflate(layout, parent, false);
+            result = new LecturerDetailViewHolderSubject( v );
         }
         else if ( viewType == 1 )
         {
+            int layout = R.layout.card_lecturer_detail_office;
+            View v = LayoutInflater.from( parent.getContext() ).inflate( layout, parent, false );
+            result = new LecturerDetailViewHolderOffice( v );
         }
         else if ( viewType == 2 )
-        {
-        }
-        else if ( viewType == 3 )
         {
         }
         return result;
@@ -45,21 +45,28 @@ public class LecturerDetailAdapter extends RecyclerView.Adapter
     {
         if( position == 0 )
         {
-            // ModuleDetailViewHolderGeneral viewHolder = (ModuleDetailViewHolderGeneral) holder;
-            // viewHolder.displayLectureType( module.getLectureType() );
-            // viewHolder.displayLecturers( module.getLecturers() );
-            // viewHolder.displayStudy( module.getStudy() );
-            // viewHolder.displayYear( String.valueOf( module.getLevel() ) );
+            LecturerDetailViewHolderSubject viewHolder = (LecturerDetailViewHolderSubject) holder;
+            viewHolder.displaySubject( lecturer.getSubject() );
         }
         else if( position == 1 )
         {
+            LecturerDetailViewHolderOffice viewHolder = (LecturerDetailViewHolderOffice) holder;
+            viewHolder.displayRoom( lecturer.getOfficeNumber() );
+            viewHolder.displayAddress( lecturer.getStreet() + "\n" + lecturer.getTown() );
+        }
+        else if( position == 2 )
+        {
+            LecturerDetailViewHolderContact viewHolder = (LecturerDetailViewHolderContact) holder;
+            viewHolder.displayEmail( lecturer.getEmail() );
+            viewHolder.displayPhone( lecturer.getPhoneNumber() );
+            viewHolder.displayWebsite( lecturer.getWebsite() );
         }
     }
 
     @Override
     public int getItemCount()
     {
-        return 0;
+        return 3;
     }
 
     @Override

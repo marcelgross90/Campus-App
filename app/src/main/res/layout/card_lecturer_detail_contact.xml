@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/card_caption_general"
+        android:text="@string/card_caption_contact"
         android:id="@+id/tvCardHeader"
         android:textSize="16sp"
         android:layout_gravity="right"
@@ -37,7 +37,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentLectureType"
+        android:id="@+id/contentEmail"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp" >
@@ -45,15 +45,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_lecture_type"
-            android:id="@+id/tvLectureTypeCaption"
+            android:text="@string/card_caption_email"
+            android:id="@+id/tvEmailCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvLectureTypeValue"
+            android:id="@+id/tvEmailValue"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -61,23 +61,23 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentLecturers"
+        android:id="@+id/contentPhone"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_lecturer"
-            android:id="@+id/tvLecturersCaption"
+            android:text="@string/card_caption_phone"
+            android:id="@+id/tvPhoneCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvLecturersValue"
+            android:id="@+id/tvPhoneValue"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -85,48 +85,23 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentStudy"
+        android:id="@+id/contentWebsite"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/card_caption_study"
-            android:id="@+id/tvStudyCaption"
+            android:text="@string/card_caption_website"
+            android:id="@+id/tvWebsiteCaption"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvStudyValue"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contentYear"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_caption_year"
-            android:id="@+id/tvYearCaption"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvYearValue"
+            android:id="@+id/tvWebsiteValue"
             android:layout_weight="1" />
     </LinearLayout>
 

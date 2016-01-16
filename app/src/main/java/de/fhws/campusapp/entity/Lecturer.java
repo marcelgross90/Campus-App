@@ -146,4 +146,9 @@ public class Lecturer {
         }
         return town;
     }
+
+    public String getSubject()
+    {
+        return Globals.INFORMATION_NOT_AVAILABLE_YET;
+    }
 }

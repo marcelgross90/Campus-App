@@ -1,6 +1,13 @@
 package de.fhws.campusapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
@@ -14,14 +21,22 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import de.fhws.campusapp.fragment.LecturersFragment;
+import de.fhws.campusapp.fragment.MapFragment;
 import de.fhws.campusapp.fragment.ModuleViewPagerFragment;
+import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static ActionBarDrawerToggle drawerToggle;
+    public static Location location;
     private FragmentManager fm;
     private DrawerLayout drawerLayout;
-    public static ActionBarDrawerToggle drawerToggle;
+    private GoogleApiClient googleApiClient;
 
     public static void replaceFragment( FragmentManager fm, Fragment fragment ) {
         fm.beginTransaction().setCustomAnimations(R.anim.slide_in_left,
@@ -38,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static void replaceFragmentPopBackStack( FragmentManager fm, Fragment fragment ) {
         fm.popBackStack();
-        replaceFragment(fm, fragment);
+        replaceFragment( fm, fragment );
     }
 
     public static void startDialogFragment(FragmentManager fragmentManager, DialogFragment fragment) {
-        fragment.show(fragmentManager, "");
+        fragment.show( fragmentManager, "" );
     }
 
     @Override
@@ -70,10 +85,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView( R.layout.activity_main );
 
         fm = getSupportFragmentManager();
+        buildGoogleApiClient( this );
 
         setUpActionBar();
         if( savedInstanceState == null ) {
             replaceFragment( fm, new LecturersFragment() );
+        }
+
+        registerNetworkChangeReceiver();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if( googleApiClient.isConnected() )
+            googleApiClient.disconnect();
+
+        try {
+            getBaseContext().unregisterReceiver(NetworkChangeReceiver.getInstance());
+        } catch (IllegalArgumentException e){
+            //die silently
         }
     }
 
@@ -92,6 +130,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private synchronized void buildGoogleApiClient( Context context )
+    {
+        googleApiClient = new GoogleApiClient.Builder( context )
+                .addConnectionCallbacks(
+                        new GoogleApiClient.ConnectionCallbacks()
+                        {
+                            @Override
+                            public void onConnected( Bundle connectionHint )
+                            {
+                                try {
+                                    location = LocationServices
+                                            .FusedLocationApi
+                                            .getLastLocation( googleApiClient );
+                                } catch ( SecurityException ex ) {
+                                }
+                            }
+
+                            @Override
+                            public void onConnectionSuspended( int cause )
+                            {
+                                googleApiClient.connect();
+                            }
+                        } )
+                .addOnConnectionFailedListener(
+                        new GoogleApiClient.OnConnectionFailedListener()
+                        {
+                            @Override
+                            public void onConnectionFailed(
+                                    ConnectionResult result )
+                            {
+                            }
+                        } )
+                .addApi( LocationServices.API )
+                .build();
+    }
+
+    private void registerNetworkChangeReceiver(){
+        IntentFilter networkFilter = new IntentFilter();
+        networkFilter.addAction( ConnectivityManager.CONNECTIVITY_ACTION);
+        getBaseContext().registerReceiver( NetworkChangeReceiver.getInstance(), networkFilter);
+    }
+
 
     private class MyDrawerClickListener implements NavigationView.OnNavigationItemSelectedListener {
         @Override
@@ -103,9 +183,12 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_modules:
                     replaceFragmentPopBackStack( fm, new ModuleViewPagerFragment() );
                     break;
+                case R.id.navigation_map:
+                    replaceFragmentPopBackStack( fm, new MapFragment() );
             }
             drawerLayout.closeDrawer( GravityCompat.START );
             return true;
         }
     }
+
 }
