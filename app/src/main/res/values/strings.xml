@@ -26,6 +26,8 @@
     <string name="card_caption_module_id">Modulnummer</string>
     <string name="card_caption_exam_type">Art der Prüfung</string>
     <string name="card_caption_literature">Literaturempfehlung</string>
+    <string name="drawer_open">Öffnen</string>
+    <string name="drawer_close">Schließen</string>
 
 
 </resources>
