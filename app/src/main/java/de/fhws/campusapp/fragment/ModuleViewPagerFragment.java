@@ -61,12 +61,12 @@ public class ModuleViewPagerFragment extends Fragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        ((ModulesPagerAdapter)viewPager.getAdapter()).filter(s);
-        return true;
+        return false;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
-        return false;
+        ((ModulesPagerAdapter)viewPager.getAdapter()).filter(s);
+        return true;
     }
 }

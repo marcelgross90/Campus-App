@@ -1,6 +1,8 @@
 package de.fhws.campusapp.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +39,10 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
 
         modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
         modulesRecyclerView.setAdapter(modulesAdapter);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String title = sharedPreferences.getString( "mychoice", Module.Program.BIN );
+        getActivity().setTitle(title);
 
         return moduleView;
     }
