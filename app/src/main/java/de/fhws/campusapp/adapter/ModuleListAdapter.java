@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,8 +75,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
                     @Override
                     public void fetchFilteredModules(List<Module> modules) {
-                        allModulesDataset.addAll(modules);
-                        filteredModulesDataset.addAll(modules);
+                        allModulesDataset = modules;
+                        filteredModulesDataset = (List<Module>) ((ArrayList<Module>) allModulesDataset).clone();
                         filter(oldSearchTerm);
                         activateProgressBar.showProgressBar(false);
                     }
@@ -152,7 +153,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
                 }
             }
         } else {
-            filteredModulesDataset = (List<Module>) ((LinkedList<Module>) allModulesDataset).clone();
+            filteredModulesDataset = (List<Module>) ((ArrayList<Module>) allModulesDataset).clone();
             oldSearchTerm = null;
             notifyDataSetChanged();
         }

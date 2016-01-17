@@ -47,7 +47,9 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
     public void filter(String searchTerm) {
         for (Fragment currentFragment : fragments) {
             ModuleListFragment moduleFragment = ((ModuleListFragment) currentFragment);
-            moduleFragment.filter(searchTerm);
+            if (moduleFragment.isVisible()) {
+                moduleFragment.filter(searchTerm);
+            }
         }
     }
 
