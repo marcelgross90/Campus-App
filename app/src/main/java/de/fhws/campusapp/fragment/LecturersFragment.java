@@ -55,7 +55,7 @@ public class LecturersFragment extends Fragment implements
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
         progressBar = (ProgressBar) view.findViewById( R.id.progressBar );
-        progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ) , android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ), android.graphics.PorterDuff.Mode.MULTIPLY );
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(
                 2,
                 StaggeredGridLayoutManager.VERTICAL );
@@ -64,26 +64,14 @@ public class LecturersFragment extends Fragment implements
         recyclerView.setItemAnimator( new DefaultItemAnimator() );
         LecturerNetwork network = new LecturerNetwork();
         showProgressBar( true );
-        if( NetworkChangeReceiver.getInstance().isConnected ) {
-            network.fetchAllLecturers( 20, 0, new LecturerNetwork.FetchAllLecturersListener() {
-                @Override
-                public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
-                    showProgressBar( false );
-                    if( newLecturers != null ) {
-                        adapter = new LecturerAdapter(
-                                new ArrayList<>( newLecturers ),
-                                R.layout.card_lecturer,
-                                getActivity(),
-                                LecturersFragment.this,
-                                LecturersFragment.this );
-                        recyclerView.setAdapter( adapter );
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            } );
-        } else {
-            Toast.makeText( getActivity(), R.string.noInternet, Toast.LENGTH_LONG ).show();
-        }
+
+        adapter = new LecturerAdapter(
+                R.layout.card_lecturer,
+                getActivity(),
+                LecturersFragment.this,
+                LecturersFragment.this );
+        recyclerView.setAdapter( adapter );
+        adapter.notifyDataSetChanged();
 
 
         return view;
@@ -106,8 +94,7 @@ public class LecturersFragment extends Fragment implements
     }
 
     @Override
-    public void onLecturerClick( String fullName )
-    {
+    public void onLecturerClick( String fullName ) {
         Intent intent = new Intent( getActivity(), LecturerDetailActivity.class );
         intent.putExtra( "fullName", fullName );
         startActivity( intent );

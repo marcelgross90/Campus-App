@@ -34,7 +34,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private final ActivateProgressBar activateProgressBar;
 
     public interface OnCardClickListener {
-        public void onCardClick( Module module );
+        void onCardClick( Module module );
     }
 
     public interface ActivateProgressBar {
