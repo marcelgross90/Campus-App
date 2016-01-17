@@ -3,10 +3,13 @@ package de.fhws.campusapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,6 +21,11 @@ import de.fhws.campusapp.network.LecturerNetwork;
 
 public class LecturerDetailActivity extends AppCompatActivity implements View.OnClickListener
 {
+    // Components
+    private ImageView imageView;
+    private RecyclerView recyclerView;
+
+    // Content
     private Lecturer lecturer;
 
     @Override
@@ -25,22 +33,43 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecturer_detail);
+
+        setUpToolbar();
+        loadComponents();
+        loadContent();
+    }
+
+    private void setUpToolbar()
+    {
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        setSupportActionBar( toolbar );
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
 
-        String lecturerFullName = getIntent().getExtras().getString("fullName");
-        this.lecturer = LecturerNetwork.getById( lecturerFullName );
+        if ( actionBar != null )
+        {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
 
-        final Uri uri = Uri.parse( lecturer.getPictureUrl() );
-        ImageView imageView = (ImageView) findViewById( R.id.ivLecturerPicture );
-        Picasso.with( getApplicationContext() ).load( uri ).into( imageView );
-
-        setTitle( lecturer.getName() + " " + lecturer.getLastName() );
-
-        RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
+    private void loadComponents()
+    {
+        imageView = (ImageView) findViewById( R.id.ivLecturerPicture );
+        recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
         recyclerView.setHasFixedSize( true );
-        recyclerView.setAdapter( new LecturerDetailAdapter( lecturer, this ) );
+    }
+
+    private void loadContent()
+    {
+        String lecturerFullName = getIntent().getExtras().getString("fullName");
+        lecturer = LecturerNetwork.getById( lecturerFullName );
+
+        final Uri uri = Uri.parse(lecturer.getPictureUrl());
+        Picasso.with( getApplicationContext() ).load( uri ).into(imageView);
+
+        setTitle(lecturer.getName() + " " + lecturer.getLastName());
+
+        recyclerView.setAdapter(new LecturerDetailAdapter(lecturer, this));
     }
 
     @Override
@@ -59,6 +88,19 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             case R.id.tvWebsiteValue :
                 openWebsite();
                 break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        switch ( item.getItemId() )
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected( item );
         }
     }
 
