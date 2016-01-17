@@ -21,6 +21,11 @@ import de.fhws.campusapp.network.LecturerNetwork;
 
 public class LecturerDetailActivity extends AppCompatActivity implements View.OnClickListener
 {
+    // Components
+    private ImageView imageView;
+    private RecyclerView recyclerView;
+
+    // Content
     private Lecturer lecturer;
 
     @Override
@@ -28,24 +33,43 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecturer_detail);
+
+        setUpToolbar();
+        loadComponents();
+        loadContent();
+    }
+
+    private void setUpToolbar()
+    {
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        setSupportActionBar( toolbar );
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+        if ( actionBar != null )
+        {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
 
-        String lecturerFullName = getIntent().getExtras().getString("fullName");
-        this.lecturer = LecturerNetwork.getById( lecturerFullName );
-
-        final Uri uri = Uri.parse( lecturer.getPictureUrl() );
-        ImageView imageView = (ImageView) findViewById( R.id.ivLecturerPicture );
-        Picasso.with( getApplicationContext() ).load( uri ).into( imageView );
-
-        setTitle( lecturer.getName() + " " + lecturer.getLastName() );
-
-        RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
+    private void loadComponents()
+    {
+        imageView = (ImageView) findViewById( R.id.ivLecturerPicture );
+        recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
         recyclerView.setHasFixedSize( true );
-        recyclerView.setAdapter( new LecturerDetailAdapter( lecturer, this ) );
+    }
+
+    private void loadContent()
+    {
+        String lecturerFullName = getIntent().getExtras().getString("fullName");
+        lecturer = LecturerNetwork.getById( lecturerFullName );
+
+        final Uri uri = Uri.parse(lecturer.getPictureUrl());
+        Picasso.with( getApplicationContext() ).load( uri ).into(imageView);
+
+        setTitle(lecturer.getName() + " " + lecturer.getLastName());
+
+        recyclerView.setAdapter(new LecturerDetailAdapter(lecturer, this));
     }
 
     @Override
