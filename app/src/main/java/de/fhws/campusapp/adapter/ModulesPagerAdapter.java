@@ -42,16 +42,12 @@ public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
             bundle.putString(Module.Level.class.getCanonicalName(), levels[i]);
             fragments[i].setArguments(bundle);
         }
-
-
     }
 
     public void filter(String searchTerm) {
         for (Fragment currentFragment : fragments) {
             ModuleListFragment moduleFragment = ((ModuleListFragment) currentFragment);
-            if (moduleFragment.isVisible()) {
-                moduleFragment.filter(searchTerm);
-            }
+            moduleFragment.filter(searchTerm);
         }
     }
 

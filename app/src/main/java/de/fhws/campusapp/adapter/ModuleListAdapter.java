@@ -34,11 +34,11 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private final ActivateProgressBar activateProgressBar;
 
     public interface OnCardClickListener {
-        void onCardClick( Module module );
+        void onCardClick(Module module);
     }
 
     public interface ActivateProgressBar {
-        void showProgressBar( boolean activate );
+        void showProgressBar(boolean activate);
     }
 
     @Override
@@ -48,10 +48,10 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     @Override
     public void networkNotAvailable() {
-        Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
+        Toast.makeText(context, R.string.noInternet, Toast.LENGTH_SHORT).show();
     }
 
-    public ModuleListAdapter( Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar ) {
+    public ModuleListAdapter(Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar) {
         moduleRestService = new ModuleNetwork();
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
@@ -60,26 +60,26 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.activateProgressBar = activateProgressBar;
         res = context.getResources();
         this.level = level;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( context );
-        program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
-        NetworkChangeReceiver.getInstance( this );
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        program = sharedPreferences.getString("mychoice", Module.Program.BIN);
+        NetworkChangeReceiver.getInstance(this);
         downloadData();
     }
 
     private void downloadData() {
-        activateProgressBar.showProgressBar( true );
-        moduleRestService.fetchFilteredModules( program, null,
+        activateProgressBar.showProgressBar(true);
+        moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
                 new ModuleNetwork.FetchFilteredModules() {
 
                     @Override
-                    public void fetchFilteredModules( List<Module> modules ) {
-                        filteredModulesDataset = modules;
-                        allModulesDataset.addAll( modules );
-                        filter( oldSearchTerm );
-                        activateProgressBar.showProgressBar( false );
+                    public void fetchFilteredModules(List<Module> modules) {
+                        allModulesDataset.addAll(modules);
+                        filteredModulesDataset.addAll(modules);
+                        filter(oldSearchTerm);
+                        activateProgressBar.showProgressBar(false);
                     }
-                } );
+                });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -89,38 +89,38 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         public TextView moduleEcts;
         private Module module;
 
-        public ViewHolder( View itemView ) {
-            super( itemView );
-            moduleCard = (CardView) itemView.findViewById( R.id.module_card );
-            moduleTitle = (TextView) itemView.findViewById( R.id.module_title_tv );
-            moduleEcts = (TextView) itemView.findViewById( R.id.module_ects_tv );
+        public ViewHolder(View itemView) {
+            super(itemView);
+            moduleCard = (CardView) itemView.findViewById(R.id.module_card);
+            moduleTitle = (TextView) itemView.findViewById(R.id.module_title_tv);
+            moduleEcts = (TextView) itemView.findViewById(R.id.module_ects_tv);
         }
 
-        public void assignData( final Module module ) {
+        public void assignData(final Module module) {
             this.module = module;
-            moduleTitle.setText( module.getLvnameGerman() );
-            moduleEcts.setText( String.format( res.getString( R.string.ects ), module.getEcts() ) );
-            moduleCard.setOnClickListener( new View.OnClickListener() {
+            moduleTitle.setText(module.getLvnameGerman());
+            moduleEcts.setText(String.format(res.getString(R.string.ects), module.getEcts()));
+            moduleCard.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    listener.onCardClick( module );
+                public void onClick(View view) {
+                    listener.onCardClick(module);
                 }
-            } );
+            });
         }
     }
 
     @Override
-    public ModuleListAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
+    public ModuleListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View moduleCard = LayoutInflater
-                .from( parent.getContext() )
-                .inflate( R.layout.card_modules, parent, false );
-        ViewHolder vh = new ViewHolder( moduleCard );
+                .from(parent.getContext())
+                .inflate(R.layout.card_modules, parent, false);
+        ViewHolder vh = new ViewHolder(moduleCard);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder( ModuleListAdapter.ViewHolder holder, int position ) {
-        holder.assignData( filteredModulesDataset.get( position ) );
+    public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
+        holder.assignData(filteredModulesDataset.get(position));
     }
 
     @Override
@@ -128,25 +128,25 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         return filteredModulesDataset.size();
     }
 
-    public void filter( String searchTerm ) {
-        if( searchTerm == null ) {
+    public void filter(String searchTerm) {
+        if (searchTerm == null) {
             notifyDataSetChanged();
             return;
         }
-        if( !searchTerm.isEmpty() ) {
+        if (!searchTerm.isEmpty()) {
             this.oldSearchTerm = searchTerm;
-            for ( Module currrentModule : allModulesDataset ) {
-                String lecturerName = currrentModule.getLvnameGerman().toLowerCase();
-                int index = filteredModulesDataset.indexOf( currrentModule );
-                if( !lecturerName.startsWith( searchTerm.toLowerCase() ) ) {
-                    if( index != -1 ) {
-                        filteredModulesDataset.remove( index );
-                        notifyItemRemoved( index );
+            for (Module currentModule : allModulesDataset) {
+                String lecturerName = currentModule.getLvnameGerman().toLowerCase();
+                int index = filteredModulesDataset.indexOf(currentModule);
+                if (!lecturerName.startsWith(searchTerm.toLowerCase())) {
+                    if (index != -1) {
+                        filteredModulesDataset.remove(index);
+                        notifyItemRemoved(index);
                     }
                 } else {
-                    if( index == -1 ) {
-                        filteredModulesDataset.add( currrentModule );
-                        notifyItemInserted( filteredModulesDataset.size() );
+                    if (index == -1) {
+                        filteredModulesDataset.add(currentModule);
+                        notifyItemInserted(filteredModulesDataset.size());
 
                     }
                 }
@@ -158,7 +158,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         }
     }
 
-    public void programChanged( String program ) {
+    public void programChanged(String program) {
         this.program = program;
         downloadData();
     }

@@ -70,17 +70,17 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             level = savedInstanceState.getString(Module.Level.class.getCanonicalName());
         }
 
-        progressBar = (ProgressBar) moduleView.findViewById( R.id.progressBar );
-        progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ), android.graphics.PorterDuff.Mode.MULTIPLY );
+        progressBar = (ProgressBar) moduleView.findViewById(R.id.progressBar);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
         modulesAdapter = new ModuleListAdapter(getContext(), this, level, this);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
-        modulesRecyclerView.setLayoutManager( modulesLayoutMgr );
+        modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
         modulesRecyclerView.setAdapter(modulesAdapter);
         setTitle();
 
@@ -132,16 +132,15 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     }
 
     @Override
-    public void showProgressBar( final boolean show ) {
+    public void showProgressBar(final boolean show) {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-
             }
         });
     }
 
-    private void fadeOut(final View v){
+    private void fadeOut(final View v) {
         Animation fadeOut = new AlphaAnimation(1, 0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(200);
@@ -161,14 +160,13 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         v.startAnimation(fadeOut);
     }
 
-    private void fadeIn(final View v){
+    private void fadeIn(final View v) {
         final Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new AccelerateInterpolator());
         fadeIn.setDuration(200);
 
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             public void onAnimationEnd(Animation animation) {
-
             }
 
             public void onAnimationRepeat(Animation animation) {
