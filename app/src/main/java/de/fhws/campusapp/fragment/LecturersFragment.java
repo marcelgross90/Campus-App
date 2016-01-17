@@ -38,6 +38,7 @@ public class LecturersFragment extends Fragment implements
 
     private ProgressBar progressBar;
     private LecturerAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate( Bundle savedInstanceState ) {
@@ -53,7 +54,7 @@ public class LecturersFragment extends Fragment implements
 
         getActivity().setTitle( getString( R.string.app_name ) );
 
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
+        recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
         progressBar = (ProgressBar) view.findViewById( R.id.progressBar );
         progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ), android.graphics.PorterDuff.Mode.MULTIPLY );
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(
@@ -62,25 +63,19 @@ public class LecturersFragment extends Fragment implements
 
         recyclerView.setLayoutManager( llm );
         recyclerView.setItemAnimator( new DefaultItemAnimator() );
-        LecturerNetwork network = new LecturerNetwork();
-        showProgressBar( true );
-
-        adapter = new LecturerAdapter(
-                R.layout.card_lecturer,
-                getActivity(),
-                LecturersFragment.this,
-                LecturersFragment.this );
-        recyclerView.setAdapter( adapter );
-        adapter.notifyDataSetChanged();
-
 
         return view;
     }
 
     @Override
     public void onStart() {
-        MainActivity.drawerToggle.setDrawerIndicatorEnabled( true );
         super.onStart();
+        adapter = new LecturerAdapter(
+                R.layout.card_lecturer,
+                getActivity(),
+                LecturersFragment.this,
+                LecturersFragment.this );
+        recyclerView.setAdapter( adapter );
     }
 
     @Override
@@ -99,13 +94,7 @@ public class LecturersFragment extends Fragment implements
         intent.putExtra( "fullName", fullName );
         startActivity( intent );
 
-        /* Old Fragment call
-        Bundle bundle = new Bundle();
-        bundle.putInt( "position", position );
-        LecturerDetailFragment fragment = new LecturerDetailFragment();
-        fragment.setArguments( bundle );
-        MainActivity.replaceFragment( getFragmentManager(), fragment );
-        */
+
     }
 
     @Override

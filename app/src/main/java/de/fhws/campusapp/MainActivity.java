@@ -33,8 +33,8 @@ import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ActionBarDrawerToggle drawerToggle;
     public static Location location;
+    public  ActionBarDrawerToggle drawerToggle;
     private FragmentManager fm;
     private DrawerLayout drawerLayout;
     private GoogleApiClient googleApiClient;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-
+        registerNetworkChangeReceiver();
         fm = getSupportFragmentManager();
         buildGoogleApiClient( this );
 
@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             replaceFragment( fm, new LecturersFragment() );
         }
 
-        registerNetworkChangeReceiver();
     }
 
     @Override
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close );
+        drawerToggle.setDrawerIndicatorEnabled( true );
         drawerLayout.setDrawerListener( drawerToggle );
         drawerToggle.syncState();
 
