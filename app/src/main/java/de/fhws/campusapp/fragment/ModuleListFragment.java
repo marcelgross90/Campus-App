@@ -4,16 +4,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ProgressBar;
 
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
@@ -22,17 +22,25 @@ import de.fhws.campusapp.entity.Module;
 
 
 public class ModuleListFragment extends Fragment implements ModuleListAdapter.OnCardClickListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener, ModuleListAdapter.ActivateProgressBar {
 
     private RecyclerView modulesRecyclerView;
     private RecyclerView.Adapter modulesAdapter;
     private RecyclerView.LayoutManager modulesLayoutMgr;
+    private ProgressBar progressBar;
     private String level;
 
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
         level = args.getString(Module.Level.class.getCanonicalName());
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Module.Level.class.getCanonicalName(), level);
     }
 
     @Override
@@ -52,13 +60,19 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
+
+        if(savedInstanceState != null){
+            level = savedInstanceState.getString(Module.Level.class.getCanonicalName());
+        }
+
+        progressBar = (ProgressBar) moduleView.findViewById( R.id.progressBar );
+        progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ), android.graphics.PorterDuff.Mode.MULTIPLY );
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
-        modulesAdapter = new ModuleListAdapter(getContext(), this, level);
+        modulesAdapter = new ModuleListAdapter(getContext(), this, level, this);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
-        modulesRecyclerView.setLayoutManager(modulesLayoutMgr);
+        modulesRecyclerView.setLayoutManager( modulesLayoutMgr );
         modulesRecyclerView.setAdapter(modulesAdapter);
-
         setTitle();
 
         return moduleView;
@@ -107,6 +121,15 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         fadeIn(modulesRecyclerView);
     }
 
+    @Override
+    public void showProgressBar( final boolean show ) {
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+
+            }
+        });
+    }
 
     private void fadeOut(final View v){
         Animation fadeOut = new AlphaAnimation(1, 0);

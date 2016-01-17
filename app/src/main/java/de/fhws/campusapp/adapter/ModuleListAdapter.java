@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.network.ModuleNetwork;
+import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
 
@@ -28,16 +30,24 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private OnCardClickListener listener;
     private Resources res;
     private String level;
+    private Context context;
+    private final ActivateProgressBar activateProgressBar;
 
     public interface OnCardClickListener {
-        public void onCardClick( Module module );
+        void onCardClick( Module module );
     }
 
-    public ModuleListAdapter( Context context, OnCardClickListener listener, String level ) {
+    public interface ActivateProgressBar {
+        void showProgressBar( boolean activate );
+    }
+
+    public ModuleListAdapter( Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar ) {
         moduleRestService = new ModuleNetwork();
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
         this.listener = listener;
+        this.context = context;
+        this.activateProgressBar = activateProgressBar;
         res = context.getResources();
         this.level = level;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -46,17 +56,24 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     private void downloadData() {
-        moduleRestService.fetchFilteredModules(program, null,
-                level, 0, 0,
-                new ModuleNetwork.FetchFilteredModules() {
+        activateProgressBar.showProgressBar( true );
+        if( NetworkChangeReceiver.getInstance().isConnected ) {
+            moduleRestService.fetchFilteredModules(program, null,
+                    level, 0, 0,
+                    new ModuleNetwork.FetchFilteredModules() {
 
-                    @Override
-                    public void fetchFilteredModules(List<Module> modules) {
-                        filteredModulesDataset = modules;
-                        allModulesDataset.addAll(modules);
-                        filter(oldSearchTerm);
-            }
-        });
+                        @Override
+                        public void fetchFilteredModules(List<Module> modules) {
+                            filteredModulesDataset = modules;
+                            allModulesDataset.addAll(modules);
+                            filter(oldSearchTerm);
+                            activateProgressBar.showProgressBar( false );
+                        }
+                    });
+        } else {
+            Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
+        }
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,7 +114,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
-        holder.assignData(filteredModulesDataset.get(position));
+        holder.assignData( filteredModulesDataset.get( position ) );
     }
 
     @Override
