@@ -63,19 +63,13 @@ public class LecturersFragment extends Fragment implements
 
         recyclerView.setLayoutManager( llm );
         recyclerView.setItemAnimator( new DefaultItemAnimator() );
-
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         adapter = new LecturerAdapter(
                 R.layout.card_lecturer,
                 getActivity(),
                 LecturersFragment.this,
                 LecturersFragment.this );
         recyclerView.setAdapter( adapter );
+        return view;
     }
 
     @Override
