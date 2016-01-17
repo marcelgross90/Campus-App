@@ -124,7 +124,10 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        String program = sharedPreferences.getString("mychoice", Module.Program.BIN);
+        String myChoice = sharedPreferences.getString("mychoice", Module.Program.BIN);
+        String program = myChoice.equals(getResources().getString(R.string.all)) ?
+                null : myChoice;
+
         setTitle();
         fadeOut(modulesRecyclerView);
         ((ModuleListAdapter) modulesRecyclerView.getAdapter()).programChanged(program);

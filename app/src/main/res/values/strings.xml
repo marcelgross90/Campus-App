@@ -27,6 +27,7 @@
     <string name="card_caption_literature">Literaturempfehlung</string>
     <string name="drawer_open">Öffnen</string>
     <string name="drawer_close">Schließen</string>
+    <string name="all">Alle</string>
 
     <string name="bin">Informatik</string>
     <string name="win">Wirtschaftsinformatik</string>

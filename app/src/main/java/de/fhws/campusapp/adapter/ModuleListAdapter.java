@@ -62,7 +62,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         res = context.getResources();
         this.level = level;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        program = sharedPreferences.getString("mychoice", Module.Program.BIN);
+        String myChoice = sharedPreferences.getString("mychoice", Module.Program.BIN);
+        program = myChoice.equals(res.getString(R.string.all)) ? null : myChoice;
+
         NetworkChangeReceiver.getInstance(this);
         downloadData();
     }
