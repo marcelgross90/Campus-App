@@ -1,18 +1,19 @@
 package de.fhws.campusapp;
 
-import android.app.AlertDialog;
+import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,21 +34,28 @@ import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ActionBarDrawerToggle drawerToggle;
     public static Location location;
+    public  ActionBarDrawerToggle drawerToggle;
     private FragmentManager fm;
     private DrawerLayout drawerLayout;
     private GoogleApiClient googleApiClient;
 
     public static void replaceFragment( FragmentManager fm, Fragment fragment ) {
-        fm.beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-                R.anim.slide_out_right,
-                R.anim.slide_in_left,
-                R.anim.slide_out_right
-        )
-                .replace(
-                        R.id.content_container,
-                        fragment, fragment.getClass().getName())
+      replaceFragment(fm, fragment, true);
+    }
+
+    public static void replaceFragment( FragmentManager fm, Fragment fragment, Boolean standardAnimation ) {
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        if(standardAnimation){
+            transaction.setCustomAnimations(R.anim.slide_in_left,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+            );
+        }
+        transaction.replace( R.id.content_container,
+                fragment, fragment.getClass().getName())
                 .addToBackStack(null)
                 .commit();
     }
@@ -83,16 +92,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-
+        registerNetworkChangeReceiver();
         fm = getSupportFragmentManager();
         buildGoogleApiClient( this );
+        checkPermissions();
 
         setUpActionBar();
         if( savedInstanceState == null ) {
             replaceFragment( fm, new LecturersFragment() );
         }
 
-        registerNetworkChangeReceiver();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String permissions[],
+            @NonNull int grantResults[] ) {
+        switch ( requestCode ) {
+            case 1:
+                if( grantResults.length > 0 && grantResults[0] !=
+                        PackageManager.PERMISSION_GRANTED ) {
+                    Toast.makeText(
+                            this,
+                            R.string.noGPS,
+                            Toast.LENGTH_SHORT ).show();
+
+                }
+                break;
+        }
     }
 
     @Override
@@ -122,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close );
+        drawerToggle.setDrawerIndicatorEnabled( true );
         drawerLayout.setDrawerListener( drawerToggle );
         drawerToggle.syncState();
 
@@ -170,6 +199,16 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter networkFilter = new IntentFilter();
         networkFilter.addAction( ConnectivityManager.CONNECTIVITY_ACTION);
         getBaseContext().registerReceiver( NetworkChangeReceiver.getInstance(), networkFilter);
+    }
+
+    private void checkPermissions() {
+        String permission = Manifest.permission.ACCESS_FINE_LOCATION;
+
+        if( ContextCompat.checkSelfPermission( this, permission ) ==
+                PackageManager.PERMISSION_GRANTED )
+            return;
+
+        ActivityCompat.requestPermissions( this, new String[]{permission}, 1 );
     }
 
 
