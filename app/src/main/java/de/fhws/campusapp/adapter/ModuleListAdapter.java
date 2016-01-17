@@ -20,7 +20,7 @@ import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.network.ModuleNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
-public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> {
+public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
 
     private static String oldSearchTerm;
     private static String program;
@@ -41,6 +41,16 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         void showProgressBar( boolean activate );
     }
 
+    @Override
+    public void networkAvailable() {
+        downloadData();
+    }
+
+    @Override
+    public void networkNotAvailable() {
+        Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
+    }
+
     public ModuleListAdapter( Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar ) {
         moduleRestService = new ModuleNetwork();
         filteredModulesDataset = new LinkedList<>();
@@ -50,30 +60,26 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.activateProgressBar = activateProgressBar;
         res = context.getResources();
         this.level = level;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( context );
         program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
+        NetworkChangeReceiver.getInstance( this );
         downloadData();
     }
 
     private void downloadData() {
         activateProgressBar.showProgressBar( true );
-        if( NetworkChangeReceiver.getInstance().isConnected ) {
-            moduleRestService.fetchFilteredModules(program, null,
-                    level, 0, 0,
-                    new ModuleNetwork.FetchFilteredModules() {
+        moduleRestService.fetchFilteredModules( program, null,
+                level, 0, 0,
+                new ModuleNetwork.FetchFilteredModules() {
 
-                        @Override
-                        public void fetchFilteredModules(List<Module> modules) {
-                            filteredModulesDataset = modules;
-                            allModulesDataset.addAll(modules);
-                            filter(oldSearchTerm);
-                            activateProgressBar.showProgressBar( false );
-                        }
-                    });
-        } else {
-            Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
-        }
-
+                    @Override
+                    public void fetchFilteredModules( List<Module> modules ) {
+                        filteredModulesDataset = modules;
+                        allModulesDataset.addAll( modules );
+                        filter( oldSearchTerm );
+                        activateProgressBar.showProgressBar( false );
+                    }
+                } );
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -113,7 +119,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ModuleListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder( ModuleListAdapter.ViewHolder holder, int position ) {
         holder.assignData( filteredModulesDataset.get( position ) );
     }
 
@@ -122,37 +128,37 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         return filteredModulesDataset.size();
     }
 
-    public void filter(String searchTerm){
-        if(searchTerm == null){
+    public void filter( String searchTerm ) {
+        if( searchTerm == null ) {
             notifyDataSetChanged();
             return;
         }
-        if (!searchTerm.isEmpty()) {
+        if( !searchTerm.isEmpty() ) {
             this.oldSearchTerm = searchTerm;
-            for (Module currrentModule : allModulesDataset) {
+            for ( Module currrentModule : allModulesDataset ) {
                 String lecturerName = currrentModule.getLvnameGerman().toLowerCase();
-                int index = filteredModulesDataset.indexOf(currrentModule);
-                if (!lecturerName.startsWith(searchTerm.toLowerCase())) {
-                    if (index != -1) {
-                        filteredModulesDataset.remove(index);
-                        notifyItemRemoved(index);
+                int index = filteredModulesDataset.indexOf( currrentModule );
+                if( !lecturerName.startsWith( searchTerm.toLowerCase() ) ) {
+                    if( index != -1 ) {
+                        filteredModulesDataset.remove( index );
+                        notifyItemRemoved( index );
                     }
                 } else {
-                    if (index == -1) {
-                        filteredModulesDataset.add(currrentModule);
-                        notifyItemInserted(filteredModulesDataset.size());
+                    if( index == -1 ) {
+                        filteredModulesDataset.add( currrentModule );
+                        notifyItemInserted( filteredModulesDataset.size() );
 
                     }
                 }
             }
         } else {
-            filteredModulesDataset = (List<Module>)((LinkedList<Module>) allModulesDataset).clone();
+            filteredModulesDataset = (List<Module>) ((LinkedList<Module>) allModulesDataset).clone();
             oldSearchTerm = null;
             notifyDataSetChanged();
         }
     }
 
-    public void programChanged(String program){
+    public void programChanged( String program ) {
         this.program = program;
         downloadData();
     }
