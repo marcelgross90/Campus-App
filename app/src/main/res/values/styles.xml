@@ -7,11 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/backgroundColor</item>
-        <item name="android:windowContentTransitions">true</item>
+        <item name="android:radioButtonStyle">@style/RadiobuttonCustom</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@color/colorAccent</item>
+
     </style>
 
     <style name="CardViewModule">
@@ -24,6 +25,11 @@
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="RadiobuttonCustom" parent="android:Widget.Holo.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/colorPrimary</item>
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
