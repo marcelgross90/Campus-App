@@ -1,10 +1,13 @@
 package de.fhws.campusapp.fragment;
 
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +26,15 @@ public class CoursePickerFragment extends DialogFragment {
     private RadioButton win;
     private RadioButton ec;
 
+    @NonNull
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState ) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate( R.layout.fragment_course_picker, container, false );
-        getDialog().setTitle( R.string.card_caption_study );
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.fragment_course_picker, null);
+        builder.setView(view);
+        builder.setTitle( R.string.card_caption_study );
         loadSavedPreferences();
         bin = (RadioButton) view.findViewById( R.id.bin );
         win = (RadioButton) view.findViewById( R.id.win );
@@ -49,11 +55,11 @@ public class CoursePickerFragment extends DialogFragment {
 
         final RadioGroup choiceGroup = (RadioGroup) view.findViewById( R.id.radioButtons );
 
-        choiceGroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener() {
+        choiceGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged( RadioGroup group, int checkedId ) {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                switch ( checkedId ) {
+                switch (checkedId) {
                     case R.id.bin:
                         myChoice = Module.Program.BIN;
                         break;
@@ -69,11 +75,11 @@ public class CoursePickerFragment extends DialogFragment {
                 savePreferences();
                 dismiss();
             }
-        } );
+        });
 
-        return view;
+
+        return builder.create();
     }
-
 
     private void loadSavedPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
