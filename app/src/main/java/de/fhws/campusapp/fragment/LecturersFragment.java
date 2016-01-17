@@ -3,7 +3,9 @@ package de.fhws.campusapp.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -26,6 +28,7 @@ import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.LecturerAdapter;
 import de.fhws.campusapp.entity.Lecturer;
 import de.fhws.campusapp.network.LecturerNetwork;
+import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class LecturersFragment extends Fragment implements
         LecturerAdapter.OnLecturerClickListener,
@@ -52,7 +55,7 @@ public class LecturersFragment extends Fragment implements
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
         progressBar = (ProgressBar) view.findViewById( R.id.progressBar );
-
+        progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ) , android.graphics.PorterDuff.Mode.MULTIPLY);
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(
                 2,
                 StaggeredGridLayoutManager.VERTICAL );
@@ -61,22 +64,27 @@ public class LecturersFragment extends Fragment implements
         recyclerView.setItemAnimator( new DefaultItemAnimator() );
         LecturerNetwork network = new LecturerNetwork();
         showProgressBar( true );
-        network.fetchAllLecturers( 20, 0, new LecturerNetwork.FetchAllLecturersListener() {
-            @Override
-            public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
-                showProgressBar( false );
-                if( newLecturers != null ) {
-                    adapter = new LecturerAdapter(
-                            new ArrayList<>( newLecturers ),
-                            R.layout.card_lecturer,
-                            getActivity(),
-                            LecturersFragment.this,
-                            LecturersFragment.this );
-                    recyclerView.setAdapter( adapter );
-                    adapter.notifyDataSetChanged();
+        if( NetworkChangeReceiver.getInstance().isConnected ) {
+            network.fetchAllLecturers( 20, 0, new LecturerNetwork.FetchAllLecturersListener() {
+                @Override
+                public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
+                    showProgressBar( false );
+                    if( newLecturers != null ) {
+                        adapter = new LecturerAdapter(
+                                new ArrayList<>( newLecturers ),
+                                R.layout.card_lecturer,
+                                getActivity(),
+                                LecturersFragment.this,
+                                LecturersFragment.this );
+                        recyclerView.setAdapter( adapter );
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        } );
+            } );
+        } else {
+            Toast.makeText( getActivity(), R.string.noInternet, Toast.LENGTH_LONG ).show();
+        }
+
 
         return view;
     }
@@ -92,6 +100,7 @@ public class LecturersFragment extends Fragment implements
         getActivity().runOnUiThread( new Runnable() {
             public void run() {
                 progressBar.setVisibility( show ? View.VISIBLE : View.INVISIBLE );
+
             }
         } );
     }

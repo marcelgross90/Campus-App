@@ -47,6 +47,7 @@
     <string name="noGPS">Möchten Sie GPS jetzt aktivieren?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="noInternet">Kein Internet verfügbar</string>
 
 
 </resources>

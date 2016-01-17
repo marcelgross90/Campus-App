@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Lecturer;
 import de.fhws.campusapp.network.LecturerNetwork;
+import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHolder> {
 
@@ -113,15 +115,18 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     }
 
     private void loadData(int startIndex, int size) {
-        LecturerNetwork network = new LecturerNetwork();
-        network.fetchAllLecturers( size, startIndex, new LecturerNetwork.FetchAllLecturersListener() {
-            @Override
-            public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
-                android.util.Log.wtf( "mgr", newLecturers.size() + "" );
-                filteredLectures.addAll( newLecturers );
-                progressBarListener.showProgressBar( false );
-            }
-        } );
+        if( NetworkChangeReceiver.getInstance().isConnected ) {
+            LecturerNetwork network = new LecturerNetwork();
+            network.fetchAllLecturers( size, startIndex, new LecturerNetwork.FetchAllLecturersListener() {
+                @Override
+                public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
+                    filteredLectures.addAll( newLecturers );
+                    progressBarListener.showProgressBar( false );
+                }
+            } );
+        } else {
+            Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
+        }
     }
 
     private void informAdapter() {
