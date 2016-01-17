@@ -7,11 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -38,6 +36,13 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         level = args.getString(Module.Level.class.getCanonicalName());
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Module.Level.class.getCanonicalName(), level);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -49,12 +54,17 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     public void onResume() {
         super.onResume();
         PreferenceManager.getDefaultSharedPreferences(getContext())
-                .registerOnSharedPreferenceChangeListener( this );
+                .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View moduleView = inflater.inflate(R.layout.fragment_module_list, container, false);
+
+        if(savedInstanceState != null){
+            level = savedInstanceState.getString(Module.Level.class.getCanonicalName());
+        }
+
         progressBar = (ProgressBar) moduleView.findViewById( R.id.progressBar );
         progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ), android.graphics.PorterDuff.Mode.MULTIPLY );
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
@@ -62,7 +72,7 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         modulesLayoutMgr = new LinearLayoutManager(getContext());
 
         modulesRecyclerView.setLayoutManager( modulesLayoutMgr );
-        modulesRecyclerView.setAdapter( modulesAdapter );
+        modulesRecyclerView.setAdapter(modulesAdapter);
         setTitle();
 
         return moduleView;
@@ -73,13 +83,13 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         Bundle args = new Bundle();
         args.putString("lvId", module.getLvid());
         ModuleDetailFragment detailFragment = new ModuleDetailFragment();
-        detailFragment.setArguments( args );
+        detailFragment.setArguments(args);
         Fragment frag = getParentFragment();
-        MainActivity.replaceFragment( frag.getFragmentManager(), detailFragment );
+        MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
     }
 
     public void filter(String searchString) {
-        ((ModuleListAdapter) modulesRecyclerView.getAdapter()).filter( searchString );
+        ((ModuleListAdapter) modulesRecyclerView.getAdapter()).filter(searchString);
     }
 
     private void setTitle() {
@@ -99,26 +109,26 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
                 break;
         }
 
-        getActivity().setTitle( title );
+        getActivity().setTitle(title);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        String program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
+        String program = sharedPreferences.getString("mychoice", Module.Program.BIN);
         setTitle();
         fadeOut(modulesRecyclerView);
         ((ModuleListAdapter) modulesRecyclerView.getAdapter()).programChanged(program);
-        fadeIn( modulesRecyclerView );
+        fadeIn(modulesRecyclerView);
     }
 
     @Override
     public void showProgressBar( final boolean show ) {
-        getActivity().runOnUiThread( new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                progressBar.setVisibility( show ? View.VISIBLE : View.INVISIBLE );
+                progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
 
             }
-        } );
+        });
     }
 
     private void fadeOut(final View v){
