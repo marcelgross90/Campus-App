@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
 
 
-public class CoursePickerFragment extends DialogFragment {
+public class CoursePickerFragment extends DialogFragment implements View.OnClickListener {
 
     private String myChoice = "";
     private RadioButton bin;
@@ -53,32 +54,30 @@ public class CoursePickerFragment extends DialogFragment {
                 break;
         }
 
-        final RadioGroup choiceGroup = (RadioGroup) view.findViewById( R.id.radioButtons );
-
-        choiceGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                switch (checkedId) {
-                    case R.id.bin:
-                        myChoice = Module.Program.BIN;
-                        break;
-                    case R.id.win:
-                        myChoice = Module.Program.BWI;
-                        break;
-                    case R.id.ec:
-                        myChoice = Module.Program.BEC;
-                        break;
-                }
-
-
-                savePreferences();
-                dismiss();
-            }
-        });
-
+        bin.setOnClickListener( this );
+        win.setOnClickListener( this );
+        ec.setOnClickListener( this );
 
         return builder.create();
+    }
+
+    @Override
+    public void onClick( View view )
+    {
+        switch ( view.getId() )
+        {
+            case R.id.bin:
+                myChoice = Module.Program.BIN;
+                break;
+            case R.id.win:
+                myChoice = Module.Program.BWI;
+                break;
+            case R.id.ec:
+                myChoice = Module.Program.BEC;
+                break;
+        }
+        savePreferences();
+        dismiss();
     }
 
     private void loadSavedPreferences(){

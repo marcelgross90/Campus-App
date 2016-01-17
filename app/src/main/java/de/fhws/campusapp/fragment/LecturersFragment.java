@@ -52,7 +52,7 @@ public class LecturersFragment extends Fragment implements
                               Bundle savedInstanceState ) {
         View view = inflater.inflate( R.layout.fragment_lecturers, container, false );
 
-        getActivity().setTitle( getString( R.string.app_name ) );
+        getActivity().setTitle( getString( R.string.lecturer ) );
 
         recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
         progressBar = (ProgressBar) view.findViewById( R.id.progressBar );

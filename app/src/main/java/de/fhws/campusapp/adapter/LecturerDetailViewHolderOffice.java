@@ -11,12 +11,14 @@ public class LecturerDetailViewHolderOffice extends RecyclerView.ViewHolder
     private TextView room;
     private TextView address;
 
-    public LecturerDetailViewHolderOffice( View itemView )
+    public LecturerDetailViewHolderOffice( View itemView, View.OnClickListener listener)
     {
         super( itemView );
 
         this.room    = (TextView) itemView.findViewById( R.id.tvRoomValue );
         this.address = (TextView) itemView.findViewById( R.id.tvAddressValue );
+
+        address.setOnClickListener( listener );
     }
 
     public void displayRoom( String room )

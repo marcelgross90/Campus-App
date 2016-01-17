@@ -34,7 +34,7 @@ public class LecturerDetailAdapter extends RecyclerView.Adapter
         {
             int layout = R.layout.card_lecturer_detail_office;
             View v = LayoutInflater.from( parent.getContext() ).inflate( layout, parent, false );
-            result = new LecturerDetailViewHolderOffice( v );
+            result = new LecturerDetailViewHolderOffice( v, listener );
         }
         else if ( viewType == 2 )
         {

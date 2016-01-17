@@ -78,7 +78,8 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tvAddressValue"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/card_link_color" />
     </LinearLayout>
 
 </LinearLayout>

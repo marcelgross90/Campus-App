@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,7 +88,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             public void onBitmapLoaded( Bitmap bitmap, Picasso.LoadedFrom from )
             {
                 Bitmap editedBitmap = Bitmap.createBitmap( bitmap, 0, 50, bitmap.getWidth(), 300 );
-                BitmapDrawable drawable = new BitmapDrawable( editedBitmap );
+                BitmapDrawable drawable = new BitmapDrawable( getResources(), editedBitmap );
                 imageView.setImageDrawable( drawable );
             }
 
@@ -100,7 +99,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             }
         };
         final Uri uri = Uri.parse( lecturer.getPictureUrl() );
-        Picasso.with( getApplicationContext() ).load( uri ).into( target );
+        Picasso.with( getApplicationContext() ).load( uri ).into(target);
     }
 
     @Override
@@ -113,11 +112,14 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.tvPhoneValue :
-                openPhonecall();
+                openPhoneCall();
                 break;
 
             case R.id.tvWebsiteValue :
                 openWebsite();
+                break;
+            case R.id.tvAddressValue :
+                openMap();
                 break;
         }
     }
@@ -143,11 +145,11 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         startActivity( intent );
     }
 
-    private void openPhonecall()
+    private void openPhoneCall()
     {
         Intent intent = new Intent( Intent.ACTION_DIAL );
         String p = "tel:" + lecturer.getPhoneNumber();
-        intent.setData( Uri.parse( p ) );
+        intent.setData(Uri.parse(p));
         startActivity( intent );
     }
 
@@ -156,5 +158,13 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent( Intent.ACTION_VIEW );
         intent.setData( Uri.parse( lecturer.getWebsite() ) );
         startActivity(intent);
+    }
+
+    private void openMap()
+    {
+        Uri gmUri = Uri.parse( "https://www.google.de/maps/place/" + lecturer.getStreet() );    // change to lecturer.getAddress() as soon as API is fixed (Sonderzeichen)
+        Intent intent = new Intent( Intent.ACTION_VIEW, gmUri );
+        intent.setPackage( "com.google.android.apps.maps" );
+        startActivity( intent );
     }
 }
