@@ -1,6 +1,9 @@
 package de.fhws.campusapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import de.fhws.campusapp.adapter.LecturerDetailAdapter;
 import de.fhws.campusapp.entity.Lecturer;
@@ -55,7 +59,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         imageView = (ImageView) findViewById( R.id.ivLecturerPicture );
         recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
-        recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize( true );
     }
 
@@ -64,12 +68,39 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         String lecturerFullName = getIntent().getExtras().getString("fullName");
         lecturer = LecturerNetwork.getById( lecturerFullName );
 
-        final Uri uri = Uri.parse(lecturer.getPictureUrl());
-        Picasso.with( getApplicationContext() ).load( uri ).into(imageView);
+        loadImage();
 
         setTitle(lecturer.getName() + " " + lecturer.getLastName());
 
         recyclerView.setAdapter(new LecturerDetailAdapter(lecturer, this));
+    }
+
+    private void loadImage()
+    {
+        Target target = new Target()
+        {
+            @Override
+            public void onPrepareLoad( Drawable placeHolderDrawable )
+            {
+
+            }
+
+            @Override
+            public void onBitmapLoaded( Bitmap bitmap, Picasso.LoadedFrom from )
+            {
+                Bitmap editedBitmap = Bitmap.createBitmap( bitmap, 0, 50, bitmap.getWidth(), 300 );
+                BitmapDrawable drawable = new BitmapDrawable( editedBitmap );
+                imageView.setImageDrawable( drawable );
+            }
+
+            @Override
+            public void onBitmapFailed( Drawable errorDrawable )
+            {
+
+            }
+        };
+        final Uri uri = Uri.parse( lecturer.getPictureUrl() );
+        Picasso.with( getApplicationContext() ).load( uri ).into( target );
     }
 
     @Override
