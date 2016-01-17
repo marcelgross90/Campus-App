@@ -19,44 +19,46 @@ import de.fhws.campusapp.adapter.ModulesPagerAdapter;
 public class ModuleViewPagerFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private ViewPager viewPager;
+
     @Override
-    public void onCreate( @Nullable Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        setHasOptionsMenu( true );
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View pagerView = inflater.inflate(R.layout.fragment_module_view_pager, container, false);
         viewPager = (ViewPager) pagerView.findViewById(R.id.module_view_pager);
 
-        viewPager.setAdapter( new ModulesPagerAdapter( getChildFragmentManager(), getActivity() ) );
+        ModulesPagerAdapter adapter = new ModulesPagerAdapter(getChildFragmentManager(), getActivity());
+        viewPager.setAdapter(adapter);
 
         return pagerView;
     }
 
     @Override
-    public void onCreateOptionsMenu( Menu menu, MenuInflater inflater ) {
-        inflater.inflate( R.menu.module_menu, menu );
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.module_menu, menu);
 
-        MenuItem searchItem = menu.findItem( R.id.action_search );
+        MenuItem searchItem = menu.findItem(R.id.action_search);
 
         SearchView searchView;
-        if( searchItem != null ) {
+        if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
             searchView.setOnQueryTextListener(this);
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected( MenuItem item ) {
-        switch ( item.getItemId() ) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_filter:
-                MainActivity.startDialogFragment( getFragmentManager(), new CoursePickerFragment() );
+                MainActivity.startDialogFragment(getFragmentManager(), new CoursePickerFragment());
                 break;
         }
 
-        return super.onOptionsItemSelected( item );
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class ModuleViewPagerFragment extends Fragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String s) {
-        ((ModulesPagerAdapter)viewPager.getAdapter()).filter(s);
+        ((ModulesPagerAdapter) viewPager.getAdapter()).filter(s);
         return true;
     }
 }
