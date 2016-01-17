@@ -11,10 +11,12 @@ import de.fhws.campusapp.entity.Lecturer;
 public class LecturerDetailAdapter extends RecyclerView.Adapter
 {
     private Lecturer lecturer;
+    private View.OnClickListener listener;
 
-    public LecturerDetailAdapter( Lecturer lecturer )
+    public LecturerDetailAdapter( Lecturer lecturer, View.OnClickListener listener )
     {
         this.lecturer = lecturer;
+        this.listener = listener;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class LecturerDetailAdapter extends RecyclerView.Adapter
         {
             int layout = R.layout.card_lecturer_detail_contact;
             View v = LayoutInflater.from( parent.getContext() ).inflate( layout, parent, false );
-            result = new LecturerDetailViewHolderContact( v );
+            result = new LecturerDetailViewHolderContact( v, listener );
         }
         return result;
     }
