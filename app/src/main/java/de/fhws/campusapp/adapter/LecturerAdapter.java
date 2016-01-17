@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.fhws.campusapp.R;
@@ -23,8 +24,7 @@ import de.fhws.campusapp.network.LecturerNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHolder> {
-
-    private ArrayList<Lecturer> filteredLectures;
+    private List<Lecturer> filteredLectures;
     private final List<Lecturer> allLecturers;
     private final int rowLayout;
     private final Context context;
@@ -40,47 +40,47 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         void showProgressBar( boolean activate );
     }
 
-    public void filter( String searchString ) {
-
-
-        if( !searchString.isEmpty() ) {
-
-            for ( Lecturer currentLecturer : allLecturers ) {
-                String lecturerName = currentLecturer.getLastName().toLowerCase();
-                if( !lecturerName.contains( searchString.toLowerCase() ) ) {
-                    if( filteredLectures.contains( currentLecturer ) ) {
-                        int index = filteredLectures.indexOf( currentLecturer );
-                        filteredLectures.remove( index );
-                        notifyItemRemoved( index );
+    public void filter(String searchTerm){
+        if(searchTerm == null){
+            notifyDataSetChanged();
+            return;
+        }
+        if (!searchTerm.isEmpty()) {
+            for (Lecturer lecturer : allLecturers) {
+                String lecturerName = lecturer.getLastName().toLowerCase();
+                int index = filteredLectures.indexOf( lecturer );
+                if (!lecturerName.startsWith( searchTerm.toLowerCase() )) {
+                    if (index != -1) {
+                        filteredLectures.remove(index);
+                        notifyItemRemoved(index);
                     }
                 } else {
-                    if( !filteredLectures.contains( currentLecturer ) ) {
-                        filteredLectures.add( filteredLectures.size(), currentLecturer );
-                        notifyItemInserted( filteredLectures.size() );
+                    if (index == -1) {
+                        filteredLectures.add(lecturer);
+                        notifyItemInserted(filteredLectures.size());
 
                     }
                 }
             }
         } else {
-            filteredLectures = new ArrayList<>( allLecturers );
+            filteredLectures = (List<Lecturer>)((LinkedList<Lecturer>) allLecturers).clone();
             notifyDataSetChanged();
         }
     }
 
     public LecturerAdapter(
-            ArrayList<Lecturer> lecturers,
             int rowLayout,
             Context context,
             OnLecturerClickListener listener,
             ActivateProgressBar progressBarListener ) {
-        this.filteredLectures = lecturers;
+        this.filteredLectures = new LinkedList<>(  );
+        this.allLecturers = new LinkedList<>(  );
         this.rowLayout = rowLayout;
         this.context = context;
         this.listener = listener;
-//        this.allLecturers = LecturerData.getInstance().getLecturers();
-        this.allLecturers = (List<Lecturer>) lecturers.clone();
         this.handler = new Handler();
         this.progressBarListener = progressBarListener;
+        downloadData();
     }
 
     @Override
@@ -92,9 +92,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder( final ViewHolder holder, final int position ) {
-        if( position >= getItemCount() - 1 ) {
-            loadMoreData( position + 1, getItemCount() );
-        }
         holder.assignData( filteredLectures.get( position ) );
     }
 
@@ -103,25 +100,19 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         return filteredLectures == null ? 0 : filteredLectures.size();
     }
 
-    private void loadMoreData( final int startIndex, final int size ) {
-        new Thread() {
-            public void run() {
-                progressBarListener.showProgressBar( true );
-                waitForSomeTime( 1000 );
-                loadData( startIndex, size );
-                informAdapter();
-            }
-        }.start();
-    }
 
-    private void loadData(int startIndex, int size) {
+
+    private void downloadData() {
+        progressBarListener.showProgressBar( true );
         if( NetworkChangeReceiver.getInstance().isConnected ) {
             LecturerNetwork network = new LecturerNetwork();
-            network.fetchAllLecturers( size, startIndex, new LecturerNetwork.FetchAllLecturersListener() {
+            network.fetchAllLecturers( 50, 0, new LecturerNetwork.FetchAllLecturersListener() {
                 @Override
                 public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
-                    filteredLectures.addAll( newLecturers );
+                    filteredLectures= newLecturers;
+                    allLecturers.addAll( newLecturers );
                     progressBarListener.showProgressBar( false );
+                    notifyDataSetChanged();
                 }
             } );
         } else {
@@ -129,21 +120,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         }
     }
 
-    private void informAdapter() {
-        handler.post( new Runnable() {
-            public void run() {
-                notifyDataSetChanged();
-            }
-        } );
-    }
-
-    private void waitForSomeTime( long time ) {
-        try {
-            Thread.sleep( time );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView name;
