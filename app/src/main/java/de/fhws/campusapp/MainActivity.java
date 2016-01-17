@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -40,14 +41,21 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient googleApiClient;
 
     public static void replaceFragment( FragmentManager fm, Fragment fragment ) {
-        fm.beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-                R.anim.slide_out_right,
-                R.anim.slide_in_left,
-                R.anim.slide_out_right
-        )
-                .replace(
-                        R.id.content_container,
-                        fragment, fragment.getClass().getName())
+      replaceFragment(fm, fragment, true);
+    }
+
+    public static void replaceFragment( FragmentManager fm, Fragment fragment, Boolean standardAnimation ) {
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        if(standardAnimation){
+            transaction.setCustomAnimations(R.anim.slide_in_left,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+            );
+        }
+        transaction.replace( R.id.content_container,
+                fragment, fragment.getClass().getName())
                 .addToBackStack(null)
                 .commit();
     }

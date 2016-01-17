@@ -1,5 +1,8 @@
 package de.fhws.campusapp.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,13 +10,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ProgressBar;
+
+import java.lang.annotation.Target;
 
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
@@ -87,6 +96,7 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         Fragment frag = getParentFragment();
         MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
     }
+
 
     public void filter(String searchString) {
         ((ModuleListAdapter) modulesRecyclerView.getAdapter()).filter(searchString);
