@@ -3,10 +3,13 @@ package de.fhws.campusapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -27,6 +30,8 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_lecturer_detail);
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
 
         String lecturerFullName = getIntent().getExtras().getString("fullName");
         this.lecturer = LecturerNetwork.getById( lecturerFullName );
@@ -59,6 +64,19 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             case R.id.tvWebsiteValue :
                 openWebsite();
                 break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        switch ( item.getItemId() )
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected( item );
         }
     }
 
