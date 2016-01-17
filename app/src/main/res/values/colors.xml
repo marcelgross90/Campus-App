@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#ffc56c0b</color>
     <color name="colorAccent">#fff</color>
     <!-- <color name="backgroundColor">#F3F4F7</color> -->
-    <color name="backgroundColor">#808080</color>
+    <color name="backgroundColor">#505050</color>
     <color name="card_link_color">#8080FF</color>
+    <color name="navigation_bar_background">#FFFFFF</color>
 </resources>
