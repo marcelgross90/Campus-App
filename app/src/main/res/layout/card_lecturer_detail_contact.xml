@@ -47,14 +47,15 @@
             android:layout_height="wrap_content"
             android:text="@string/card_caption_email"
             android:id="@+id/tvEmailCaption"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tvEmailValue"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/card_link_color" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,14 +72,15 @@
             android:layout_height="wrap_content"
             android:text="@string/card_caption_phone"
             android:id="@+id/tvPhoneCaption"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tvPhoneValue"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/card_link_color" />
     </LinearLayout>
 
     <LinearLayout
@@ -95,14 +97,15 @@
             android:layout_height="wrap_content"
             android:text="@string/card_caption_website"
             android:id="@+id/tvWebsiteCaption"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tvWebsiteValue"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/card_link_color" />
     </LinearLayout>
 
 </LinearLayout>

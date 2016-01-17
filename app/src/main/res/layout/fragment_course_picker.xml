@@ -1,25 +1,25 @@
-<RadioGroup
-    android:padding="16dp"
-    android:id="@+id/radioButtons"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    <RadioGroup
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radioButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-    <RadioButton
-        android:id="@+id/bin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bin"/>
+        <RadioButton
+            android:id="@+id/bin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bin" />
 
-    <RadioButton
-        android:id="@+id/win"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/win"/>
+        <RadioButton
+            android:id="@+id/win"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/win" />
 
-    <RadioButton
-        android:id="@+id/ec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ec"/>
-</RadioGroup>
+        <RadioButton
+            android:id="@+id/ec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ec" />
+    </RadioGroup>
