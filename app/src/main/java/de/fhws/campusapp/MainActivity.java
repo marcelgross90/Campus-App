@@ -90,18 +90,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         registerNetworkChangeReceiver();
         fm = getSupportFragmentManager();
-        buildGoogleApiClient( this );
+        buildGoogleApiClient(this);
         checkPermissions();
 
         setUpActionBar();
         if( savedInstanceState == null ) {
             replaceFragment( fm, new LecturersFragment() );
         }
-
     }
 
     @Override
@@ -150,13 +149,12 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close );
-        drawerToggle.setDrawerIndicatorEnabled( true );
-        drawerLayout.setDrawerListener( drawerToggle );
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById( R.id.navigation_view );
         navigationView.setNavigationItemSelectedListener( new MyDrawerClickListener() );
-
     }
 
     private synchronized void buildGoogleApiClient( Context context )
