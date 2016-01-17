@@ -98,13 +98,14 @@
             android:id="@+id/tvLiteratureCaption"
             android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tvLiteratureValue"
-            android:layout_weight="1" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="New Text"
+        android:id="@+id/tvLiteratureValue"
+        android:layout_weight="1" />
 
 </LinearLayout>
 
