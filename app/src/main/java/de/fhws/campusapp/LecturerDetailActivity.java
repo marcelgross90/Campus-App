@@ -130,7 +130,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         switch ( item.getItemId() )
         {
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected( item );

@@ -94,6 +94,7 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         Intent intent = new Intent( getActivity(), ModuleDetailActivity.class );
         intent.putExtra( "lvId", module.getLvid() );
         startActivity( intent );
+        getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
 

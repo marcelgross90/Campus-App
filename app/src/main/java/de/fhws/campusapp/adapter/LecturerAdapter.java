@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     }
 
     public interface OnLecturerClickListener {
-        void onLecturerClick( String fullName );
+        void onLecturerClick( String fullName, ImageView view );
     }
 
     public interface ActivateProgressBar {
@@ -139,7 +138,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         public ViewHolder( final View itemView ) {
             super( itemView );
             name = (TextView) itemView.findViewById( R.id.name_tv );
-            pic = (ImageView) itemView.findViewById( R.id.imageView );
+            pic = (ImageView) itemView.findViewById( R.id.imageViewLecturer );
             cardView = (CardView) itemView.findViewById( R.id.card );
             view = itemView;
         }
@@ -156,7 +155,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         public void onClick( View v ) {
             int pos = getAdapterPosition();
             if( listener != null ) {
-                listener.onLecturerClick( lecturer.getFullName() );
+                listener.onLecturerClick( lecturer.getFullName(), pic );
             }
         }
     }
