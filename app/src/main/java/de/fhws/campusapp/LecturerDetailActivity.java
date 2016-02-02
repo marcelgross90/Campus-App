@@ -8,11 +8,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -118,8 +121,13 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             case R.id.tvWebsiteValue :
                 openWebsite();
                 break;
+
             case R.id.tvAddressValue :
                 openMap();
+                break;
+
+            case R.id.tvSubjectValue :
+                animationShowOff();
                 break;
         }
     }
@@ -165,7 +173,14 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         Uri gmUri = Uri.parse( "https://www.google.de/maps/place/" + lecturer.getStreet() );    // change to lecturer.getAddress() as soon as API is fixed (Sonderzeichen)
         Intent intent = new Intent( Intent.ACTION_VIEW, gmUri );
-        intent.setPackage( "com.google.android.apps.maps" );
+        intent.setPackage("com.google.android.apps.maps");
         startActivity( intent );
+    }
+
+    private void animationShowOff()
+    {
+        CardView card = (CardView) findViewById( R.id.cardViewSpecial );
+        Animation animation = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.awesome_animation );
+        card.startAnimation( animation );
     }
 }

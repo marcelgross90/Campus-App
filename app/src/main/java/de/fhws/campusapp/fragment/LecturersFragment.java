@@ -19,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -89,7 +91,7 @@ public class LecturersFragment extends Fragment implements
     @Override
     public void onLecturerClick( String fullName, ImageView view ) {
         Intent intent = new Intent( getActivity(), LecturerDetailActivity.class );
-        intent.putExtra( "fullName", fullName );
+        intent.putExtra("fullName", fullName);
 
         if( android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
             ActivityOptions options = ActivityOptions
