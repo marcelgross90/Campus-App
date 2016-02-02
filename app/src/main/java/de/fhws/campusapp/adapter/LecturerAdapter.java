@@ -40,7 +40,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     @Override
     public void networkNotAvailable() {
         Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
-    }
+}
 
     public interface OnLecturerClickListener {
         void onLecturerClick( String fullName, ImageView view );

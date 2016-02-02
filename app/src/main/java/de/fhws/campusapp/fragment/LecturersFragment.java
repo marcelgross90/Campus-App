@@ -94,9 +94,10 @@ public class LecturersFragment extends Fragment implements
         if( android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(getActivity(), view, "pic");
-            getActivity().startActivity( intent, options.toBundle() );
+            getActivity().startActivity(intent, options.toBundle());
         } else {
-            getActivity().startActivity( intent );
+            getActivity().startActivity(intent);
+            getActivity().overridePendingTransition( R.anim.fade_out, R.anim.fade_in );
         }
     }
 

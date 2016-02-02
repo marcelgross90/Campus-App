@@ -131,6 +131,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         {
             case android.R.id.home:
                 onBackPressed();
+                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
                 return true;
             default:
                 return super.onOptionsItemSelected( item );
