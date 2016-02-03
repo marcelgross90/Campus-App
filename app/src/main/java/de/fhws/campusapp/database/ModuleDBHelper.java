@@ -34,7 +34,7 @@ public class ModuleDBHelper {
 
     public void createOrUpdate( Module module ) {
         Module existingModule = readModule( module.getLvid() );
-        if( existingModule == null ) {
+        if( existingModule != null ) {
             updateModuleVisited( module );
         } else {
             createNewModule( module );

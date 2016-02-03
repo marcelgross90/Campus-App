@@ -104,7 +104,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         public CardView moduleCard;
         public TextView moduleTitle;
         public CheckBox moduleCheckBox;
-        private Module module;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -114,7 +113,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         }
 
         public void assignData(final Module module) {
-            this.module = module;
             moduleTitle.setText(module.getLvnameGerman());
             moduleCheckBox.setChecked( module.isVisited() );
             moduleCard.setOnClickListener( new View.OnClickListener() {
