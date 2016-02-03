@@ -33,7 +33,7 @@ public class LecturerNetworkConnectionHandler extends NetworkConnectionHandler
                     @Override
                     public void onSuccess(Response response) {
                         List<Lecturer> lecturers = new ArrayList<>();
-                        if (successfulRequest(response.getCode())) {
+                        if (NetworkSettings.successfulRequest(response.getCode())) {
                             Type listType = new TypeToken<List<Lecturer>>() {
                             }.getType();
                             lecturers = gson.fromJson(response.getString(), listType);

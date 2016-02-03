@@ -75,7 +75,7 @@ public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
 
     private List<Module> extractModulesFromResponse(Response response) {
         List<Module> modules = new ArrayList<>();
-        if (successfulRequest(response.getCode())) {
+        if (NetworkSettings.successfulRequest(response.getCode())) {
             Type listType = new TypeToken<List<Module>>() {
             }.getType();
             modules = gson.fromJson(response.getString(), listType);

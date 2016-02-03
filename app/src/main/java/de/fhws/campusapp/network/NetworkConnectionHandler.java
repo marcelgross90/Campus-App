@@ -14,6 +14,8 @@ import java.net.URL;
 
 public class NetworkConnectionHandler
 {
+    protected final Gson gson = new Gson();
+
     interface OnResponseListener
     {
         void onSuccess( Response response );
@@ -119,38 +121,33 @@ public class NetworkConnectionHandler
         private static byte[] readResponse( InputStream in ) throws IOException
         {
             ByteArrayOutputStream data = new ByteArrayOutputStream();
-            byte buffer[] = new byte[NetworkSettings.BLOCK_SIZE];
+            byte[] buffer = new byte[NetworkSettings.BLOCK_SIZE];
 
-            for ( int bytes, length = 0; (bytes = in.read( buffer )) > -1; )
-                if( bytes > 0 ) {
+            int totalSize = 0;
+            int bytes = in.read( buffer );
+
+            while( bytes > -1 )
+            {
+                if (bytes > 0) // TODO: Really?
+                {
                     data.write( buffer, 0, bytes );
-                    length += bytes;
+                    totalSize = totalSize + bytes;
 
-                    if( length > NetworkSettings.MAXIMUM_RESPONSE_SIZE )
+                    if ( totalSize > NetworkSettings.MAXIMUM_RESPONSE_SIZE )
+                    {
                         return null;
+                    }
                 }
-
+                bytes = in.read( buffer );
+            }
             return data.toByteArray();
         }
 
         @Override
-        protected void onPostExecute( Response response ) {
+        protected void onPostExecute( Response response )
+        {
             super.onPostExecute( response );
-            listener.onSuccess(response);
+            listener.onSuccess( response );
         }
     }
-
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-
-    final Gson gson = new Gson();
-
-
-    static boolean successfulRequest( int statusCode ) {
-        return statusCode >= 200 && statusCode < 300;
-    }
-
-
 }
