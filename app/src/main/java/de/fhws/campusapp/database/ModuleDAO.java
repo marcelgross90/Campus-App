@@ -19,11 +19,11 @@ public class ModuleDAO extends SQLiteOpenHelper {
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
-    private static final String REAL_TYPE = " REAL";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_MODULE_ENTRIES =
             "CREATE TABLE IF NOT EXISTS " + ModuleEntry.TABLE_NAME + " (" +
-                    ModuleEntry._ID + INTEGER_TYPE + " PRIMARY KEY" + COMMA_SEP +
+                    ModuleEntry._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                    ModuleEntry.COLUMN_MODULE_LVID + TEXT_TYPE + " UNIQUE" + COMMA_SEP +
                     ModuleEntry.COLUMN_MODULE_ECTS + INTEGER_TYPE + COMMA_SEP +
                     ModuleEntry.COLUMN_MODULE_VISITED + INTEGER_TYPE + " )";
 
@@ -38,6 +38,7 @@ public class ModuleDAO extends SQLiteOpenHelper {
 
     public static abstract class ModuleEntry implements BaseColumns {
         public static final String TABLE_NAME = "modules";
+        public static final String COLUMN_MODULE_LVID = "lvID";
         public static final String COLUMN_MODULE_VISITED = "visited";
         public static final String COLUMN_MODULE_ECTS = "ects";
     }
@@ -62,9 +63,9 @@ public class ModuleDAO extends SQLiteOpenHelper {
 
     public long create( Module module ) {
         ContentValues values = new ContentValues();
-        values.put( ModuleEntry._ID, module.getId() );
         values.put( ModuleEntry.COLUMN_MODULE_VISITED, module.isVisited() ? 1 : 0 );
         values.put( ModuleEntry.COLUMN_MODULE_ECTS, module.getEcts() );
+        values.put( ModuleEntry.COLUMN_MODULE_LVID, module.getLvid() );
 
         return writeDb.insert( ModuleEntry.TABLE_NAME, null, values );
     }
@@ -79,7 +80,8 @@ public class ModuleDAO extends SQLiteOpenHelper {
         String[] projection = {
                 ModuleEntry._ID,
                 ModuleEntry.COLUMN_MODULE_VISITED,
-                ModuleEntry.COLUMN_MODULE_ECTS
+                ModuleEntry.COLUMN_MODULE_ECTS,
+                ModuleEntry.COLUMN_MODULE_LVID
         };
 
         Cursor c = readDb.query(
@@ -95,12 +97,13 @@ public class ModuleDAO extends SQLiteOpenHelper {
         if( c.moveToFirst() ) {
             do {
                 Module currentModule = new Module();
-                currentModule.setId(
-                        c.getInt( c.getColumnIndexOrThrow( ModuleEntry._ID ) ) );
                 currentModule.setEcts(
                         c.getInt( c.getColumnIndexOrThrow( ModuleEntry.COLUMN_MODULE_ECTS ) ) );
                 currentModule.setVisited(
                         c.getInt( c.getColumnIndexOrThrow( ModuleEntry.COLUMN_MODULE_VISITED ) ) > 0 );
+                currentModule.setLvid(
+                        c.getString( c.getColumnIndexOrThrow( ModuleEntry.COLUMN_MODULE_LVID ) ));
+                modules.add( currentModule );
             } while ( c.moveToNext() );
         }
         c.close();

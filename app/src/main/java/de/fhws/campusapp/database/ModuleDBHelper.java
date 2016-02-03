@@ -19,9 +19,9 @@ public class ModuleDBHelper {
         return instance;
     }
 
-    public Module readModule( int moduleId ) {
-        String selection = ModuleDAO.ModuleEntry._ID + " = ?";
-        String[] selectionArgs = {Integer.toString( moduleId )};
+    public Module readModule( String moduleId ) {
+        String selection = ModuleDAO.ModuleEntry.COLUMN_MODULE_LVID + " = ?";
+        String[] selectionArgs = {moduleId};
 
         List<Module> modules = moduleDAO.read( selection, selectionArgs );
 
@@ -33,14 +33,11 @@ public class ModuleDBHelper {
     }
 
     public void createOrUpdate( Module module ) {
-        String selection = ModuleDAO.ModuleEntry._ID + " = ?";
-        String[] selectionArgs = {Long.toString( module.getId() )};
-        List<Module> moduleList = moduleDAO.read( selection, selectionArgs );
-
-        if( !moduleList.isEmpty() ) {
-            updateMovieWatched( module );
+        Module existingModule = readModule( module.getLvid() );
+        if( existingModule == null ) {
+            updateModuleVisited( module );
         } else {
-            createNewMovieEntry( module );
+            createNewModule( module );
         }
     }
 
@@ -48,17 +45,18 @@ public class ModuleDBHelper {
         this.moduleDAO = ModuleDAO.getInstance( context );
     }
 
-    private int updateMovieWatched( Module module ) {
+    private int updateModuleVisited( Module module ) {
         ContentValues values = new ContentValues();
         values.put( ModuleDAO.ModuleEntry.COLUMN_MODULE_VISITED, module.isVisited() ? 1 : 0 );
         values.put( ModuleDAO.ModuleEntry.COLUMN_MODULE_ECTS, module.getEcts() );
-        String selection = ModuleDAO.ModuleEntry._ID + " LIKE ?";
-        String[] where = {String.valueOf( module.getId() )};
+        values.put( ModuleDAO.ModuleEntry.COLUMN_MODULE_LVID, module.getLvid() );
+        String selection = ModuleDAO.ModuleEntry.COLUMN_MODULE_LVID + " LIKE ?";
+        String[] where = {module.getLvid()};
 
         return moduleDAO.update( values, selection, where );
     }
 
-    private long createNewMovieEntry( Module module ) {
+    private long createNewModule( Module module ) {
         return moduleDAO.create( module );
     }
 }

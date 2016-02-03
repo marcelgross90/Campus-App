@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.fhws.campusapp.R;
+import de.fhws.campusapp.database.ModuleDBHelper;
 import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.network.ModuleNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
@@ -32,7 +35,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private Resources res;
     private Context context;
     private final ActivateProgressBar activateProgressBar;
-    private String level;
+    private final ModuleDBHelper moduleDBHelper;
 
     @Override
     public void onChange(String searchTerm) {
@@ -63,6 +66,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public ModuleListAdapter(Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar) {
+        moduleDBHelper = ModuleDBHelper.getInstance( context );
         moduleRestService = new ModuleNetwork(context);
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
@@ -98,24 +102,33 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
         public CardView moduleCard;
         public TextView moduleTitle;
-        public TextView moduleEcts;
+        public CheckBox moduleCheckBox;
+        private Module module;
 
         public ViewHolder(View itemView) {
             super(itemView);
             moduleCard = (CardView) itemView.findViewById(R.id.module_card);
             moduleTitle = (TextView) itemView.findViewById(R.id.module_title_tv);
-            moduleEcts = (TextView) itemView.findViewById(R.id.module_ects_tv);
+            moduleCheckBox = (CheckBox) itemView.findViewById(R.id.checkBox);
         }
 
         public void assignData(final Module module) {
+            this.module = module;
             moduleTitle.setText(module.getLvnameGerman());
-            moduleEcts.setText(String.format(res.getString(R.string.ects), module.getEcts()));
-            moduleCard.setOnClickListener(new View.OnClickListener() {
+            moduleCheckBox.setChecked( module.isVisited() );
+            moduleCard.setOnClickListener( new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    listener.onCardClick(module);
+                public void onClick( View view ) {
+                    listener.onCardClick( module );
                 }
-            });
+            } );
+            moduleCheckBox.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
+                    module.setVisited( isChecked );
+                    moduleDBHelper.createOrUpdate( module );
+                }
+            } );
         }
     }
 
