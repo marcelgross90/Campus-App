@@ -30,11 +30,11 @@ public class BaseNetwork {
 
     private static final int MAXIMUM_RESPONSE_SIZE = 1048576;
 
-    BaseNetwork( String host ) {
+    protected BaseNetwork( String host ) {
         this.host = host;
     }
 
-    static void requestAsync( final Request request, final OnResultListener listener ) {
+    protected void requestAsync( final Request request, final OnResultListener listener ) {
         new AsyncTask<Request, Void, Response>() {
             @Override
             protected Response doInBackground( Request... params ) {
@@ -92,11 +92,11 @@ public class BaseNetwork {
         }.execute( request );
     }
 
-    static boolean successfulRequest( int statusCode ) {
+    protected boolean successfulRequest( int statusCode ) {
         return statusCode >= 200 && statusCode < 300;
     }
 
-    private static byte[] readResponse( InputStream in ) throws IOException {
+    private byte[] readResponse( InputStream in ) throws IOException {
         ByteArrayOutputStream data = new ByteArrayOutputStream();
         byte buffer[] = new byte[4096];
 
@@ -112,7 +112,7 @@ public class BaseNetwork {
         return data.toByteArray();
     }
 
-    protected static class Response {
+    protected class Response {
         private final int code;
         private final byte data[];
         private final Map<String, List<String>> headers;
@@ -144,7 +144,7 @@ public class BaseNetwork {
         }
     }
 
-    static class Request {
+    protected class Request {
         private String url;
         private String method;
         private String[] headers;
