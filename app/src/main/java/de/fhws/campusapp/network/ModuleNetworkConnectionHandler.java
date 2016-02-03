@@ -9,7 +9,7 @@ import java.util.List;
 
 import de.fhws.campusapp.entity.Module;
 
-public class ModuleNetwork extends BaseNetwork {
+public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
 
     private static HashMap<String, Module> moduleMap = new HashMap<String, Module>();
 
@@ -21,25 +21,25 @@ public class ModuleNetwork extends BaseNetwork {
         void fetchFilteredModules(List<Module> modules);
     }
 
-    public ModuleNetwork() {
-        super("http://193.175.31.146:8080/fiwincoming/api");    // TODO: Refactor this
-    }
-
     public void fetchAllModules(int size, int offset, final FetchAllModulesListener listener) {
-        String url = host + "/modules?size=" + size + "&offset=" + offset;
+        String url = "http://193.175.31.146:8080/fiwincoming/api/modules?size=" + size + "&offset=" + offset;
         requestAsync(
                 new Request(
                         url,
-                        METHOD_GET,
+                        NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
-                new OnResultListener() {
+                new OnResponseListener() {
                     @Override
-                    public void onResultListener(Response response) {
+                    public void onSuccess(Response response) {
 
                         listener.fetchAllModules(extractModulesFromResponse(response));
                     }
+
+                    @Override
+                    public void onError() {}
+
                 });
     }
 
@@ -55,16 +55,20 @@ public class ModuleNetwork extends BaseNetwork {
         requestAsync(
                 new Request(
                         url,
-                        METHOD_GET,
+                        NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
-                new OnResultListener() {
+                new OnResponseListener() {
                     @Override
-                    public void onResultListener(Response response) {
+                    public void onSuccess(Response response) {
 
                         listener.fetchFilteredModules(extractModulesFromResponse(response));
                     }
+
+                    @Override
+                    public void onError() {}
+
                 });
 
     }
@@ -88,7 +92,7 @@ public class ModuleNetwork extends BaseNetwork {
                                    int size,
                                    int offset) {
 
-        String url = host + "/modules?size=" + size + "&offset=" + offset;
+        String url = "http://193.175.31.146:8080/fiwincoming/api/modules?size=" + size + "&offset=" + offset;
 
         if (program != null)
             url += "&program=" + program;

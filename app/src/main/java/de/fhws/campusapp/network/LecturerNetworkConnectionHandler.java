@@ -10,7 +10,7 @@ import java.util.Map;
 
 import de.fhws.campusapp.entity.Lecturer;
 
-public class LecturerNetwork extends BaseNetwork
+public class LecturerNetworkConnectionHandler extends NetworkConnectionHandler
 {
     private static HashMap<String, Lecturer> lecturerMap = new HashMap<String, Lecturer>();
 
@@ -19,24 +19,19 @@ public class LecturerNetwork extends BaseNetwork
         void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumberOfLecturers );
     }
 
-    public LecturerNetwork()
-    {
-        super("http://193.175.31.146:8080/fiwincoming/api");  // TODO: Refactor this
-    }
-
     public void fetchAllLecturers( int size, int offset, final FetchAllLecturersListener listener )
     {
-        String url = host + "/lecturers?size=" + size + "&offset=" + offset;
+        String url = "http://193.175.31.146:8080/fiwincoming/api/lecturers?size=" + size + "&offset=" + offset;
         requestAsync(
                 new Request(
                         url,
-                        METHOD_GET,
+                        NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
-                new OnResultListener() {
+                new OnResponseListener() {
                     @Override
-                    public void onResultListener(Response response) {
+                    public void onSuccess(Response response) {
                         List<Lecturer> lecturers = new ArrayList<>();
                         if (successfulRequest(response.getCode())) {
                             Type listType = new TypeToken<List<Lecturer>>() {
@@ -50,6 +45,8 @@ public class LecturerNetwork extends BaseNetwork
                             listener.fetchAllLecturers(lecturers, num);
                         }
                     }
+                    @Override
+                    public void onError() {}
                 });
     }
 

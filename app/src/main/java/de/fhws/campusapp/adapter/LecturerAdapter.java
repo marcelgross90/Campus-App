@@ -19,7 +19,7 @@ import java.util.List;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Lecturer;
-import de.fhws.campusapp.network.LecturerNetwork;
+import de.fhws.campusapp.network.LecturerNetworkConnectionHandler;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
@@ -114,8 +114,8 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
 
     private void downloadData() {
         progressBarListener.showProgressBar( true );
-        LecturerNetwork network = new LecturerNetwork();
-        network.fetchAllLecturers( 50, 0, new LecturerNetwork.FetchAllLecturersListener() {
+        LecturerNetworkConnectionHandler network = new LecturerNetworkConnectionHandler();
+        network.fetchAllLecturers( 50, 0, new LecturerNetworkConnectionHandler.FetchAllLecturersListener() {
             @Override
             public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
                 filteredLectures = newLecturers;

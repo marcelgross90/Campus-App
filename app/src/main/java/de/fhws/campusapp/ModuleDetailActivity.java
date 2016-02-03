@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import de.fhws.campusapp.adapter.ModuleDetailAdapter;
 import de.fhws.campusapp.entity.Module;
-import de.fhws.campusapp.network.ModuleNetwork;
+import de.fhws.campusapp.network.ModuleNetworkConnectionHandler;
 
 public class ModuleDetailActivity extends AppCompatActivity
 {
@@ -74,7 +74,7 @@ public class ModuleDetailActivity extends AppCompatActivity
         Intent intent = getIntent();
         String lvId = intent.getStringExtra( "lvId" );
 
-        module = ModuleNetwork.getByLvId( lvId );
+        module = ModuleNetworkConnectionHandler.getByLvId(lvId);
     }
 
     private void fillView()
