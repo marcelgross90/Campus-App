@@ -85,7 +85,7 @@ public class ModuleNetwork extends BaseNetwork {
             modules = gson.fromJson(response.getString(), listType);
             for(Module currentModule: modules){
                 for ( Module currentDBModule : moduleDBHelper.readAllModules() ) {
-                    if( currentModule.getId() == currentDBModule.getId() ) {
+                    if( currentModule.getLvid().equals( currentDBModule.getLvid() ) ) {
                         currentModule.setVisited( currentDBModule.isVisited() );
                         break;
                     }
