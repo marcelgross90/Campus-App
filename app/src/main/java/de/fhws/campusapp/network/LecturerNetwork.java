@@ -1,9 +1,10 @@
 package de.fhws.campusapp.network;
 
+import android.util.Log;
+
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,10 @@ public class LecturerNetwork extends ResponseInterpreter implements NetworkConne
                 lecturerMap.put(lecturers.get(i).getFullName(), lecturers.get(i));
             }
             int numberOfLecturers = getTotalNumberOfLecturers( response );  // TODO: Is this really necessary?
+            Log.d("NUMBER", "" + numberOfLecturers);
+            Log.d("NUMBER", "" + lecturers.size());
+
+
             listener.onLecturersFetched( lecturers, numberOfLecturers );
         }
     }
