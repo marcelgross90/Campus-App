@@ -36,6 +36,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private Context context;
     private final ActivateProgressBar activateProgressBar;
     private final ModuleDBHelper moduleDBHelper;
+    private String level;
 
     @Override
     public void onChange(String searchTerm) {
