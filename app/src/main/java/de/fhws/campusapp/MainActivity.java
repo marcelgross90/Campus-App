@@ -30,6 +30,7 @@ import com.google.android.gms.location.LocationServices;
 import de.fhws.campusapp.fragment.LecturersFragment;
 import de.fhws.campusapp.fragment.MapFragment;
 import de.fhws.campusapp.fragment.ModuleViewPagerFragment;
+import de.fhws.campusapp.fragment.WebViewFragment;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class MainActivity extends AppCompatActivity {
@@ -222,6 +223,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_map:
                     replaceFragmentPopBackStack( fm, new MapFragment() );
+                    break;
+                case R.id.elearning:
+                    replaceFragmentPopBackStack( fm, WebViewFragment.newInstance( getString( R.string.elearning ), "https://elearning.fhws.de/" ) );
+                    break;
+                case R.id.student_portal:
+                    replaceFragmentPopBackStack( fm, WebViewFragment.newInstance( getString( R.string.student_portal ), "https://studentenportal.fhws.de" ) );
+                    break;
             }
             drawerLayout.closeDrawer( GravityCompat.START );
             return true;

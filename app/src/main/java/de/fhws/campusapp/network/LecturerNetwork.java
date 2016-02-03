@@ -21,7 +21,7 @@ public class LecturerNetwork extends BaseNetwork
 
     public LecturerNetwork()
     {
-        super("http://193.175.31.146:8080/fiwincoming/api");  // TODO: Refactor this
+        super("http://193.175.31.146:8080/fiwincoming/api");
     }
 
     public void fetchAllLecturers( int size, int offset, final FetchAllLecturersListener listener )

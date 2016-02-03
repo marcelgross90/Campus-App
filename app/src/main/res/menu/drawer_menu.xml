@@ -3,4 +3,6 @@
     <item android:id="@+id/navigation_lecturers" android:title="@string/lecturer" android:icon="@drawable/ic_lecturers" />
     <item android:id="@+id/navigation_modules" android:title="@string/modules" android:icon="@drawable/ic_modules" />
     <item android:id="@+id/navigation_map" android:title="@string/map" android:icon="@drawable/ic_map" />
+    <item android:id="@+id/elearning" android:title="@string/elearning" android:icon="@drawable/ic_web"/>
+    <item android:id="@+id/student_portal" android:title="@string/student_portal" android:icon="@drawable/ic_web"/>
 </menu>
