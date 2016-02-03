@@ -13,9 +13,75 @@ import de.fhws.campusapp.adapter.ModuleDetailAdapter;
 import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.network.ModuleNetwork;
 
-public class ModuleDetailActivity extends AppCompatActivity {
+public class ModuleDetailActivity extends AppCompatActivity
+{
+    // Components
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
 
+    // Content
     private Module module;
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState )
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_module_detail);
+
+        loadComponents();
+        setUpView();
+
+        loadContent();
+        fillView();
+    }
+
+    private void loadComponents()
+    {
+        toolbar      = (Toolbar)      findViewById( R.id.toolbar );
+        recyclerView = (RecyclerView) findViewById( R.id.rvModuleDetails );
+    }
+
+    private void setUpView()
+    {
+        setUpToolbar();
+        setUpRecyclerView();
+    }
+
+    private void setUpToolbar()
+    {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if ( actionBar != null )
+        {
+            actionBar.setDisplayHomeAsUpEnabled( true );
+        }
+    }
+
+    private void setUpRecyclerView()
+    {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize( true );
+    }
+
+    private void loadContent()
+    {
+        loadModule();
+    }
+
+    private void loadModule()
+    {
+        Intent intent = getIntent();
+        String lvId = intent.getStringExtra( "lvId" );
+
+        module = ModuleNetwork.getByLvId( lvId );
+    }
+
+    private void fillView()
+    {
+        setTitle(module.getLvnameGerman());
+        recyclerView.setAdapter(new ModuleDetailAdapter(module));
+    }
 
     @Override
     public boolean onOptionsItemSelected( MenuItem item )
@@ -28,37 +94,6 @@ public class ModuleDetailActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected( item );
-        }
-    }
-
-    @Override
-    protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_module_detail );
-
-        Intent intent = getIntent();
-        String lvId = intent.getStringExtra( "lvId" );
-
-        module = ModuleNetwork.getByLvId( lvId );
-
-        setUpToolbar();
-
-        setTitle( module.getLvnameGerman() );
-        RecyclerView recyclerView = (RecyclerView) findViewById( R.id.rvModuleDetails );
-        recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter( new ModuleDetailAdapter( module ) );
-    }
-
-    private void setUpToolbar()
-    {
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        setSupportActionBar( toolbar );
-        ActionBar actionBar = getSupportActionBar();
-
-        if ( actionBar != null )
-        {
-            actionBar.setDisplayHomeAsUpEnabled( true );
         }
     }
 }

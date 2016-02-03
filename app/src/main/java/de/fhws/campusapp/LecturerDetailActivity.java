@@ -48,12 +48,6 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         fillView();
     }
 
-    private void setUpView()
-    {
-        setUpToolbar();
-        setUpRecyclerView();
-    }
-
     private void loadComponents()
     {
         toolbar      = (Toolbar)      findViewById( R.id.toolbar );
@@ -61,9 +55,15 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
     }
 
+    private void setUpView()
+    {
+        setUpToolbar();
+        setUpRecyclerView();
+    }
+
     private void setUpToolbar()
     {
-        setSupportActionBar( toolbar );
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
         if ( actionBar != null )
@@ -75,7 +75,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     private void setUpRecyclerView()
     {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize( true );
     }
 
     private void loadContent()
@@ -118,6 +118,20 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     }
 
     @Override
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        switch ( item.getItemId() )
+        {
+            case android.R.id.home:
+                onBackPressed();
+                overridePendingTransition( R.anim.fade_out, R.anim.fade_in );
+                return true;
+            default:
+                return super.onOptionsItemSelected( item );
+        }
+    }
+
+    @Override
     public void onClick( View view )
     {
         switch ( view.getId() )
@@ -141,20 +155,6 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             case R.id.tvSubjectValue :
                 animationShowOff();         // TODO: Delete after exam
                 break;
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected( MenuItem item )
-    {
-        switch ( item.getItemId() )
-        {
-            case android.R.id.home:
-                onBackPressed();
-                overridePendingTransition( R.anim.fade_out, R.anim.fade_in );
-                return true;
-            default:
-                return super.onOptionsItemSelected( item );
         }
     }
 
