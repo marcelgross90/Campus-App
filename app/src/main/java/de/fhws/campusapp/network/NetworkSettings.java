@@ -8,4 +8,5 @@ public class NetworkSettings
     static final String METHOD_DELETE = "DELETE";
 
     static final int MAXIMUM_RESPONSE_SIZE = 1048576;
+    static final int BLOCK_SIZE            = 4096;
 }

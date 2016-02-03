@@ -9,11 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 public class NetworkConnectionHandler
 {
@@ -41,49 +38,99 @@ public class NetworkConnectionHandler
         protected Response doInBackground( Request... params )
         {
             HttpURLConnection connection = null;
+            Response result = new Response( HttpURLConnection.HTTP_INTERNAL_ERROR, new byte[]{}, null );    // TODO: Is fake Response with byte[] really necessary? What about null?
 
-            try {
-                connection = (HttpURLConnection)
-                        (new URL( params[0].getUrl() )).openConnection();
+            try
+            {
+                Request request = params[0];
+                URL url = new URL( request.getUrl() );
+                connection = (HttpURLConnection) url.openConnection();
 
-                if( params[0].getMethod() != null )
-                    connection.setRequestMethod( params[0].getMethod() );
+                handleRequest( connection, request );
 
-                for ( int n = params[0].getHeaders() != null
-                        ? params[0].getHeaders().length : 0;
-                      n-- > 0; ) {
-                    String tokens[] = params[0].getHeaders()[n].split( ":" );
-
-                    if( tokens.length != 2 )
-                        continue;
-
-                    connection.setRequestProperty( tokens[0], tokens[1] );
-                }
-
-                if( params[0].getData() != null ) {
-                    connection.setDoOutput( true );
-
-                    OutputStreamWriter writer =
-                            new OutputStreamWriter( connection.getOutputStream() );
-                    writer.write( params[0].getData() );
-                    writer.flush();
-                }
-
-                return new Response(
-                        connection.getResponseCode(),
-                        readResponse(
-                                new BufferedInputStream( connection.getInputStream() ) ),
-                        connection.getHeaderFields()
-                );
-            } catch ( IOException e ) {
-                // fall through
-            } finally {
-                if( connection != null )
-                    connection.disconnect();
+                result = getResponse( connection );
             }
+            catch ( Exception e )
+            {
+                listener.onError();
+                e.printStackTrace();
+            }
+            finally
+            {
+                if( connection != null )
+                {
+                    connection.disconnect();
+                }
+            }
+            return result;
+        }
 
-            return new Response(
-                    500, new byte[]{}, null);
+        private void handleRequest(HttpURLConnection connection, Request request) throws Exception
+        {
+            setHTTPMethod( connection, request );
+            addHeaders( connection, request );
+            addData( connection, request );
+        }
+
+        private void setHTTPMethod(HttpURLConnection connection, Request request) throws Exception
+        {
+            if( request.getMethod() != null )
+            {
+                connection.setRequestMethod( request.getMethod() );
+            }
+        }
+
+        private void addHeaders( HttpURLConnection connection, Request request )
+        {
+            String[] headers = request.getHeaders();
+
+            if ( headers != null )
+            {
+                for ( String header : headers )
+                {
+                    String[] tokens = header.split( ":" );
+
+                    if ( tokens.length == 2 )
+                    {
+                        connection.setRequestProperty( tokens[0], tokens[1] );
+                    }
+                }
+            }
+        }
+
+        private void addData( HttpURLConnection connection, Request request ) throws Exception
+        {
+            if( request.getData() != null )
+            {
+                connection.setDoOutput( true );
+                OutputStreamWriter writer = new OutputStreamWriter( connection.getOutputStream() );
+                writer.write( request.getData() );
+                writer.flush();
+            }
+        }
+
+        private Response getResponse( HttpURLConnection connection ) throws Exception
+        {
+            return new Response( connection.getResponseCode(),
+                       readResponse( new BufferedInputStream( connection.getInputStream() ) ),
+                       connection.getHeaderFields() );
+        }
+
+        private static byte[] readResponse( InputStream in ) throws IOException
+        {
+            ByteArrayOutputStream data = new ByteArrayOutputStream();
+            byte buffer[] = new byte[NetworkSettings.BLOCK_SIZE];
+
+            for ( int bytes, length = 0; (bytes = in.read( buffer )) > -1; )
+                if( bytes > 0 ) {
+                    data.write( buffer, 0, bytes );
+                    length += bytes;
+
+                    if( length > NetworkSettings.MAXIMUM_RESPONSE_SIZE )
+                        return null;
+                }
+
+            return data.toByteArray();
         }
 
         @Override
@@ -105,20 +152,5 @@ public class NetworkConnectionHandler
         return statusCode >= 200 && statusCode < 300;
     }
 
-    private static byte[] readResponse( InputStream in ) throws IOException {
-        ByteArrayOutputStream data = new ByteArrayOutputStream();
-        byte buffer[] = new byte[4096];
-
-        for ( int bytes, length = 0; (bytes = in.read( buffer )) > -1; )
-            if( bytes > 0 ) {
-                data.write( buffer, 0, bytes );
-                length += bytes;
-
-                if( length > NetworkSettings.MAXIMUM_RESPONSE_SIZE )
-                    return null;
-            }
-
-        return data.toByteArray();
-    }
 
 }
