@@ -26,7 +26,6 @@ public class CoursePickerFragment extends DialogFragment {
     private RadioButton bin;
     private RadioButton win;
     private RadioButton ec;
-    private RadioButton all;
 
     @NonNull
     @Override
@@ -41,7 +40,6 @@ public class CoursePickerFragment extends DialogFragment {
         bin = (RadioButton) view.findViewById( R.id.bin );
         win = (RadioButton) view.findViewById( R.id.win );
         ec = (RadioButton) view.findViewById( R.id.ec );
-        all = (RadioButton) view.findViewById(R.id.all);
 
 
         switch ( myChoice ) {
@@ -53,9 +51,6 @@ public class CoursePickerFragment extends DialogFragment {
                 break;
             case Module.Program.BEC:
                 ec.setChecked( true );
-                break;
-            case "Alle":
-                all.setChecked( true );
                 break;
         }
 
@@ -74,9 +69,6 @@ public class CoursePickerFragment extends DialogFragment {
                         break;
                     case R.id.ec:
                         myChoice = Module.Program.BEC;
-                        break;
-                    case R.id.all:
-                        myChoice = getResources().getString(R.string.all);
                         break;
                 }
 

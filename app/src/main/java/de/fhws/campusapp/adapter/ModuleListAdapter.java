@@ -23,7 +23,7 @@ import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
 
-    private static String oldSearchTerm;
+    public static String oldSearchTerm;
     private static String program;
     private List<Module> filteredModulesDataset;
     private List<Module> allModulesDataset;
@@ -61,9 +61,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.activateProgressBar = activateProgressBar;
         res = context.getResources();
         this.level = level;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String myChoice = sharedPreferences.getString("mychoice", Module.Program.BIN);
-        program = myChoice.equals(res.getString(R.string.all)) ? null : myChoice;
 
         NetworkChangeReceiver.getInstance(this);
         downloadData();
@@ -78,7 +75,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
                     @Override
                     public void fetchFilteredModules(List<Module> modules) {
                         allModulesDataset = modules;
-                        filteredModulesDataset = (List<Module>) ((ArrayList<Module>) allModulesDataset).clone();
+
                         filter(oldSearchTerm);
                         activateProgressBar.showProgressBar(false);
                     }
@@ -90,7 +87,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         public CardView moduleCard;
         public TextView moduleTitle;
         public TextView moduleEcts;
-        private Module module;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -100,7 +96,6 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         }
 
         public void assignData(final Module module) {
-            this.module = module;
             moduleTitle.setText(module.getLvnameGerman());
             moduleEcts.setText(String.format(res.getString(R.string.ects), module.getEcts()));
             moduleCard.setOnClickListener(new View.OnClickListener() {
@@ -132,12 +127,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public void filter(String searchTerm) {
-        if (searchTerm == null) {
-            notifyDataSetChanged();
-            return;
-        }
-        if (!searchTerm.isEmpty()) {
-            this.oldSearchTerm = searchTerm;
+
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            oldSearchTerm = searchTerm;
             for (Module currentModule : allModulesDataset) {
                 String lecturerName = currentModule.getLvnameGerman().toLowerCase();
                 int index = filteredModulesDataset.indexOf(currentModule);
@@ -155,7 +147,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
                 }
             }
         } else {
-            filteredModulesDataset = (List<Module>) ((ArrayList<Module>) allModulesDataset).clone();
+            filteredModulesDataset.clear();
+            filteredModulesDataset.addAll(allModulesDataset);
             oldSearchTerm = null;
             notifyDataSetChanged();
         }

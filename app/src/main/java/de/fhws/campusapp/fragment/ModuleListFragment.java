@@ -39,6 +39,9 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     private ProgressBar progressBar;
     private String level;
 
+    public ModuleListFragment() {
+    }
+
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
@@ -75,7 +78,11 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         }
 
         progressBar = (ProgressBar) moduleView.findViewById(R.id.progressBar);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+        //colors progressBar
+        progressBar.getIndeterminateDrawable().setColorFilter(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                android.graphics.PorterDuff.Mode.MULTIPLY
+        );
         modulesRecyclerView = (RecyclerView) moduleView.findViewById(R.id.module_list_rv);
         modulesAdapter = new ModuleListAdapter(getContext(), this, level, this);
         modulesLayoutMgr = new LinearLayoutManager(getContext());
@@ -136,11 +143,13 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
 
     @Override
     public void showProgressBar(final boolean show) {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-            }
-        });
+        if (isAdded()) {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+                }
+            });
+        }
     }
 
     private void fadeOut(final View v) {

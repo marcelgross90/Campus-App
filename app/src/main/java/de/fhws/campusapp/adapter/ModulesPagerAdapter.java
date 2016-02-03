@@ -14,61 +14,72 @@ import de.fhws.campusapp.fragment.ModuleListFragment;
 
 public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
-    private Fragment[] fragments;
-    private String[] levels;
     private Resources res;
 
     public ModulesPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         res = context.getResources();
-        initiatePagerAttr(Module.Program.BIN);
     }
 
-    private void initiatePagerAttr(String program) {
-        levels = new String[5];
-        fragments = new Fragment[5];
-
-        levels[0] = res.getString(R.string.overview);
-        levels[1] = Module.Level.ONE;
-        levels[2] = Module.Level.TWO;
-        levels[3] = Module.Level.THREE;
-        levels[4] = Module.Level.FOUR;
-
-        fragments[0] = new ModuleListFragment();
-        for (int i = 1; i < fragments.length; ++i) {
-            fragments[i] = new ModuleListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(Module.Program.class.getCanonicalName(), program);
-            bundle.putString(Module.Level.class.getCanonicalName(), levels[i]);
-            fragments[i].setArguments(bundle);
-        }
-    }
-
-    public void filter(String searchTerm) {
-        for (Fragment currentFragment : fragments) {
-            ModuleListFragment moduleFragment = ((ModuleListFragment) currentFragment);
-            if (moduleFragment.isVisible()) {
-                moduleFragment.filter(searchTerm);
-            }
-        }
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments[position];
+        Fragment moduleFragment = new ModuleListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Module.Program.class.getCanonicalName(), Module.Program.BIN);
+        String module = null;
+        switch (position) {
+            case 0:
+                module =  null;
+                break;
+            case 1:
+                module = Module.Level.ONE;
+                break;
+            case 2:
+                module = Module.Level.TWO;
+                break;
+            case 3:
+                module = Module.Level.THREE;
+                break;
+            case 4:
+                module = Module.Level.FOUR;
+                break;
+        }
+        bundle.putString(Module.Level.class.getCanonicalName(), module);
+        moduleFragment.setArguments(bundle);
+        return moduleFragment;
     }
 
     @Override
     public int getCount() {
-        return fragments.length;
+        return 5;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0) {
-            return levels[0];
-        } else {
-            return String.format(res.getString(R.string.level), levels[position]);
+        String title = null;
+        switch (position) {
+            case 0:
+                title =  res.getString(R.string.overview);
+                return title;
+            case 1:
+                title = Module.Level.ONE;
+                break;
+            case 2:
+                title = Module.Level.TWO;
+                break;
+            case 3:
+                title = Module.Level.THREE;
+                break;
+            case 4:
+                title = Module.Level.FOUR;
+                break;
         }
+
+        return String.format(res.getString(R.string.level), title);
     }
 }
