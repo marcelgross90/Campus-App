@@ -4,6 +4,8 @@ import java.net.HttpURLConnection;
 
 public class NetworkSettings
 {
+    public static final String BASE_URL      = "http://193.175.31.146:8080/fiwincoming/api";
+
     public static final String METHOD_GET    = "GET";
     public static final String METHOD_POST   = "POST";
     public static final String METHOD_PUT    = "PUT";
@@ -15,5 +17,10 @@ public class NetworkSettings
     public static boolean successfulRequest( int statusCode )
     {
         return statusCode >= HttpURLConnection.HTTP_OK && statusCode < HttpURLConnection.HTTP_MULT_CHOICE;
+    }
+
+    public static String getLecturerUrl( int size, int offset )
+    {
+        return BASE_URL + "/lecturers?size=" + size + "&offset=" + offset;
     }
 }

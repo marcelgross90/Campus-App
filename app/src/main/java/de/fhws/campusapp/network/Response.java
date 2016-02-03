@@ -1,8 +1,6 @@
 package de.fhws.campusapp.network;
 
-import java.io.BufferedInputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +8,7 @@ class Response
 {
     private final int code;
     private final byte data[];
-    private final Map<String, List<String>> headers;
+    private final Map<String, List<String>> headers; // TODO: Think about the chosen data structure
 
     Response( int code, byte data[], Map<String, List<String>> headers )
     {

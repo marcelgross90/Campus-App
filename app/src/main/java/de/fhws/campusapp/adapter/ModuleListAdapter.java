@@ -18,7 +18,7 @@ import java.util.List;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
-import de.fhws.campusapp.network.ModuleNetworkConnectionHandler;
+import de.fhws.campusapp.network.ModuleNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
@@ -27,7 +27,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     private static String program;
     private List<Module> filteredModulesDataset;
     private List<Module> allModulesDataset;
-    private ModuleNetworkConnectionHandler moduleRestService;
+    private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
     private Resources res;
     private String level;
@@ -53,7 +53,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public ModuleListAdapter(Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar) {
-        moduleRestService = new ModuleNetworkConnectionHandler();
+        moduleRestService = new ModuleNetwork();
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
         this.listener = listener;
@@ -73,7 +73,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         activateProgressBar.showProgressBar(true);
         moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
-                new ModuleNetworkConnectionHandler.FetchFilteredModules() {
+                new ModuleNetwork.FetchFilteredModules() {
 
                     @Override
                     public void fetchFilteredModules(List<Module> modules) {

@@ -2,8 +2,6 @@ package de.fhws.campusapp.network;
 
 import android.os.AsyncTask;
 
-import com.google.gson.Gson;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,8 +12,6 @@ import java.net.URL;
 
 public class NetworkConnectionHandler
 {
-    protected final Gson gson = new Gson();
-
     interface OnResponseListener
     {
         void onSuccess( Response response );

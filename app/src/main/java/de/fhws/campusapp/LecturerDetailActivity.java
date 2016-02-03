@@ -23,7 +23,7 @@ import com.squareup.picasso.Target;
 
 import de.fhws.campusapp.adapter.LecturerDetailAdapter;
 import de.fhws.campusapp.entity.Lecturer;
-import de.fhws.campusapp.network.LecturerNetworkConnectionHandler;
+import de.fhws.campusapp.network.LecturerNetwork;
 
 public class LecturerDetailActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -86,7 +86,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     private void loadLecturer()
     {
         String lecturerFullName = getIntent().getExtras().getString( "fullName" );
-        lecturer = LecturerNetworkConnectionHandler.getById(lecturerFullName);
+        lecturer = LecturerNetwork.getById(lecturerFullName);
     }
 
     private void fillView()

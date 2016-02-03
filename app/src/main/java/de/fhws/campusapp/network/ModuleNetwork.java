@@ -9,7 +9,7 @@ import java.util.List;
 
 import de.fhws.campusapp.entity.Module;
 
-public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
+public class ModuleNetwork extends ResponseInterpreter {
 
     private static HashMap<String, Module> moduleMap = new HashMap<String, Module>();
 
@@ -23,14 +23,14 @@ public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
 
     public void fetchAllModules(int size, int offset, final FetchAllModulesListener listener) {
         String url = "http://193.175.31.146:8080/fiwincoming/api/modules?size=" + size + "&offset=" + offset;
-        requestAsync(
+        NetworkConnectionHandler.requestAsync(
                 new Request(
                         url,
                         NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
-                new OnResponseListener() {
+                new NetworkConnectionHandler.OnResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
 
@@ -38,7 +38,8 @@ public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
                     }
 
                     @Override
-                    public void onError() {}
+                    public void onError() {
+                    }
 
                 });
     }
@@ -52,14 +53,14 @@ public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
             final FetchFilteredModules listener) {
 
         String url = createFilterUrl(program, language, level, size, offset);
-        requestAsync(
+        NetworkConnectionHandler.requestAsync(
                 new Request(
                         url,
                         NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
-                new OnResponseListener() {
+                new NetworkConnectionHandler.OnResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
 
@@ -67,7 +68,8 @@ public class ModuleNetworkConnectionHandler extends NetworkConnectionHandler {
                     }
 
                     @Override
-                    public void onError() {}
+                    public void onError() {
+                    }
 
                 });
 

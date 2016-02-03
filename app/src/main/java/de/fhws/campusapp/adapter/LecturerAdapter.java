@@ -19,10 +19,10 @@ import java.util.List;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Lecturer;
-import de.fhws.campusapp.network.LecturerNetworkConnectionHandler;
+import de.fhws.campusapp.network.LecturerNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
-public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
+public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener, LecturerNetwork.OnLecturersFetchedListener {
     private List<Lecturer> filteredLectures;
     private final List<Lecturer> allLecturers;
     private final int rowLayout;
@@ -41,6 +41,15 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     public void networkNotAvailable() {
         Toast.makeText( context, R.string.noInternet, Toast.LENGTH_SHORT ).show();
 }
+
+    @Override
+    public void onLecturersFetched(List<Lecturer> newLecturers, int totalNumberOfLecturers) {
+        filteredLectures = newLecturers;
+        allLecturers.addAll( newLecturers );
+        progressBarListener.showProgressBar( false );
+        notifyDataSetChanged();
+
+    }
 
     public interface OnLecturerClickListener {
         void onLecturerClick( String fullName, ImageView view );
@@ -113,18 +122,9 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
 
 
     private void downloadData() {
-        progressBarListener.showProgressBar( true );
-        LecturerNetworkConnectionHandler network = new LecturerNetworkConnectionHandler();
-        network.fetchAllLecturers( 50, 0, new LecturerNetworkConnectionHandler.FetchAllLecturersListener() {
-            @Override
-            public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
-                filteredLectures = newLecturers;
-                allLecturers.addAll( newLecturers );
-                progressBarListener.showProgressBar( false );
-                notifyDataSetChanged();
-            }
-        } );
-
+        progressBarListener.showProgressBar(true);
+        LecturerNetwork network = new LecturerNetwork( this );
+        network.fetchAllLecturers( 50, 0 );
     }
 
 
