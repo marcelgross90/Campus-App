@@ -28,7 +28,8 @@ import de.fhws.campusapp.network.LecturerNetwork;
 public class LecturerDetailActivity extends AppCompatActivity implements View.OnClickListener
 {
     // Components
-    private ImageView imageView;
+    private Toolbar      toolbar;
+    private ImageView    imageView;
     private RecyclerView recyclerView;
 
     // Content
@@ -37,55 +38,70 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lecturer_detail);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_lecturer_detail );
 
-        setUpToolbar();
         loadComponents();
+        setUpView();
+
         loadContent();
+        fillView();
     }
 
-    private void setUpToolbar()
+    private void setUpView()
     {
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-
-        if ( actionBar != null )
-        {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        setUpToolbar();
+        setUpRecyclerView();
     }
 
     private void loadComponents()
     {
-        imageView = (ImageView) findViewById( R.id.ivLecturerPicture );
+        toolbar      = (Toolbar)      findViewById( R.id.toolbar );
+        imageView    = (ImageView)    findViewById( R.id.ivLecturerPicture );
         recyclerView = (RecyclerView) findViewById( R.id.rvLecturerDetails );
+    }
+
+    private void setUpToolbar()
+    {
+        setSupportActionBar( toolbar );
+        ActionBar actionBar = getSupportActionBar();
+
+        if ( actionBar != null )
+        {
+            actionBar.setDisplayHomeAsUpEnabled( true );
+        }
+    }
+
+    private void setUpRecyclerView()
+    {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize( true );
+        recyclerView.setHasFixedSize(true);
     }
 
     private void loadContent()
     {
-        String lecturerFullName = getIntent().getExtras().getString("fullName");
+        loadLecturer();
+    }
+
+    private void loadLecturer()
+    {
+        String lecturerFullName = getIntent().getExtras().getString( "fullName" );
         lecturer = LecturerNetwork.getById( lecturerFullName );
+    }
 
-        loadImage();
-
+    private void fillView()
+    {
         setTitle(lecturer.getName() + " " + lecturer.getLastName());
-
+        displayLecturerPicture();
         recyclerView.setAdapter(new LecturerDetailAdapter(lecturer, this));
     }
 
-    private void loadImage()
+    private void displayLecturerPicture()
     {
         Target target = new Target()
         {
             @Override
-            public void onPrepareLoad( Drawable placeHolderDrawable )
-            {
-
-            }
+            public void onPrepareLoad( Drawable placeHolderDrawable ) {}
 
             @Override
             public void onBitmapLoaded( Bitmap bitmap, Picasso.LoadedFrom from )
@@ -96,13 +112,9 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
             }
 
             @Override
-            public void onBitmapFailed( Drawable errorDrawable )
-            {
-
-            }
+            public void onBitmapFailed( Drawable errorDrawable ) {}
         };
-        final Uri uri = Uri.parse( lecturer.getPictureUrl() );
-        Picasso.with( getApplicationContext() ).load( uri ).into(target);
+        Picasso.with( getApplicationContext() ).load( lecturer.getPictureUrl() ).into(target);
     }
 
     @Override
@@ -127,7 +139,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.tvSubjectValue :
-                animationShowOff();
+                animationShowOff();         // TODO: Delete after exam
                 break;
         }
     }
@@ -139,7 +151,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         {
             case android.R.id.home:
                 onBackPressed();
-                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                overridePendingTransition( R.anim.fade_out, R.anim.fade_in );
                 return true;
             default:
                 return super.onOptionsItemSelected( item );
@@ -150,7 +162,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         Intent intent = new Intent( Intent.ACTION_SEND );
         intent.setType( "plain/text" );
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{lecturer.getEmail()});
+        intent.putExtra( Intent.EXTRA_EMAIL, new String[] { lecturer.getEmail() } );
         startActivity( intent );
     }
 
@@ -158,7 +170,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         Intent intent = new Intent( Intent.ACTION_DIAL );
         String p = "tel:" + lecturer.getPhoneNumber();
-        intent.setData(Uri.parse(p));
+        intent.setData( Uri.parse( p ) );
         startActivity( intent );
     }
 
@@ -166,14 +178,14 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
     {
         Intent intent = new Intent( Intent.ACTION_VIEW );
         intent.setData( Uri.parse( lecturer.getWebsite() ) );
-        startActivity(intent);
+        startActivity( intent );
     }
 
     private void openMap()
     {
-        Uri gmUri = Uri.parse( "https://www.google.de/maps/place/" + lecturer.getStreet() );    // change to lecturer.getAddress() as soon as API is fixed (Sonderzeichen)
+        Uri gmUri = Uri.parse( "https://www.google.de/maps/place/" + lecturer.getStreet() );    // TODO: Change to lecturer.getAddress() as soon as API is fixed (special characters problem)
         Intent intent = new Intent( Intent.ACTION_VIEW, gmUri );
-        intent.setPackage("com.google.android.apps.maps");
+        intent.setPackage( "com.google.android.apps.maps" );
         startActivity( intent );
     }
 
