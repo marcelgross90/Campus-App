@@ -27,6 +27,7 @@ public class Module {
     private int sws;
     private String typeOfClass;
     private String typeOfExam;
+    private boolean visited;
 
     public interface Program {
         String BEC = "bec";
@@ -266,6 +267,14 @@ public class Module {
     public String getLectureType()
     {
         return typeOfClass.replace( "#", "\n" );
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited( boolean visited ) {
+        this.visited = visited;
     }
 
     @Override

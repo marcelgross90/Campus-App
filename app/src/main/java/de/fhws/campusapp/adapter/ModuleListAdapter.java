@@ -53,7 +53,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public ModuleListAdapter(Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar) {
-        moduleRestService = new ModuleNetwork();
+        moduleRestService = new ModuleNetwork(context);
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
         this.listener = listener;
