@@ -13,10 +13,11 @@
         android:background="@color/backgroundColor">
 
         <ImageView
+            android:transitionName="pic"
             android:contentDescription="@string/lecturerImg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/imageView"
+            android:id="@+id/imageViewLecturer"
             android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"

@@ -1,0 +1,53 @@
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false" >
+
+    <!-- Bungee -->
+    <scale
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:duration="250"
+        android:fromXScale="100%"
+        android:toXScale="80%"
+        android:fromYScale="100%"
+        android:toYScale="80%"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+    <scale
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:startOffset="250"
+        android:duration="250"
+        android:fromXScale="100%"
+        android:toXScale="125%"
+        android:fromYScale="100%"
+        android:toYScale="125%"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <!-- Propeller -->
+    <rotate
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+        android:startOffset="520"
+        android:duration="8000"
+        android:fromDegrees="0"
+        android:toDegrees="7200"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <!-- Loose tile -->
+    <translate
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:startOffset="8540"
+        android:duration="1000"
+        android:fromYDelta="0%"
+        android:toYDelta="981%" />
+    <alpha
+        android:startOffset="8700"
+        android:duration="100"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.6" />
+
+    <!-- Wait -->
+    <alpha
+        android:startOffset="9540"
+        android:duration="3000" />
+</set>

@@ -10,11 +10,13 @@ public class LecturerDetailViewHolderSubject extends RecyclerView.ViewHolder
 {
     private TextView subject;
 
-    public LecturerDetailViewHolderSubject( View itemView )
+    public LecturerDetailViewHolderSubject( View itemView, View.OnClickListener listener )
     {
         super( itemView );
 
-        this.subject = (TextView) itemView.findViewById( R.id.tvSubjectValue );
+        this.subject  = (TextView) itemView.findViewById( R.id.tvSubjectValue );
+
+        this.subject.setOnClickListener( listener );
     }
 
     public void displaySubject( String subject )

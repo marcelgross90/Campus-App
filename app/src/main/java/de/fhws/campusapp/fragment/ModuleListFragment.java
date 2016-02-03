@@ -3,6 +3,7 @@ package de.fhws.campusapp.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,6 +26,7 @@ import android.widget.ProgressBar;
 import java.lang.annotation.Target;
 
 import de.fhws.campusapp.MainActivity;
+import de.fhws.campusapp.ModuleDetailActivity;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.ModuleListAdapter;
 import de.fhws.campusapp.entity.Module;
@@ -96,12 +98,10 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
 
     @Override
     public void onCardClick(Module module) {
-        Bundle args = new Bundle();
-        args.putString("lvId", module.getLvid());
-        ModuleDetailFragment detailFragment = new ModuleDetailFragment();
-        detailFragment.setArguments(args);
-        Fragment frag = getParentFragment();
-        MainActivity.replaceFragment(frag.getFragmentManager(), detailFragment);
+        Intent intent = new Intent( getActivity(), ModuleDetailActivity.class );
+        intent.putExtra( "lvId", module.getLvid() );
+        startActivity( intent );
+        getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
 

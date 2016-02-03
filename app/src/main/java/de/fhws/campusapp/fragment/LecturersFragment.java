@@ -1,7 +1,10 @@
 package de.fhws.campusapp.fragment;
 
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -83,12 +89,18 @@ public class LecturersFragment extends Fragment implements
     }
 
     @Override
-    public void onLecturerClick( String fullName ) {
+    public void onLecturerClick( String fullName, ImageView view ) {
         Intent intent = new Intent( getActivity(), LecturerDetailActivity.class );
-        intent.putExtra( "fullName", fullName );
-        startActivity( intent );
+        intent.putExtra("fullName", fullName);
 
-
+        if( android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(getActivity(), view, "pic");
+            getActivity().startActivity(intent, options.toBundle());
+        } else {
+            getActivity().startActivity(intent);
+            getActivity().overridePendingTransition( R.anim.fade_out, R.anim.fade_in );
+        }
     }
 
     @Override
