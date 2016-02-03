@@ -50,5 +50,6 @@
     <string name="no">Nein</string>
     <string name="noInternet">Kein Internet verfügbar</string>
 
-
+    <string name="elearning">eLearning</string>
+    <string name="student_portal">Studentenportal</string>
 </resources>

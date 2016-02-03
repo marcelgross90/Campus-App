@@ -65,7 +65,7 @@ public class MapFragment extends SupportMapFragment {
                 contentResolver, Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF );
 
         if( mode == Settings.Secure.LOCATION_MODE_OFF ) {
-            MainActivity.startDialogFragment( getFragmentManager(), new GpsSettingsDialog() );
+            MainActivity.startDialogFragment( getFragmentManager(), new GpsSettingsDialogFragment() );
         }
     }
 

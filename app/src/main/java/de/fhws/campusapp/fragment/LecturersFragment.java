@@ -1,12 +1,10 @@
 package de.fhws.campusapp.fragment;
 
 
-import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,22 +17,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.fhws.campusapp.LecturerDetailActivity;
-import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.adapter.LecturerAdapter;
-import de.fhws.campusapp.entity.Lecturer;
-import de.fhws.campusapp.network.LecturerNetwork;
-import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
 public class LecturersFragment extends Fragment implements
         LecturerAdapter.OnLecturerClickListener,
@@ -80,12 +68,13 @@ public class LecturersFragment extends Fragment implements
 
     @Override
     public void showProgressBar( final boolean show ) {
-        getActivity().runOnUiThread( new Runnable() {
-            public void run() {
-                progressBar.setVisibility( show ? View.VISIBLE : View.INVISIBLE );
-
-            }
-        } );
+        if( isAdded() ) {
+            getActivity().runOnUiThread( new Runnable() {
+                public void run() {
+                    progressBar.setVisibility( show ? View.VISIBLE : View.INVISIBLE );
+                }
+            } );
+        }
     }
 
     @Override

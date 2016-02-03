@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import de.fhws.campusapp.R;
 
-public class GpsSettingsDialog extends DialogFragment {
+public class GpsSettingsDialogFragment extends DialogFragment {
 
 
     @Override
