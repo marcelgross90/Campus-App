@@ -14,18 +14,23 @@ import android.view.ViewGroup;
 
 import de.fhws.campusapp.MainActivity;
 import de.fhws.campusapp.R;
-import de.fhws.campusapp.adapter.ModuleListAdapter;
 import de.fhws.campusapp.adapter.ModulesPagerAdapter;
+import de.fhws.campusapp.utils.SearchViewObservable;
 
-public class ModuleViewPagerFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ModuleViewPagerFragment extends Fragment {
 
     private ViewPager viewPager;
     private ModulesPagerAdapter adapter;
+    private SearchView searchView;
+    private String searchString;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if(savedInstanceState != null){
+            searchString = savedInstanceState.getString("search");
+        }
     }
 
     @Override
@@ -45,10 +50,10 @@ public class ModuleViewPagerFragment extends Fragment implements SearchView.OnQu
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        SearchView searchView;
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
-            searchView.setOnQueryTextListener(this);
+            SearchViewObservable.addSearchView("ModulesSearch", searchView);
+            searchView.setQuery(searchString, true);
         }
     }
 
@@ -64,15 +69,20 @@ public class ModuleViewPagerFragment extends Fragment implements SearchView.OnQu
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
-        return false;
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("search", searchView.getQuery().toString());
     }
 
-    @Override
-    public boolean onQueryTextChange(String s) {
-        //((ModulesPagerAdapter) viewPager.getAdapter()).filter(s);
-        ModuleListAdapter.oldSearchTerm = s;
-        adapter.notifyDataSetChanged();
-        return true;
-    }
+    //    @Override
+//    public boolean onQueryTextSubmit(String s) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean onQueryTextChange(String s) {
+//        ModuleListAdapter.oldSearchTerm = s;
+//        adapter.notifyDataSetChanged();
+//        return true;
+//    }
 }

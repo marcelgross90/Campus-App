@@ -97,10 +97,22 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((ModuleListAdapter)modulesAdapter).subscribeToSearchBar();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((ModuleListAdapter)modulesAdapter).unsubscribeToSearchBar();
+    }
+
+    @Override
     public void onCardClick(Module module) {
         Intent intent = new Intent( getActivity(), ModuleDetailActivity.class );
         intent.putExtra( "lvId", module.getLvid() );
-        startActivity( intent );
+        startActivity(intent);
         getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 

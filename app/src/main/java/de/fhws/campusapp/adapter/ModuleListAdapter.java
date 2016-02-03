@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,19 +19,30 @@ import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.network.ModuleNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
+import de.fhws.campusapp.utils.SearchViewObservable;
 
-public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
+public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener, SearchViewObservable.OnQueryChangeListener {
 
     public static String oldSearchTerm;
-    private static String program;
+    private String program;
     private List<Module> filteredModulesDataset;
     private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
     private Resources res;
-    private String level;
     private Context context;
     private final ActivateProgressBar activateProgressBar;
+    private String level;
+
+    @Override
+    public void onChange(String searchTerm) {
+        filter(searchTerm);
+    }
+
+    @Override
+    public void onSubmit(String searchTerm) {
+        filter(searchTerm);
+    }
 
     public interface OnCardClickListener {
         void onCardClick(Module module);
@@ -61,6 +71,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         this.activateProgressBar = activateProgressBar;
         res = context.getResources();
         this.level = level;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
 
         NetworkChangeReceiver.getInstance(this);
         downloadData();
@@ -105,6 +117,15 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
                 }
             });
         }
+    }
+
+
+    public void subscribeToSearchBar(){
+        SearchViewObservable.subscribe("ModulesSearch", this);
+    }
+
+    public void unsubscribeToSearchBar(){
+        SearchViewObservable.unsubscribe("ModuleSearch", this);
     }
 
     @Override
@@ -157,5 +178,10 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     public void programChanged(String program) {
         this.program = program;
         downloadData();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.level == ((ModuleListAdapter)o).level;
     }
 }
