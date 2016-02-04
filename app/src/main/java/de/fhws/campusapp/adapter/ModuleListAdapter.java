@@ -87,10 +87,10 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         activateProgressBar.showProgressBar(true);
         moduleRestService.fetchFilteredModules(program, null,
                 level, 0, 0,
-                new ModuleNetwork.FetchFilteredModules() {
+                new ModuleNetwork.OnModulesFetchedListener() {
 
                     @Override
-                    public void fetchFilteredModules(List<Module> modules) {
+                    public void onModulesFetched(List<Module> modules) {
                         allModulesDataset = modules;
 
                         filter(oldSearchTerm);

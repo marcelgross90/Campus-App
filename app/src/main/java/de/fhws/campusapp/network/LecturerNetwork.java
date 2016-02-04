@@ -14,23 +14,23 @@ public class LecturerNetwork extends BaseNetwork
 {
     private static HashMap<String, Lecturer> lecturerMap = new HashMap<String, Lecturer>();
 
-    public interface FetchAllLecturersListener
+    public interface OnLecturersFetchedListener
     {
-        void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumberOfLecturers );
+        void OnLecturersFetched(List<Lecturer> newLecturers, int totalNumberOfLecturers);
     }
 
     public LecturerNetwork()
     {
-        super("http://193.175.31.146:8080/fiwincoming/api");
+        super(NetworkSettings.BASE_URL);
     }
 
-    public void fetchAllLecturers( int size, int offset, final FetchAllLecturersListener listener )
+    public void fetchAllLecturers( int size, int offset, final OnLecturersFetchedListener listener )
     {
         String url = host + "/lecturers?size=" + size + "&offset=" + offset;
         requestAsync(
                 new Request(
                         url,
-                        METHOD_GET,
+                        NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
@@ -47,7 +47,7 @@ public class LecturerNetwork extends BaseNetwork
                                 lecturerMap.put( lecturers.get( i ).getFullName(), lecturers.get( i ) );
                             }
                             int num = getTotalNumberOfLecturers(response);
-                            listener.fetchAllLecturers(lecturers, num);
+                            listener.OnLecturersFetched(lecturers, num);
                         }
                     }
                 });

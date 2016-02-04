@@ -19,15 +19,8 @@ public class BaseNetwork {
         void onResultListener( Response response );
     }
 
-    static final String METHOD_DELETE = "DELETE";
-    static final String METHOD_GET = "GET";
-    static final String METHOD_POST = "POST";
-    static final String METHOD_PUT = "PUT";
-
     final String host;
     final Gson gson = new Gson();
-
-    private static final int MAXIMUM_RESPONSE_SIZE = 1048576;
 
     protected BaseNetwork( String host ) {
         this.host = host;
@@ -107,7 +100,7 @@ public class BaseNetwork {
 
     private byte[] readResponse( InputStream in ) throws IOException {
         ByteArrayOutputStream data = new ByteArrayOutputStream();
-        byte[] buffer = new byte[4096];
+        byte[] buffer = new byte[NetworkSettings.BUFFER_SIZE];
 
         int length = 0;
         int bytes = in.read( buffer );
@@ -117,7 +110,7 @@ public class BaseNetwork {
                 data.write( buffer, 0, bytes );
                 length += bytes;
 
-                if( length > MAXIMUM_RESPONSE_SIZE )
+                if( length > NetworkSettings.MAXIMUM_RESPONSE_SIZE )
                     return null;
             }
             bytes = in.read( buffer );

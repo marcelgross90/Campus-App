@@ -19,36 +19,18 @@ public class ModuleNetwork extends BaseNetwork {
 
     private static HashMap<String, Module> moduleMap = new HashMap<String, Module>();
 
-    public interface FetchAllModulesListener {
-        void fetchAllModules(List<Module> allModules);
-    }
-
-    public interface FetchFilteredModules {
-        void fetchFilteredModules(List<Module> modules);
+    public interface OnModulesFetchedListener {
+        void onModulesFetched(List<Module> modules);
     }
 
     public ModuleNetwork(Context context) {
-        super("http://193.175.31.146:8080/fiwincoming/api");
+        super(NetworkSettings.BASE_URL);
         this.context = context;
         this.moduleDBHelper = ModuleDBHelper.getInstance( context );
     }
 
-    public void fetchAllModules(int size, int offset, final FetchAllModulesListener listener) {
-        String url = host + "/modules?size=" + size + "&offset=" + offset;
-        requestAsync(
-                new Request(
-                        url,
-                        METHOD_GET,
-                        new String[]{"Accept:application/json"},
-                        null
-                ),
-                new OnResultListener() {
-                    @Override
-                    public void onResultListener( Response response ) {
-
-                        listener.fetchAllModules( extractModulesFromResponse( response ) );
-                    }
-                } );
+    public void fetchAllModules(int size, int offset, final OnModulesFetchedListener listener) {
+        fetchFilteredModules(null, null, null, size, offset, listener);
     }
 
     public void fetchFilteredModules(
@@ -57,13 +39,13 @@ public class ModuleNetwork extends BaseNetwork {
             String level,
             int size,
             int offset,
-            final FetchFilteredModules listener) {
+            final OnModulesFetchedListener listener) {
 
         String url = createFilterUrl( program, language, level, size, offset );
         requestAsync(
                 new Request(
                         url,
-                        METHOD_GET,
+                        NetworkSettings.METHOD_GET,
                         new String[]{"Accept:application/json"},
                         null
                 ),
@@ -71,7 +53,7 @@ public class ModuleNetwork extends BaseNetwork {
                     @Override
                     public void onResultListener( Response response ) {
 
-                        listener.fetchFilteredModules( extractModulesFromResponse( response ) );
+                        listener.onModulesFetched(extractModulesFromResponse(response));
                     }
                 } );
 

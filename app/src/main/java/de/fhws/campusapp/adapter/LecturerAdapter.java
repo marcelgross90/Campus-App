@@ -115,9 +115,9 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     private void downloadData() {
         progressBarListener.showProgressBar( true );
         LecturerNetwork network = new LecturerNetwork();
-        network.fetchAllLecturers( 50, 0, new LecturerNetwork.FetchAllLecturersListener() {
+        network.fetchAllLecturers( 50, 0, new LecturerNetwork.OnLecturersFetchedListener() {
             @Override
-            public void fetchAllLecturers( List<Lecturer> newLecturers, int totalNumber ) {
+            public void OnLecturersFetched(List<Lecturer> newLecturers, int totalNumber) {
                 filteredLectures = newLecturers;
                 allLecturers.addAll( newLecturers );
                 progressBarListener.showProgressBar( false );
