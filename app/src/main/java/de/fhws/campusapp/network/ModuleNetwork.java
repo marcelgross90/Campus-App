@@ -9,68 +9,47 @@ import java.util.List;
 
 import de.fhws.campusapp.entity.Module;
 
-public class ModuleNetwork
+public class ModuleNetwork implements NetworkConnectionHandler.OnResponseListener
 {
-    private static HashMap<String, Module> moduleMap = new HashMap<>();
-
     public interface OnModulesFetchedListener
     {
         void onModulesFetched(List<Module> modules);
     }
 
-    public void fetchAllModules(int size, int offset, final OnModulesFetchedListener listener) {
-        String url = "http://193.175.31.146:8080/fiwincoming/api/modules?size=" + size + "&offset=" + offset;
-        NetworkConnectionHandler.requestAsync(
-                new Request(
-                        url,
-                        NetworkSettings.METHOD_GET,
-                        new String[]{"Accept:application/json"},
-                        null
-                ),
-                new NetworkConnectionHandler.OnResponseListener() {
-                    @Override
-                    public void onSuccess(Response response) {
+    private static HashMap<String, Module> moduleMap = new HashMap<>();
+    private OnModulesFetchedListener listener;
 
-                        listener.onModulesFetched(extractModulesFromResponse(response));
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-
-                });
+    public static Module getByLvId(String lvId)
+    {
+        return moduleMap.get(lvId);
     }
 
-    public void fetchFilteredModules(
-            String program,
-            String language,
-            String level,
-            int size,
-            int offset,
-            final OnModulesFetchedListener listener) {
-
-        String url = createFilterUrl(program, language, level, size, offset);
-        NetworkConnectionHandler.requestAsync(
-                new Request(
-                        url,
-                        NetworkSettings.METHOD_GET,
-                        new String[]{"Accept:application/json"},
-                        null
-                ),
-                new NetworkConnectionHandler.OnResponseListener() {
-                    @Override
-                    public void onSuccess(Response response) {
-
-                        listener.onModulesFetched(extractModulesFromResponse(response));
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-
-                });
-
+    public ModuleNetwork( OnModulesFetchedListener listener )
+    {
+        this.listener = listener;
     }
+
+    public void fetchModules( String program, String language, String level, int size, int offset )
+    {
+        String url = NetworkSettings.getModuleUrl(program, language, level, size, offset);
+
+        Request request = new Request(
+                url,
+                NetworkSettings.METHOD_GET,
+                new String[]{"Accept:application/json"},
+                null );
+
+        NetworkConnectionHandler.requestAsync(request, this);
+    }
+
+    @Override
+    public void onSuccess(Response response)
+    {
+        listener.onModulesFetched(extractModulesFromResponse(response));
+    }
+
+    @Override
+    public void onError() {}
 
     private List<Module> extractModulesFromResponse(Response response) {
         List<Module> modules = new ArrayList<>();
@@ -83,28 +62,5 @@ public class ModuleNetwork
             }
         }
         return modules;
-    }
-
-    private String createFilterUrl(String program,
-                                   String language,
-                                   String level,
-                                   int size,
-                                   int offset) {
-
-        String url = "http://193.175.31.146:8080/fiwincoming/api/modules?size=" + size + "&offset=" + offset;
-
-        if (program != null)
-            url += "&program=" + program;
-        if (language != null)
-            url += "&lang=" + language;
-        if (level != null) {
-            url += "&level=" + level;
-        }
-        return url;
-    }
-
-    public static Module getByLvId(String lvId)
-    {
-        return moduleMap.get(lvId);
     }
 }

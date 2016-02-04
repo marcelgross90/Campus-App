@@ -15,6 +15,8 @@ public class NetworkSettings
     public static final String METHOD_PUT    = "PUT";
     public static final String METHOD_DELETE = "DELETE";
 
+    public static final String HEADER_NUMBER_OF_RESULTS = "X-totalnumberofresults";
+
     public static final int MAXIMUM_RESPONSE_SIZE = 1048576;
     public static final int BLOCK_SIZE            = 4096;
 
@@ -27,4 +29,18 @@ public class NetworkSettings
     {
         return BASE_URL + "/lecturers?size=" + size + "&offset=" + offset;
     }
+
+    public static String getModuleUrl( String program, String language, String level, int size, int offset)
+    {
+        String url = BASE_URL + "/modules?size=" + size + "&offset=" + offset;
+
+        if (program != null)
+            url += "&program=" + program;
+        if (language != null)
+            url += "&lang=" + language;
+        if (level != null)
+            url += "&level=" + level;
+        return url;
+    }
+
 }

@@ -19,9 +19,11 @@ import java.util.List;
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.network.ModuleNetwork;
+import de.fhws.campusapp.network.NetworkConnectionHandler;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
-public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
+public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener, ModuleNetwork.OnModulesFetchedListener
+{
 
     private static String oldSearchTerm;
     private static String program;
@@ -52,8 +54,17 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
         Toast.makeText(context, R.string.noInternet, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onModulesFetched(List<Module> modules)
+    {
+        allModulesDataset = modules;
+        filteredModulesDataset = (List<Module>) ((ArrayList<Module>) allModulesDataset).clone();
+        filter(oldSearchTerm);
+        activateProgressBar.showProgressBar(false);
+    }
+
     public ModuleListAdapter(Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar) {
-        moduleRestService = new ModuleNetwork();
+        moduleRestService = new ModuleNetwork( this );
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
         this.listener = listener;
@@ -71,18 +82,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
     private void downloadData() {
         activateProgressBar.showProgressBar(true);
-        moduleRestService.fetchFilteredModules(program, null,
-                level, 0, 0,
-                new ModuleNetwork.OnModulesFetchedListener() {
-
-                    @Override
-                    public void onModulesFetched(List<Module> modules) {
-                        allModulesDataset = modules;
-                        filteredModulesDataset = (List<Module>) ((ArrayList<Module>) allModulesDataset).clone();
-                        filter(oldSearchTerm);
-                        activateProgressBar.showProgressBar(false);
-                    }
-                });
+        moduleRestService.fetchModules(program, null, level, 0, 0 );
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

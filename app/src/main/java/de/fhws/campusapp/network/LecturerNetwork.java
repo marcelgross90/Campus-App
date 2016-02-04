@@ -1,7 +1,5 @@
 package de.fhws.campusapp.network;
 
-import android.util.Log;
-
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -19,29 +17,29 @@ public class LecturerNetwork implements NetworkConnectionHandler.OnResponseListe
     }
 
     private static HashMap<String, Lecturer> lecturerMap = new HashMap<>();
-
     private OnLecturersFetchedListener listener;
+
+    public static Lecturer getById( String id )
+    {
+        return lecturerMap.get( id );
+    }
 
     public LecturerNetwork( OnLecturersFetchedListener listener )
     {
         this.listener = listener;
     }
 
-    public void fetchAllLecturers( int size, int offset )
+    public void fetchLecturers(int size, int offset)
     {
         String url = NetworkSettings.getLecturerUrl( size, offset );
 
-        Request request = new Request( url,
+        Request request = new Request(
+                url,
                 NetworkSettings.METHOD_GET,
                 new String[] { "Accept:application/json" },
-                null );  // TODO: Think about Request and Response builder
+                null );
 
         NetworkConnectionHandler.requestAsync( request, this );
-    }
-
-    public static Lecturer getById( String id )
-    {
-        return lecturerMap.get( id );
     }
 
     @Override
@@ -71,7 +69,7 @@ public class LecturerNetwork implements NetworkConnectionHandler.OnResponseListe
             Map<String, List<String>> map = response.getHeaders();
             for (Map.Entry<String, List<String>> entry : map.entrySet())
             {
-                if( entry.getKey() != null && entry.getKey().equals( "X-totalnumberofresults" ) )
+                if( entry.getKey() != null && entry.getKey().equals( NetworkSettings.HEADER_NUMBER_OF_RESULTS ) )
                 {
                     return Integer.valueOf( entry.getValue().get( 0 ));
                 }
