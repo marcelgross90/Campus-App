@@ -24,7 +24,7 @@ public class ModuleNetwork extends BaseNetwork {
     }
 
     public ModuleNetwork(Context context) {
-        super(NetworkSettings.BASE_URL);
+        super(NetworkSettings.API_URL_MODULES);
         this.context = context;
         this.moduleDBHelper = ModuleDBHelper.getInstance( context );
     }

@@ -21,7 +21,7 @@ public class LecturerNetwork extends BaseNetwork
 
     public LecturerNetwork()
     {
-        super(NetworkSettings.BASE_URL);
+        super(NetworkSettings.API_URL_LECTURERS);
     }
 
     public void fetchAllLecturers( int size, int offset, final OnLecturersFetchedListener listener )
