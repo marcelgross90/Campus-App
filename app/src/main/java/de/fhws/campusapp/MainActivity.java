@@ -90,21 +90,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        registerNetworkChangeReceiver();
-        fm = getSupportFragmentManager();
-        buildGoogleApiClient(this);
-        checkPermissions();
-
-        setUpActionBar();
-        if( savedInstanceState == null ) {
-            replaceFragment( fm, new LecturersFragment() );
-        }
-    }
-
-    @Override
     public void onRequestPermissionsResult(
             int requestCode,
             @NonNull String permissions[],
@@ -120,6 +105,21 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        registerNetworkChangeReceiver();
+        fm = getSupportFragmentManager();
+        buildGoogleApiClient(this);
+        checkPermissions();
+
+        setUpActionBar();
+        if( savedInstanceState == null ) {
+            replaceFragment( fm, new LecturersFragment() );
         }
     }
 

@@ -22,7 +22,7 @@ import de.fhws.campusapp.entity.Lecturer;
 import de.fhws.campusapp.network.LecturerNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
-public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
+public class LecturerListAdapter extends RecyclerView.Adapter<LecturerListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener {
     private List<Lecturer> filteredLectures;
     private final List<Lecturer> allLecturers;
     private final int rowLayout;
@@ -78,7 +78,7 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         }
     }
 
-    public LecturerAdapter(
+    public LecturerListAdapter(
             int rowLayout,
             Context context,
             OnLecturerClickListener listener,
@@ -100,7 +100,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         return new ViewHolder( v );
     }
 
-
     @Override
     public void onBindViewHolder( final ViewHolder holder, final int position ) {
         holder.assignData( filteredLectures.get( position ) );
@@ -110,7 +109,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
     public int getItemCount() {
         return filteredLectures == null ? 0 : filteredLectures.size();
     }
-
 
     private void downloadData() {
         progressBarListener.showProgressBar( true );
@@ -126,7 +124,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.ViewHo
         } );
 
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView name;

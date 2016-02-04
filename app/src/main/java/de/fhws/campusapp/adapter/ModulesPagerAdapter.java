@@ -11,7 +11,6 @@ import de.fhws.campusapp.R;
 import de.fhws.campusapp.entity.Module;
 import de.fhws.campusapp.fragment.ModuleListFragment;
 
-
 public class ModulesPagerAdapter extends FragmentStatePagerAdapter {
 
     private Resources res;

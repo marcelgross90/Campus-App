@@ -72,12 +72,10 @@ public class CoursePickerFragment extends DialogFragment {
                         break;
                 }
 
-
                 savePreferences();
                 dismiss();
             }
         });
-
 
         return builder.create();
     }

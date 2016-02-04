@@ -25,7 +25,6 @@ public class MapFragment extends SupportMapFragment {
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-
     }
 
     @Override
@@ -33,7 +32,6 @@ public class MapFragment extends SupportMapFragment {
         super.onViewCreated( view, savedInstanceState );
 
         setUpMap();
-
     }
 
     private synchronized void setUpMap() {
@@ -113,6 +111,4 @@ public class MapFragment extends SupportMapFragment {
             return adress;
         }
     }
-
-
 }

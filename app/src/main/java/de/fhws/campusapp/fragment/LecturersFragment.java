@@ -23,16 +23,16 @@ import android.widget.ProgressBar;
 
 import de.fhws.campusapp.LecturerDetailActivity;
 import de.fhws.campusapp.R;
-import de.fhws.campusapp.adapter.LecturerAdapter;
+import de.fhws.campusapp.adapter.LecturerListAdapter;
 
 public class LecturersFragment extends Fragment implements
-        LecturerAdapter.OnLecturerClickListener,
-        LecturerAdapter.ActivateProgressBar,
+        LecturerListAdapter.OnLecturerClickListener,
+        LecturerListAdapter.ActivateProgressBar,
         SearchView.OnQueryTextListener,
         SearchView.OnCloseListener {
 
     private ProgressBar progressBar;
-    private LecturerAdapter adapter;
+    private LecturerListAdapter adapter;
     private RecyclerView recyclerView;
 
     @Override
@@ -61,7 +61,7 @@ public class LecturersFragment extends Fragment implements
 
         recyclerView.setLayoutManager( llm );
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new LecturerAdapter(
+        adapter = new LecturerListAdapter(
                 R.layout.card_lecturer,
                 getActivity(),
                 LecturersFragment.this,

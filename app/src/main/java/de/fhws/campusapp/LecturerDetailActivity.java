@@ -80,7 +80,7 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize( true );
     }
-
+//todo why loadContent just calls loadLecturer why not directly call loadLecturer
     private void loadContent()
     {
         loadLecturer();
