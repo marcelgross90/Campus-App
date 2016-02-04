@@ -4,10 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import java.util.List;
+import java.util.Observable;
 
 import de.fhws.campusapp.entity.Module;
 
-public class ModuleDBHelper {
+public class ModuleDBHelper extends Observable {
 
     private static ModuleDBHelper instance;
     private final ModuleDAO moduleDAO;
@@ -39,6 +40,8 @@ public class ModuleDBHelper {
         } else {
             createNewModule( module );
         }
+        setChanged();
+        notifyObservers(module);
     }
 
     private ModuleDBHelper( Context context ) {

@@ -3,6 +3,7 @@ package de.fhws.campusapp.adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.database.ModuleDBHelper;
@@ -24,19 +27,19 @@ import de.fhws.campusapp.network.ModuleNetwork;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 import de.fhws.campusapp.utils.SearchViewObservable;
 
-public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener, SearchViewObservable.OnQueryChangeListener {
+public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ViewHolder> implements NetworkChangeReceiver.NetworkListener, SearchViewObservable.OnQueryChangeListener, Observer {
 
-    public static String oldSearchTerm;
+    private static String oldSearchTerm;
     private String program;
     private List<Module> filteredModulesDataset;
     private List<Module> allModulesDataset;
     private ModuleNetwork moduleRestService;
     private OnCardClickListener listener;
-    private Resources res;
     private Context context;
     private final ActivateProgressBar activateProgressBar;
     private final ModuleDBHelper moduleDBHelper;
     private String level;
+    private Handler handler;
 
     @Override
     public void onChange(String searchTerm) {
@@ -67,17 +70,18 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     public ModuleListAdapter(Context context, OnCardClickListener listener, String level, ActivateProgressBar activateProgressBar) {
-        moduleDBHelper = ModuleDBHelper.getInstance( context );
+        moduleDBHelper = ModuleDBHelper.getInstance(context);
         moduleRestService = new ModuleNetwork(context);
         filteredModulesDataset = new LinkedList<>();
         allModulesDataset = new LinkedList<>();
         this.listener = listener;
         this.context = context;
         this.activateProgressBar = activateProgressBar;
-        res = context.getResources();
         this.level = level;
+        moduleDBHelper.addObserver(this);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        program = sharedPreferences.getString( "mychoice", Module.Program.BIN );
+        program = sharedPreferences.getString("mychoice", Module.Program.BIN);
+        handler = new Handler();
 
         NetworkChangeReceiver.getInstance(this);
         downloadData();
@@ -114,29 +118,29 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
 
         public void assignData(final Module module) {
             moduleTitle.setText(module.getLvnameGerman());
-            moduleCheckBox.setChecked( module.isVisited() );
-            moduleCard.setOnClickListener( new View.OnClickListener() {
+            moduleCheckBox.setChecked(module.isVisited());
+            moduleCard.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    listener.onCardClick( module );
+                public void onClick(View view) {
+                    listener.onCardClick(module);
                 }
-            } );
-            moduleCheckBox.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+            });
+            moduleCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
-                    module.setVisited( isChecked );
-                    moduleDBHelper.createOrUpdate( module );
+                public void onClick(View v) {
+                    module.setVisited(moduleCheckBox.isChecked());
+                    moduleDBHelper.createOrUpdate(module);
                 }
-            } );
+            });
         }
     }
 
 
-    public void subscribeToSearchBar(){
+    public void subscribeToSearchBar() {
         SearchViewObservable.subscribe("ModulesSearch", this);
     }
 
-    public void unsubscribeToSearchBar(){
+    public void unsubscribeToSearchBar() {
         SearchViewObservable.unsubscribe("ModuleSearch", this);
     }
 
@@ -193,7 +197,27 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Vi
     }
 
     @Override
+    public void update(Observable observable, final Object o) {
+        final int index = filteredModulesDataset.indexOf(o);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                final int index = filteredModulesDataset.indexOf(o);
+
+                if (index != -1) {
+                    filteredModulesDataset.set(index, (Module) o);
+                    notifyItemChanged(index);
+                }
+            }
+        });
+    }
+
+    @Override
     public boolean equals(Object o) {
-        return this.level == ((ModuleListAdapter)o).level;
+        return this.level == ((ModuleListAdapter) o).level;
+    }
+
+    public void onParentGone() {
+        moduleDBHelper.deleteObserver(this);
     }
 }

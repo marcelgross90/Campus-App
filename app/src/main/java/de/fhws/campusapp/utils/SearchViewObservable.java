@@ -27,7 +27,6 @@ public class SearchViewObservable {
 
     public static void addSearchView(String key, SearchView view) {
         searchViewsMap.remove(key);
-        android.util.Log.wtf("chbr", "new SearchView");
         searchViewsMap.put(key, view);
         attachViewToListener(key, view);
     }

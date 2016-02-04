@@ -103,9 +103,10 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroyView() {
+        super.onDestroyView();
         ((ModuleListAdapter)modulesAdapter).unsubscribeToSearchBar();
+        ((ModuleListAdapter)modulesAdapter).onParentGone();
     }
 
     @Override

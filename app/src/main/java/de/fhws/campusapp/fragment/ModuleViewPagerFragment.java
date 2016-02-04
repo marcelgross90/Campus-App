@@ -40,9 +40,10 @@ public class ModuleViewPagerFragment extends Fragment {
 
         adapter = new ModulesPagerAdapter(getChildFragmentManager(), getActivity());
         viewPager.setAdapter(adapter);
-
         return pagerView;
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -73,16 +74,4 @@ public class ModuleViewPagerFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putString("search", searchView.getQuery().toString());
     }
-
-    //    @Override
-//    public boolean onQueryTextSubmit(String s) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextChange(String s) {
-//        ModuleListAdapter.oldSearchTerm = s;
-//        adapter.notifyDataSetChanged();
-//        return true;
-//    }
 }
