@@ -3,6 +3,7 @@ package de.fhws.campusapp.fragment;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,18 +52,21 @@ public class LecturersFragment extends Fragment implements
         recyclerView = (RecyclerView) view.findViewById( R.id.list_rv );
         progressBar = (ProgressBar) view.findViewById( R.id.progressBar );
         progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor( getActivity(), R.color.colorPrimary ), android.graphics.PorterDuff.Mode.MULTIPLY );
+
+        int numberOfColumns = determineNumberOfColumns();
+
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(
-                2,
+                numberOfColumns,
                 StaggeredGridLayoutManager.VERTICAL );
 
         recyclerView.setLayoutManager( llm );
-        recyclerView.setItemAnimator( new DefaultItemAnimator() );
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new LecturerAdapter(
                 R.layout.card_lecturer,
                 getActivity(),
                 LecturersFragment.this,
                 LecturersFragment.this );
-        recyclerView.setAdapter( adapter );
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -88,7 +92,7 @@ public class LecturersFragment extends Fragment implements
             getActivity().startActivity(intent, options.toBundle());
         } else {
             getActivity().startActivity(intent);
-            getActivity().overridePendingTransition( R.anim.fade_out, R.anim.fade_in );
+            getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
         }
     }
 
@@ -102,8 +106,8 @@ public class LecturersFragment extends Fragment implements
         SearchView searchView;
         if( searchItem != null ) {
             searchView = (SearchView) searchItem.getActionView();
-            searchView.setOnQueryTextListener( this );
-            searchView.setOnCloseListener( this );
+            searchView.setOnQueryTextListener(this);
+            searchView.setOnCloseListener(this);
         }
     }
 
@@ -122,4 +126,16 @@ public class LecturersFragment extends Fragment implements
     public boolean onClose() {
         return false;
     }
+
+    private int determineNumberOfColumns()
+    {
+        int numberOfColumns = 2;
+
+        if ( getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE )
+        {
+            numberOfColumns = 3;
+        }
+        return numberOfColumns;
+    }
+
 }
