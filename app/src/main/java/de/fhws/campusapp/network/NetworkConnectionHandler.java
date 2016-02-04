@@ -63,6 +63,13 @@ public class NetworkConnectionHandler
             return result;
         }
 
+        @Override
+        protected void onPostExecute( Response response )
+        {
+            super.onPostExecute( response );
+            listener.onSuccess( response );
+        }
+
         private void handleRequest(HttpURLConnection connection, Request request) throws Exception
         {
             setHTTPMethod( connection, request );
@@ -137,13 +144,6 @@ public class NetworkConnectionHandler
                 bytes = in.read( buffer );
             }
             return data.toByteArray();
-        }
-
-        @Override
-        protected void onPostExecute( Response response )
-        {
-            super.onPostExecute( response );
-            listener.onSuccess( response );
         }
     }
 }
