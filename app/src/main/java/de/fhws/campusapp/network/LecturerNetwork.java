@@ -11,7 +11,7 @@ import java.util.Map;
 
 import de.fhws.campusapp.entity.Lecturer;
 
-public class LecturerNetwork extends ResponseInterpreter implements NetworkConnectionHandler.OnResponseListener
+public class LecturerNetwork implements NetworkConnectionHandler.OnResponseListener
 {
     public interface OnLecturersFetchedListener
     {
@@ -39,37 +39,30 @@ public class LecturerNetwork extends ResponseInterpreter implements NetworkConne
         NetworkConnectionHandler.requestAsync( request, this );
     }
 
+    public static Lecturer getById( String id )
+    {
+        return lecturerMap.get( id );
+    }
+
     @Override
     public void onSuccess( Response response )
     {
         if ( NetworkSettings.successfulRequest( response.getCode() ) )
         {
             Type listType = new TypeToken<List<Lecturer>>(){}.getType();
-            List<Lecturer> lecturers = gson.fromJson( response.getString(), listType );
+            List<Lecturer> lecturers = NetworkSettings.GSON.fromJson( response.getString(), listType );
 
             for ( int i = 0; i < lecturers.size(); i++ )
             {
                 lecturerMap.put(lecturers.get(i).getFullName(), lecturers.get(i));
             }
-            int numberOfLecturers = getTotalNumberOfLecturers( response );  // TODO: Is this really necessary?
-            Log.d("NUMBER", "" + numberOfLecturers);
-            Log.d("NUMBER", "" + lecturers.size());
-
-
+            int numberOfLecturers = getTotalNumberOfLecturers( response );
             listener.onLecturersFetched( lecturers, numberOfLecturers );
         }
     }
 
     @Override
     public void onError() {}
-
-    public static Lecturer getById( String id )
-    {
-        return lecturerMap.get( id );
-    }
-
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
     private static int getTotalNumberOfLecturers( Response response )
     {
@@ -86,5 +79,4 @@ public class LecturerNetwork extends ResponseInterpreter implements NetworkConne
         }
         return -1;
     }
-
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 import de.fhws.campusapp.entity.Module;
 
-public class ModuleNetwork extends ResponseInterpreter {
+public class ModuleNetwork {
 
     private static HashMap<String, Module> moduleMap = new HashMap<String, Module>();
 
@@ -80,7 +80,7 @@ public class ModuleNetwork extends ResponseInterpreter {
         if (NetworkSettings.successfulRequest(response.getCode())) {
             Type listType = new TypeToken<List<Module>>() {
             }.getType();
-            modules = gson.fromJson(response.getString(), listType);
+            modules = NetworkSettings.GSON.fromJson(response.getString(), listType);
             for(Module currentModule: modules){
                 moduleMap.put(currentModule.getLvid(), currentModule);
             }

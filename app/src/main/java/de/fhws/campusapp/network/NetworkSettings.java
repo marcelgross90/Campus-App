@@ -1,10 +1,14 @@
 package de.fhws.campusapp.network;
 
+import com.google.gson.Gson;
+
 import java.net.HttpURLConnection;
 
 public class NetworkSettings
 {
-    public static final String BASE_URL      = "http://193.175.31.146:8080/fiwincoming/api";
+    public static final Gson GSON = new Gson();
+
+    public static final String BASE_URL = "http://193.175.31.146:8080/fiwincoming/api";
 
     public static final String METHOD_GET    = "GET";
     public static final String METHOD_POST   = "POST";
