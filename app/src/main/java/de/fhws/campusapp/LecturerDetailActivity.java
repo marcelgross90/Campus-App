@@ -63,7 +63,10 @@ public class LecturerDetailActivity extends AppCompatActivity implements View.On
 
     private void setUpToolbar()
     {
-        setSupportActionBar(toolbar);
+        if ( toolbar != null )
+        {
+            setSupportActionBar(toolbar);
+        }
         ActionBar actionBar = getSupportActionBar();
 
         if ( actionBar != null )
