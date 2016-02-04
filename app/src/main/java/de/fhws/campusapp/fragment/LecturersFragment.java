@@ -133,7 +133,7 @@ public class LecturersFragment extends Fragment implements
 
         if ( getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE )
         {
-            numberOfColumns = 3;
+            numberOfColumns = 4;
         }
         return numberOfColumns;
     }
