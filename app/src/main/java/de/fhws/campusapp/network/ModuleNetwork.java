@@ -9,19 +9,16 @@ import java.util.List;
 
 import de.fhws.campusapp.entity.Module;
 
-public class ModuleNetwork {
+public class ModuleNetwork
+{
+    private static HashMap<String, Module> moduleMap = new HashMap<>();
 
-    private static HashMap<String, Module> moduleMap = new HashMap<String, Module>();
-
-    public interface FetchAllModulesListener {
-        void fetchAllModules(List<Module> allModules);
+    public interface OnModulesFetchedListener
+    {
+        void onModulesFetched(List<Module> modules);
     }
 
-    public interface FetchFilteredModules {
-        void fetchFilteredModules(List<Module> modules);
-    }
-
-    public void fetchAllModules(int size, int offset, final FetchAllModulesListener listener) {
+    public void fetchAllModules(int size, int offset, final OnModulesFetchedListener listener) {
         String url = "http://193.175.31.146:8080/fiwincoming/api/modules?size=" + size + "&offset=" + offset;
         NetworkConnectionHandler.requestAsync(
                 new Request(
@@ -34,7 +31,7 @@ public class ModuleNetwork {
                     @Override
                     public void onSuccess(Response response) {
 
-                        listener.fetchAllModules(extractModulesFromResponse(response));
+                        listener.onModulesFetched(extractModulesFromResponse(response));
                     }
 
                     @Override
@@ -50,7 +47,7 @@ public class ModuleNetwork {
             String level,
             int size,
             int offset,
-            final FetchFilteredModules listener) {
+            final OnModulesFetchedListener listener) {
 
         String url = createFilterUrl(program, language, level, size, offset);
         NetworkConnectionHandler.requestAsync(
@@ -64,7 +61,7 @@ public class ModuleNetwork {
                     @Override
                     public void onSuccess(Response response) {
 
-                        listener.fetchFilteredModules(extractModulesFromResponse(response));
+                        listener.onModulesFetched(extractModulesFromResponse(response));
                     }
 
                     @Override
