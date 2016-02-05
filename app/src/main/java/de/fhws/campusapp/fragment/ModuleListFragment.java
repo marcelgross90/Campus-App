@@ -117,11 +117,6 @@ public class ModuleListFragment extends Fragment implements ModuleListAdapter.On
         getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
-
-    public void filter(String searchString) {
-        ((ModuleListAdapter) modulesRecyclerView.getAdapter()).filter(searchString);
-    }
-
     private void setTitle() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String program = sharedPreferences.getString("mychoice", Module.Program.BIN);

@@ -35,7 +35,6 @@ public class StatisticFragment extends Fragment {
     private CheckBox choise;
     private TextView finised;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,14 +83,14 @@ public class StatisticFragment extends Fragment {
     private void initPieChart(){
         ArrayList<Entry> dataEntrys = new ArrayList<>();
         dataEntrys.add(new Entry(30,0));
-        dataEntrys.add(new Entry(50,0));
+        dataEntrys.add(new Entry(50, 0));
 
-        PieDataSet dataSet = new PieDataSet(dataEntrys, "ECTS");
-        dataSet.setColors(new int[] { R.color.colorAccent, R.color.colorPrimary }, getContext());
+        PieDataSet dataSet = new PieDataSet(dataEntrys, getResources().getString(R.string.modules));
+        dataSet.setColors(new int[] { R.color.charColorOne, R.color.charColorTwo }, getContext());
 
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("Absolviert"); xVals.add("Ausstehend");
-        PieData data = new PieData(xVals, dataSet );
+        ArrayList<String>titles = new ArrayList<String>();
+        titles.add(getResources().getString(R.string.done_modules)); titles.add(getResources().getString(R.string.to_do_modules));
+        PieData data = new PieData(titles, dataSet );
         pieChart.setData(data);
     }
 
@@ -104,7 +103,7 @@ public class StatisticFragment extends Fragment {
     }
 
     private void loadSavedPreferences(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( getActivity() );
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         myChoice = sharedPreferences.getString( "mychoice", Module.Program.BIN );
     }
 
