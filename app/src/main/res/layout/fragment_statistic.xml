@@ -8,8 +8,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView"
+        android:text="@string/finished_etcs"
+        android:id="@+id/finished"
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
@@ -21,14 +21,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="@string/apparenticeShip"
             android:id="@+id/apprenticeship_tv"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/apprenticeship_cb"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"/>
     </LinearLayout>
 
     <LinearLayout
@@ -40,13 +41,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="@string/choise"
             android:id="@+id/choise_tv"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/choise_cb"
+            android:clickable="false"
             android:layout_gravity="center_horizontal"
             />
 
