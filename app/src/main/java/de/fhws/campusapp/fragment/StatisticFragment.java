@@ -33,17 +33,10 @@ public class StatisticFragment extends Fragment {
     private CheckBox choise;
     private TextView finised;
 
-
-    public StatisticFragment() {
-        this.moduleDBHelper = ModuleDBHelper.getInstance( getContext() );
-        this.visitedModules = new ArrayList<>(  );
-        addVisitedModules();
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        initDBStuff();
         View view = inflater.inflate(R.layout.fragment_statistic, container, false);
         pieChart = (PieChart) view.findViewById(R.id.chart);
 
@@ -55,6 +48,12 @@ public class StatisticFragment extends Fragment {
         initPieChart();
 
         return view;
+    }
+
+    private void initDBStuff() {
+        this.moduleDBHelper = ModuleDBHelper.getInstance( getActivity() );
+        this.modules = new ArrayList<>(  );
+        addVisitedModules();
     }
 
     private void initCheckboxes() {
