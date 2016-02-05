@@ -7,4 +7,6 @@
     <color name="backgroundColor">#505050</color>
     <color name="card_link_color">#8080FF</color>
     <color name="navigation_bar_background">#FFFFFF</color>
+    <color name="charColorOne">#FF2D00</color>
+    <color name="charColorTwo">#04756F</color>
 </resources>

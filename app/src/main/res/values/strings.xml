@@ -49,7 +49,10 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="noInternet">Kein Internet verfügbar</string>
+
     <string name="statistics">Statistiken</string>
+    <string name="done_modules">Absolvierte Module</string>
+    <string name="to_do_modules">Ausstehende Module</string>
 
     <string name="elearning">eLearning</string>
     <string name="student_portal">Studentenportal</string>
