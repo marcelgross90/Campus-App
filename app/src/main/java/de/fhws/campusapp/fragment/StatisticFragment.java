@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.PieChart;
+
 import de.fhws.campusapp.R;
 
 public class StatisticFragment extends Fragment {
 
+
+    private PieChart pieChart;
 
     public StatisticFragment() {
         // Required empty public constructor
@@ -18,10 +22,11 @@ public class StatisticFragment extends Fragment {
 
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate( R.layout.fragment_statistic, container, false );
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_statistic, container, false);
+        pieChart = (PieChart) view.findViewById(R.id.chart);
+        return view;
     }
 
 }
