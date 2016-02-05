@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,10 @@ public class StatisticFragment extends Fragment {
     private ModuleDBHelper moduleDBHelper;
 
     private PieChart pieChart;
+    private CheckBox apparenticeShip;
+    private CheckBox choise;
+    private TextView finised;
+
 
     public StatisticFragment() {
         this.moduleDBHelper = ModuleDBHelper.getInstance( getActivity() );
@@ -37,6 +43,9 @@ public class StatisticFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistic, container, false);
         pieChart = (PieChart) view.findViewById(R.id.chart);
+        apparenticeShip = (CheckBox) view.findViewById( R.id.apprenticeship_cb );
+        choise = (CheckBox) view.findViewById( R.id.choise_cb );
+        finised = (CheckBox) view.findViewById( R.id.finished );
         return view;
     }
 

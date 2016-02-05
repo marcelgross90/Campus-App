@@ -53,6 +53,7 @@
     <string name="elearning">eLearning</string>
     <string name="student_portal">Studentenportal</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="finished_etcs">Erreichte ETCS Punkte %s/210</string>
+    <string name="apparenticeShip">Praktikum</string>
+    <string name="choise">Vertiefung</string>
 </resources>
