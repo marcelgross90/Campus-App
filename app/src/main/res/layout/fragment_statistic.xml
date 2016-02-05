@@ -1,12 +1,60 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:orientation="vertical"
              tools:context="de.fhws.campusapp.fragment.StatisticFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/apprenticeship_tv"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/apprenticeship_cb"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/choise_tv"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/choise_cb"
+            android:layout_gravity="center_horizontal"
+            />
+
+    </LinearLayout>
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+</LinearLayout>
