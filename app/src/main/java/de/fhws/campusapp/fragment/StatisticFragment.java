@@ -14,6 +14,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+
+import java.util.ArrayList;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.database.ModuleDBHelper;
@@ -43,10 +48,28 @@ public class StatisticFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistic, container, false);
         pieChart = (PieChart) view.findViewById(R.id.chart);
+
         apparenticeShip = (CheckBox) view.findViewById( R.id.apprenticeship_cb );
         choise = (CheckBox) view.findViewById( R.id.choise_cb );
         finised = (CheckBox) view.findViewById( R.id.finished );
+
+        initPieChart();
+
         return view;
+    }
+
+    private void initPieChart(){
+        ArrayList<Entry> dataEntrys = new ArrayList<>();
+        dataEntrys.add(new Entry(30,0));
+        dataEntrys.add(new Entry(50,0));
+
+        PieDataSet dataSet = new PieDataSet(dataEntrys, "ECTS");
+        dataSet.setColors(new int[] { R.color.colorAccent, R.color.colorPrimary }, getContext());
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("Absolviert"); xVals.add("Ausstehend");
+        PieData data = new PieData(xVals, dataSet );
+        pieChart.setData(data);
     }
 
     

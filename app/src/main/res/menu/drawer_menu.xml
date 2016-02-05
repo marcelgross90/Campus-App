@@ -5,4 +5,5 @@
     <item android:id="@+id/navigation_map" android:title="@string/map" android:icon="@drawable/ic_map" />
     <item android:id="@+id/elearning" android:title="@string/elearning" android:icon="@drawable/ic_web"/>
     <item android:id="@+id/student_portal" android:title="@string/student_portal" android:icon="@drawable/ic_web"/>
+    <item android:id="@+id/statistics" android:title="@string/statistics" android:icon="@drawable/common_google_signin_btn_icon_dark_pressed"/>
 </menu>

@@ -30,6 +30,7 @@ import com.google.android.gms.location.LocationServices;
 import de.fhws.campusapp.fragment.LecturersFragment;
 import de.fhws.campusapp.fragment.MapFragment;
 import de.fhws.campusapp.fragment.ModuleViewPagerFragment;
+import de.fhws.campusapp.fragment.StatisticFragment;
 import de.fhws.campusapp.fragment.WebViewFragment;
 import de.fhws.campusapp.receiver.NetworkChangeReceiver;
 
@@ -230,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.student_portal:
                     replaceFragmentPopBackStack( fm, WebViewFragment.newInstance( getString( R.string.student_portal ), "https://studentenportal.fhws.de" ) );
                     break;
+                case R.id.statistics:
+                    replaceFragmentPopBackStack(fm, new StatisticFragment());
             }
             drawerLayout.closeDrawer( GravityCompat.START );
             return true;
