@@ -68,7 +68,7 @@ public class SearchViewObservable {
                     for (OnQueryChangeListener currentListener : queryListener) {
                         currentListener.onSubmit(query);
                     }
-                    return true;
+                    return false;
                 }
 
                 @Override

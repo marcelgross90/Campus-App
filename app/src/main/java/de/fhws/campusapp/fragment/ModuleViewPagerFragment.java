@@ -65,7 +65,6 @@ public class ModuleViewPagerFragment extends Fragment {
                 MainActivity.startDialogFragment(getFragmentManager(), new CoursePickerFragment());
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
