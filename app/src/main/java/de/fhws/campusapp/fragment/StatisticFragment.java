@@ -43,7 +43,7 @@ public class StatisticFragment extends Fragment {
         apparenticeShip = (CheckBox) view.findViewById( R.id.apprenticeship_cb );
         choise = (CheckBox) view.findViewById( R.id.choise_cb );
         finised = (TextView) view.findViewById( R.id.finished );
-
+        getActivity().setTitle(R.string.statistics);
         initCheckboxes();
         initPieChart();
 
@@ -52,7 +52,7 @@ public class StatisticFragment extends Fragment {
 
     private void initDBStuff() {
         this.moduleDBHelper = ModuleDBHelper.getInstance( getActivity() );
-        this.modules = new ArrayList<>(  );
+        this.visitedModules = new ArrayList<>(  );
         addVisitedModules();
     }
 
@@ -84,7 +84,7 @@ public class StatisticFragment extends Fragment {
         dataEntrys.add(new Entry(calculateNumbersOfCourses() - visitedModules.size(), 1));
 
         PieDataSet dataSet = new PieDataSet(dataEntrys, getResources().getString(R.string.modules));
-        dataSet.setValueTextSize(15);
+        dataSet.setValueTextSize(10);
         dataSet.setColors(new int[] { R.color.charColorOne, R.color.charColorTwo }, getContext());
 
         ArrayList<String>titles = new ArrayList<String>();
