@@ -51,11 +51,34 @@ public class StatisticFragment extends Fragment {
 
         apparenticeShip = (CheckBox) view.findViewById( R.id.apprenticeship_cb );
         choise = (CheckBox) view.findViewById( R.id.choise_cb );
-        finised = (CheckBox) view.findViewById( R.id.finished );
+        finised = (TextView) view.findViewById( R.id.finished );
 
+        initCheckboxes();
         initPieChart();
 
         return view;
+    }
+
+    private void initCheckboxes() {
+        int ects = calculateECTS();
+        finised.setText( getString( R.string.finished_etcs, ects ) );
+        if( ects >= 91 ) {
+            apparenticeShip.setChecked( true );
+        }
+        if( ects >= 110 ) {
+            choise.setChecked( true );
+        }
+    }
+
+    private int calculateECTS() {
+        int ects = 0;
+        if( modules.size() > 0 ) {
+            for ( Module module : modules ) {
+                ects += module.getEcts();
+            }
+        }
+
+        return ects;
     }
 
     private void initPieChart(){
