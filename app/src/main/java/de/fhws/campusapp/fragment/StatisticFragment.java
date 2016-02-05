@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.github.mikephil.charting.charts.PieChart;
 
 import de.fhws.campusapp.R;
 import de.fhws.campusapp.database.ModuleDBHelper;
@@ -22,6 +23,8 @@ public class StatisticFragment extends Fragment {
     private List<Module> modules;
     private ModuleDBHelper moduleDBHelper;
 
+    private PieChart pieChart;
+
     public StatisticFragment() {
         this.moduleDBHelper = ModuleDBHelper.getInstance( getActivity() );
         this.modules = new ArrayList<>(  );
@@ -30,10 +33,11 @@ public class StatisticFragment extends Fragment {
 
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate( R.layout.fragment_statistic, container, false );
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_statistic, container, false);
+        pieChart = (PieChart) view.findViewById(R.id.chart);
+        return view;
     }
 
     
